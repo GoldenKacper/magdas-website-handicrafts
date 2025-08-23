@@ -17,6 +17,8 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${VITE_PORT:-5173}:5173"
     volumes:
       - ./src/website-handicrafts:/var/www/html
     depends_on:

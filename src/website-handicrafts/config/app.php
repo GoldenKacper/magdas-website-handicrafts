@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Allows User Registration
+    |--------------------------------------------------------------------------
+    |
+    | This option controls whether user registration is allowed in the
+    | application. If set to false, the registration routes will be
+    | disabled and users will not be able to create new accounts.
+    |
+    */
+
+    'allow_registration' => (bool) env('ALLOW_REGISTRATION', false),
+
 ];

@@ -1,0 +1,38 @@
+{{-- resources/views/layouts/app.blade.php --}}
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    @include('layouts.partials.head')
+</head>
+
+<body>
+    <div id="app">
+        @include('layouts.partials.preloader')
+        @include('layouts.partials.navbar')
+
+        {{-- Main content container --}}
+        <main class="py-4">
+            <div class="container">
+                {{-- flash messages --}}
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                @if (session('info'))
+                    <div class="alert alert-info" role="alert">
+                        {{ session('info') }}
+                    </div>
+                @endif
+
+                @yield('content')
+            </div>
+        </main>
+    </div>
+
+    @include('layouts.partials.scripts')
+</body>
+
+</html>
