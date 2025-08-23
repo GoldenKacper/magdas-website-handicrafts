@@ -1,0 +1,12 @@
+# Ignoruj node_modules w dowolnym miejscu
+**/node_modules
+
+# Pliki tymczasowe npm i Laravel
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Ignoruj node_modules tylko wewnątrz katalogu Laravel
+**/storage/logs
+**/storage/framework/cache
+**/public/hot

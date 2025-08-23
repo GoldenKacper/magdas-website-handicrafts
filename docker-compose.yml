@@ -1,0 +1,98 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    image: magdas-website-app
+    container_name: magdas_website_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    environment:
+      APP_PORT: ${APP_PORT}
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./src/website-handicrafts:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - laravel
+    command: >
+      sh -c "
+        # Set permissions for storage and bootstrap/cache
+        chown -R www-data:www-data storage bootstrap/cache &&
+        chmod -R 775 storage bootstrap/cache &&
+
+        # Wait for MySQL to be available
+        until nc -z db ${DB_PORT};
+        do
+          echo 'Waiting for MySQL...';
+          sleep 2;
+        done;
+        echo 'MySQL is up!';
+
+        # Laravel cache and migrations
+        php artisan config:cache;
+        php artisan migrate --force;
+
+        # Start PHP-FPM
+        php-fpm
+      "
+
+  web:
+    image: nginx:alpine
+    container_name: magdas_website_web
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT}:80"
+    volumes:
+      - ./src/website-handicrafts:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: magdas_website_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
+    depends_on:
+      - db
+    networks:
+      - laravel
+
+  db:
+    image: mysql:8.4
+    container_name: magdas_website_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
+
+volumes:
+  db_data:

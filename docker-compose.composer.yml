@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  composer:
+    image: composer:2.2
+    working_dir: /app
+    volumes:
+      - ./src:/app
+    environment:
+      - COMPOSER_HOME=/composer
+      # Add vendor/bin to PATH so that ‘laravel’ is immediately visible
+      - PATH=/composer/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    # Optionally - right after starting the container, we install additional packages and run the original sh command
+    entrypoint: >
+      sh -c "
+            apk add --no-cache curl bash git nodejs npm mariadb-connector-c-dev $PHPIZE_DEPS &&
+            docker-php-ext-install pdo_mysql &&
+            exec sh
+            "
