@@ -1,14 +1,16 @@
+// Use mixins using Sass modules
+@use "mixins" as m;
+
 // Fonts
 @import url("https://fonts.bunny.net/css?family=Nunito");
 
-// Use variables & mixins using Sass modules
-@use "variables" as *;
-@use "mixins" as m;
+// Variables
+@import "variables";
 
 // Import partials (components)
 @import "base";
-@import "components/buttons";
-@import "components/navbar";
+@import "_components/buttons";
+@import "_components/navbar";
 
 // page-specific imports (if small)
 @import "pages/home";
