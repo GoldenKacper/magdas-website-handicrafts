@@ -2,7 +2,7 @@
 FROM php:8.4.10-fpm-alpine3.22
 
 # 2. Install system dependencies and PHP extensions
-# Installing npm, database drivers, and other required tools
+# Installing npm, database drivers, composer, and other required tools
 RUN apk update && apk add --no-cache \
     oniguruma-dev \
     libzip-dev \
@@ -12,7 +12,9 @@ RUN apk update && apk add --no-cache \
     build-base \
     nodejs \
     npm \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip
+    && docker-php-ext-install pdo pdo_mysql mbstring zip \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer
 
 # 3. Set working directory
 WORKDIR /var/www/html
