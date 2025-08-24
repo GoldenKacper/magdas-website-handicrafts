@@ -38,7 +38,7 @@
 <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
 {{-- Vite-managed assets (CSS + JS entry) --}}
-@vite(['resources/sass/app.scss', 'resources/js/app.js'])
+@vite(['resources/js/app.js'])
 
 {{-- Place for extra head content (meta tags, additional CSS, third-party SDKs) --}}
 @stack('head')

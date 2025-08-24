@@ -1,8 +1,17 @@
 // Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+@import url("https://fonts.bunny.net/css?family=Nunito");
 
-// Variables
-@import 'variables';
+// Use variables & mixins using Sass modules
+@use "variables" as *;
+@use "mixins" as m;
+
+// Import partials (components)
+@import "base";
+@import "components/buttons";
+@import "components/navbar";
+
+// page-specific imports (if small)
+@import "pages/home";
 
 // Bootstrap
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
