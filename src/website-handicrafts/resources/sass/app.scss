@@ -9,8 +9,8 @@
 
 // Import partials (components)
 @import "base";
-@import "_components/buttons";
-@import "_components/navbar";
+@import "components/buttons";
+@import "components/navbar";
 
 // page-specific imports (if small)
 @import "pages/home";
