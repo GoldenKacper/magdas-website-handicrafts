@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
     <div class="container-fluid mx-4">
         {{-- Logo --}}
-        <a class="navbar-brand" href="{{ route('home') }}">
+        <a class="navbar-brand" href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">
             <img src="{{ Vite::asset('resources/images/magdas_website_logo_25_08_2025_demo.png') }}"
                 alt="Magda's Jewelry logo" class="img-fluid-logo">
         </a>
@@ -17,7 +17,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto w-100 justify-content-evenly">
                 <li class="nav-item">
-                    <a class="nav-link text-center" href="{{ route('home') }}">{{ __('messages.home') }}</a>
+                    <a class="nav-link text-center"
+                        href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">{{ __('messages.home') }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-center" href="#about">{{ __('messages.about') }}</a>

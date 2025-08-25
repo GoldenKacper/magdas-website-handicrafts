@@ -17,5 +17,6 @@ if (token) {
 // import "bootstrap/dist/css/bootstrap.min.css"; // loading Bootstrap's CSS
 import "../sass/app.scss";
 import "bootstrap"; // loading Bootstrap's JS (popper required)
+import "../images/magdas_website_logo_25_08_2025_demo.png";
 import "../css/myStyles.css";
 import "./myScripts.js";
