@@ -1,3 +1,4 @@
 TODO: Change website name/title etc. on 'Malin'
 TODO: Set meta tags' correct values
+TODO: Add view on fallback // Route::fallback(fn() => view('errors.404'));
 TODO: Website logo + animation

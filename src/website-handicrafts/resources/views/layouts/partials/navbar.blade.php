@@ -46,6 +46,18 @@
                         </div>
                     </li>
                 @endguest
+
+                <li class="nav-item dropdown">
+                    <a id="languageDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ strtoupper(app()->getLocale()) }}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <a class="dropdown-item" href="{{ route('lang.switch', 'pl') }}">Polski</a>
+                        <a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">English</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
