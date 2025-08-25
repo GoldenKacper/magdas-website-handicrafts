@@ -1,61 +1,47 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+    <div class="container-fluid mx-4">
+        {{-- Logo --}}
+        <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ Vite::asset('resources/images/magdas_website_logo_25_08_2025_demo.png') }}"
                 alt="Magda's Jewelry logo" class="img-fluid-logo">
         </a>
 
+        {{-- Toggle for mobile --}}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="{{ __('messages.toggle_navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        {{-- Links --}}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            {{-- Left side --}}
-            <ul class="navbar-nav me-auto">
-                {{-- add links here --}}
-            </ul>
+            <ul class="navbar-nav ms-auto w-100 justify-content-evenly">
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="{{ route('home') }}">{{ __('messages.home') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="#about">{{ __('messages.about') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="#gallery">{{ __('messages.gallery') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-center" href="#contact">{{ __('messages.contact') }}</a>
+                </li>
 
-            {{-- Right side --}}
-            <ul class="navbar-nav ms-auto">
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                    @if (config('app.allow_registration', false))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
-                @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                @endguest
-
+                {{-- Change language dropdown --}}
                 <li class="nav-item dropdown">
-                    <a id="languageDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                    <a id="languageDropdown" class="nav-link dropdown-toggle text-center" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ strtoupper(app()->getLocale()) }}
+                        🌐
                     </a>
-
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                        <a class="dropdown-item" href="{{ route('lang.switch', 'pl') }}">Polski</a>
-                        <a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">English</a>
+                        <a class="dropdown-item" href="{{ route('lang.switch', 'pl') }}">
+                            🇵🇱 <span title="Polski">Polski</span>
+                        </a>
+                        <a class="dropdown-item" href="{{ route('lang.switch', 'en') }}">
+                            🇬🇧 <span title="English">English</span>
+                        </a>
                     </div>
                 </li>
             </ul>
