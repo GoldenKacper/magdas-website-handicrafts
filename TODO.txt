@@ -1,4 +1,4 @@
 TODO: Change website name/title etc. on 'Malin'
 TODO: Set meta tags' correct values
 TODO: Website logo + animation
-TODO: ADD title description and other thins as a section which I can later modify
+TODO: Connect sandbox mailer to project + test

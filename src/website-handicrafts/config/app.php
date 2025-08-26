@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Author
+    |--------------------------------------------------------------------------
+    |
+    | This value is the author of your application, which will be used when the
+    | framework needs to place the application's author in a notification or
+    | other UI elements where an application author needs to be displayed.
+    |
+    */
+
+    'author' => env('APP_AUTHOR', 'Unknown'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

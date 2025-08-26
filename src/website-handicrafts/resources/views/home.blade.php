@@ -1,5 +1,24 @@
 @extends('layouts.app')
 
+@section('title', __('messages.home_title'))
+@section('metaDescription', __('messages.home_description'))
+@section('metaKeywords', __('messages.home_keywords'))
+@section('metaRobots', 'index, follow')
+
+@section('ogTitle', __('messages.home_og_title'))
+@section('ogDescription', __('messages.home_og_description'))
+@section('ogImage', '')
+@section('ogType', 'website')
+
+@section('twitterCard', 'summary_large_image')
+@section('twitterSite', __('messages.home_twitter_site'))
+@section('twitterCreator', __('messages.home_twitter_creator'))
+@section('twitterTitle', __('messages.home_twitter_title'))
+@section('twitterDescription', __('messages.home_twitter_description'))
+@section('twitterImage', '')
+@section('twitterImageAlt', __('messages.home_twitter_image_alt'))
+
+
 @section('content')
     <div class="jumbotron text-center mb-5">
         @php

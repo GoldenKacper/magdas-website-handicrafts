@@ -1,6 +1,6 @@
 @extends('layouts.error_app')
 
-{{-- @section('title', __('messages.page_not_found')) --}}
+@section('title', __('messages.page_not_found'))
 
 @section('content')
     <div class="d-flex flex-column justify-content-center align-items-center vh-100 text-center">
