@@ -34,8 +34,13 @@
 <link rel="dns-prefetch" href="//fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-{{-- Optional favicon --}}
-<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+{{-- Favicon --}}
+<link rel="icon" type="image/png" href="{{ asset('icons/favicon-96x96.png') }}" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="{{ asset('icons/favicon.svg') }}" />
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}" />
+<link rel="manifest" href="{{ asset('site.webmanifest') }}" />
+<meta name="theme-color" content="#ffffff">
 
 {{-- Vite-managed assets (CSS + JS entry) --}}
 @vite(['resources/js/app.js'])
