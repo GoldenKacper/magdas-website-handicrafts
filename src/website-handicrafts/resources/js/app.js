@@ -14,9 +14,12 @@ if (token) {
         token.getAttribute("content");
 }
 
+// static Images
+import "../images/magdas_website_logo_25_08_2025_demo.png";
+import "../images/magdas_website_home_og_26_08_2025_demo.webp";
+
 // import "bootstrap/dist/css/bootstrap.min.css"; // loading Bootstrap's CSS
 import "../sass/app.scss";
 import "bootstrap"; // loading Bootstrap's JS (popper required)
-import "../images/magdas_website_logo_25_08_2025_demo.png";
 import "../css/myStyles.css";
 import "./myScripts.js";

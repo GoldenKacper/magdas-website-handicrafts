@@ -1,4 +1,3 @@
-{{-- resources/views/layouts/partials/head.blade.php --}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

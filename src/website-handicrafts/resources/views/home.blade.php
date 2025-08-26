@@ -7,7 +7,7 @@
 
 @section('ogTitle', __('messages.home_og_title'))
 @section('ogDescription', __('messages.home_og_description'))
-@section('ogImage', '')
+@section('ogImage', Vite::asset('resources/images/magdas_website_home_og_26_08_2025_demo.webp'))
 @section('ogType', 'website')
 
 @section('twitterCard', 'summary_large_image')
@@ -15,7 +15,7 @@
 @section('twitterCreator', __('messages.home_twitter_creator'))
 @section('twitterTitle', __('messages.home_twitter_title'))
 @section('twitterDescription', __('messages.home_twitter_description'))
-@section('twitterImage', '')
+@section('twitterImage', Vite::asset('resources/images/magdas_website_home_og_26_08_2025_demo.webp'))
 @section('twitterImageAlt', __('messages.home_twitter_image_alt'))
 
 
