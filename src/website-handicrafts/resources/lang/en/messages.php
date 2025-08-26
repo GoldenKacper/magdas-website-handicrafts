@@ -11,4 +11,8 @@ return [
     'gallery' => 'Gallery',
     'contact' => 'Contact',
     'toggle_navigation' => 'Toggle navigation',
+    //404
+    'page_not_found' => 'Page not found',
+    'page_not_found_description' => 'It looks like this page does not exist or has been moved.',
+    'back_to_home' => 'Back to home',
 ];

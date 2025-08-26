@@ -1,5 +1,4 @@
 TODO: Change website name/title etc. on 'Malin'
 TODO: Set meta tags' correct values
-TODO: Add view on fallback // Route::fallback(fn() => view('errors.404'));
 TODO: Website logo + animation
-TODO: Install debuger into laravel
+TODO: ADD title description and other thins as a section which I can later modify

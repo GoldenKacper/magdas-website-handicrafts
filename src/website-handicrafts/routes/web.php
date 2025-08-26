@@ -22,3 +22,8 @@ Route::prefix('{locale}')->where(['locale' => 'en|pl'])->middleware(['locale'])-
 
 // Redirect root / -> /{locale}/
 Route::get('/', [App\Http\Controllers\LocaleController::class, 'redirectRoot'])->name('home.redirect');
+
+// Default 404
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
