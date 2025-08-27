@@ -3,8 +3,8 @@
         {{-- Logo --}}
         <a class="navbar-brand d-flex align-items-center me-4"
             href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">
-            <img src="{{ Vite::asset('resources/images/magdas_website_logo_25_08_2025_demo.png') }}"
-                alt="Magda's Jewelry logo" class="img-fluid-logo">
+            <img src="{{ Vite::asset('resources/images/magdas_website_logo_25_08_2025_demo_v2.png') }}"
+                alt="{{ __('messages.logo_img_alt') }}" class="img-fluid-logo">
         </a>
 
         {{-- Toggle for mobile --}}

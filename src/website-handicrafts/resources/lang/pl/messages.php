@@ -11,6 +11,7 @@ return [
     'gallery' => 'Galeria',
     'contact' => 'Kontakt',
     'toggle_navigation' => 'Przełącz nawigację',
+    'logo_img_alt' => 'Logo - Rękodzieło Magdy',
     // 404
     'page_not_found' => 'Strona nie została znaleziona',
     'page_not_found_description' => 'Wygląda na to, że ta strona nie istnieje lub została przeniesiona.',
@@ -29,4 +30,10 @@ return [
     'home_twitter_title' => 'Malin — ręcznie robiona biżuteria',
     'home_twitter_description' => 'Odkryj niepowtarzalne bransoletki, naszyjniki i kolczyki wykonane z miłością ręcznie przez Magdę.',
     'home_twitter_image_alt' => 'Ręcznie robione bransoletki i naszyjniki od Magdy',
+
+    // Hero
+    'hero_title' => 'Witamy w Rękodziele Magdy',
+    'hero_subtitle' => 'Unikalna biżuteria ręcznie robiona z pasją i precyzją.',
+    'hero_cta' => 'Zobacz moją galerię',
+    'hero_image_alt' => 'Ręcznie robiona biżuteria na tle naturalnych materiałów',
 ];

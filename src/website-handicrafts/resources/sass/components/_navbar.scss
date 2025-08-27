@@ -2,7 +2,11 @@
 // ------------- Navbar Logo-------------
 //
 .img-fluid-logo {
-    height: clamp($logo-min, $logo-preferred, $logo-max);
+    height: clamp(
+        var(--logo-min, $logo-min),
+        var(--logo-preferred, $logo-preferred),
+        var(--logo-max, $logo-max)
+    );
     width: auto;
     display: block;
     object-fit: contain;
@@ -29,13 +33,13 @@
 /* link styles */
 .navbar .nav-link {
     // color: rgba(52, 50, 58, 0.88);
-    color: $text-color;
+    color: var(--text-color, $text-color);
     font-weight: $nav-link-font-weight;
     padding: 0.5rem 0;
     white-space: nowrap; // prevents wrapping
     transition: color 0.15s ease;
     &:hover {
-        color: $malinowy;
+        color: var(--malinowy, $malinowy);
     }
 }
 
@@ -53,7 +57,11 @@
 /* Mobile tweaks: smaller logo and tighter gap */
 @media (max-width: 768px) {
     .img-fluid-logo {
-        height: clamp($logo-min-small, $logo-preferred-small, $logo-max-small);
+        height: clamp(
+            var(--logo-min-small, $logo-min-small),
+            var(--logo-preferred-small, $logo-preferred-small),
+            var(--logo-max-small, $logo-max-small)
+        );
     }
     .navbar-nav.custom-nav {
         gap: 0.75rem;

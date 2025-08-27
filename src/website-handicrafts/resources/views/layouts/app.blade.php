@@ -11,8 +11,8 @@
         @include('layouts.partials.navbar')
 
         {{-- Main content container --}}
-        <main class="py-4">
-            <div class="container">
+        <main class="pb-4">
+            <div class="container-fluid px-0">
                 {{-- flash messages --}}
                 @if (session('success'))
                     <div class="alert alert-success" role="alert">

@@ -16,7 +16,9 @@ if (token) {
 
 // static Images
 import "../images/magdas_website_logo_25_08_2025_demo.png";
+import "../images/magdas_website_logo_25_08_2025_demo_v2.png";
 import "../images/magdas_website_home_og_26_08_2025_demo.webp";
+import "../images/magdas_website_home_bg_27_08_2025_demo.png";
 
 // import "bootstrap/dist/css/bootstrap.min.css"; // loading Bootstrap's CSS
 import "../sass/app.scss";

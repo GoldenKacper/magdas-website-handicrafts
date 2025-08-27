@@ -11,6 +11,7 @@ return [
     'gallery' => 'Gallery',
     'contact' => 'Contact',
     'toggle_navigation' => 'Toggle navigation',
+    'logo_img_alt' => 'Magda\'s Jewelry logo',
     // 404
     'page_not_found' => 'Page not found',
     'page_not_found_description' => 'It looks like this page does not exist or has been moved.',
@@ -29,4 +30,10 @@ return [
     'home_twitter_title' => 'Malin — handmade jewelry by Magda',
     'home_twitter_description' => 'Discover unique handmade bracelets, necklaces and earrings crafted with love by Magda.',
     'home_twitter_image_alt' => "Handmade bracelets and necklaces by Magda",
+
+    // Hero
+    'hero_title' => 'Welcome to Magda\'s Handicrafts',
+    'hero_subtitle' => 'Unique handmade jewelry crafted with passion and precision.',
+    'hero_cta' => 'See my gallery',
+    'hero_image_alt' => 'Handmade jewelry against a backdrop of natural materials',
 ];

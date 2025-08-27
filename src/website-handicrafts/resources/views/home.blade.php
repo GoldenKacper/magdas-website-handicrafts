@@ -20,6 +20,39 @@
 
 
 @section('content')
+    {{-- HERO --}}
+    <section class="hero position-relative d-flex align-items-center"
+        style="background-image: url('{{ Vite::asset('resources/images/magdas_website_home_bg_27_08_2025_demo.png') }}');"
+        role="img" aria-label="{{ __('messages.hero_image_alt', [], app()->getLocale()) }}">
+        {{-- dark overlay (CSS also applies, but keep semantic content on top) --}}
+        <div class="hero-content container text-center text-white">
+            <h1 class="display-4 fw-bold mb-3">{{ __('messages.hero_title') }}</h1>
+            <p class="lead mb-4">{{ __('messages.hero_subtitle') }}</p>
+            <a href="#gallery" class="btn btn-lg btn-hero">
+                {{ __('messages.hero_cta') }}
+            </a>
+        </div>
+    </section>
+
+    {{-- SMALL GAP BEFORE MAIN CONTENT (visual) --}}
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="mb-3">Testowa sekcja - Tytuł</h2>
+            <p class="mb-3">
+                {{-- przykładowy losowy tekst --}}
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor,
+                dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula
+                massa, varius a, semper congue, euismod non, mi.
+            </p>
+
+            <p>
+                Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
+                cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+            </p>
+        </div>
+    </section>
+
+    {{-- Dalej reszta treści strony... --}}
     <div class="jumbotron text-center mb-5">
         @php
             $n = 0;

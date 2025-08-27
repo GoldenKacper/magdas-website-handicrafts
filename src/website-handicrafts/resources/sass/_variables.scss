@@ -9,6 +9,7 @@
 $malinowy: #d64e72;
 $malinowy-dark: #b33b58;
 $pudrowy: #f7d7de;
+$pudrowy-light: #f7e7ea;
 $fiolet: #8e6fbf;
 $bg-pale: #fff5f7;
 $text-color: #34323a;
@@ -49,6 +50,7 @@ $theme-colors: (
     "dark": #222222,
 );
 
+/* Logo sizes */
 $logo-min: 36px;
 $logo-preferred: 6.5vw; // rise with viewport width
 $logo-max: 72px;
@@ -56,3 +58,14 @@ $logo-max: 72px;
 $logo-min-small: calc($logo-min * 0.65);
 $logo-preferred-small: calc($logo-preferred * 1.25);
 $logo-max-small: calc($logo-max * 0.65);
+
+/* ---- hero-specific variables (Sass) ---- */
+$hero-overlay-start: rgba(0, 0, 0, 0.45);
+$hero-overlay-end: rgba(0, 0, 0, 0.35);
+
+$hero-text-color: #ffffff;
+$hero-cta-bg: $primary; // reuse $primary (malinowy)
+$hero-cta-color: #ffffff;
+
+// optionally a slightly darker CTA hover
+$hero-cta-bg-hover: darken($hero-cta-bg, 6%);

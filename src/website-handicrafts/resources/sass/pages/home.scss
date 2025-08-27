@@ -1,1 +1,73 @@
+//
+// ------------- HERO -------------
+//
+/* Hero full-viewport section */
+.hero {
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    min-height: 100vh; // full viewport height
+    display: flex;
+    align-items: center;
+    color: var(--hero-text-color, $hero-text-color);
+    overflow: hidden;
 
+    // optional: smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+
+    // overlay
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            var(--hero-overlay-start, $hero-overlay-start),
+            var(--hero-overlay-end, $hero-overlay-end)
+        );
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2; // above overlay
+        padding: 2rem 1rem;
+        max-width: 1040px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        color: var(--hero-text-color, $hero-text-color);
+        text-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+        line-height: 1.05;
+    }
+
+    p.lead {
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 1.125rem;
+    }
+}
+
+/* When viewport is short, ensure hero content not cropped too badly */
+@media (max-height: 650px) {
+    .hero {
+        min-height: 70vh;
+    }
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 60vh;
+        .hero-content {
+            padding: 1.25rem;
+        }
+        h1 {
+            font-size: 1.75rem;
+        }
+        p.lead {
+            font-size: 0.95rem;
+        }
+    }
+}
