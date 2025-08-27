@@ -16,13 +16,13 @@
 // Variables
 @import "variables";
 
-// Import partials (components)
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// Import partials (components overrides bootstrap styles)
 @import "base";
 @import "components/buttons";
 @import "components/navbar";
 
 // page-specific imports (if small)
 @import "pages/home";
-
-// Bootstrap
-@import "bootstrap/scss/bootstrap";

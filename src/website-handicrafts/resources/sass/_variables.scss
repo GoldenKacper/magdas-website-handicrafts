@@ -1,12 +1,50 @@
-// Body
-$body-bg: #f8fafc;
+// Import Bootstrap functions to use darken()/lighten() before importing bootstrap.scss
+@import "bootstrap/scss/functions";
 
-// Typography
-$font-family-sans-serif: "Quicksand", sans-serif;
+// I know that variables should be in English, but in the case of these few colors,
+// since the author is Polish, he wants to name them in his native language as a small signature of the creator,
+// and they remind me of my homeland.
+
+/* palette */
+$malinowy: #d64e72;
+$malinowy-dark: #b33b58;
+$pudrowy: #f7d7de;
+$fiolet: #8e6fbf;
+$bg-pale: #fff5f7;
+$text-color: #34323a;
+
+/* Bootstrap overrides */
+$body-bg: $bg-pale;
+$body-color: $text-color;
+
+$font-family-sans-serif: "Quicksand", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial;
 
 $font-size-base: 1.1rem;
 $line-height-base: 1.6;
 
 $nav-link-font-weight: 500;
 
-// $body-color: #461717; // darker text - test
+/* Theme colors */
+$primary: $malinowy;
+$secondary: $fiolet;
+$success: #7bc47f;
+$info: $pudrowy;
+$warning: #f0c987;
+$danger: #e15757;
+
+/* Links */
+$link-color: $primary;
+$link-hover-color: darken($primary, 8%);
+
+/* Theme colors map */
+$theme-colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": #ffffff,
+    "dark": #222222,
+);

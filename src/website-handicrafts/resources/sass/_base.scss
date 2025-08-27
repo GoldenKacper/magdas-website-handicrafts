@@ -1,3 +1,67 @@
+/* Root CSS variables */
+:root {
+    --malinowy: $malinowy;
+    --malinowy-dark: $malinowy-dark;
+    --pudrowy: $pudrowy;
+    --fiolet: $fiolet;
+    --bg-pale: $bg-pale;
+    --text-color: $text-color;
+}
+
+/* Body */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings - more delicate than the default */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.3;
+    color: darken($text-color, 6%);
+}
+
+/* Logo (text logotype) */
+.brand-logo {
+    font-family: "Great Vibes", "Quicksand", sans-serif; // if Great Vibes is added
+    font-weight: 400;
+    font-size: 2.6rem;
+    line-height: 1;
+    display: inline-block;
+    background: linear-gradient(90deg, $malinowy, $pudrowy);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    vertical-align: middle;
+}
+
+/* Subscript under the logo */
+.brand-sub {
+    display: block;
+    font-style: italic;
+    font-family: "Quicksand", sans-serif;
+    font-size: 0.95rem;
+    color: rgba(52, 50, 58, 0.75);
+    margin-top: 0.15rem;
+}
+
+/* Raspberry pseudo-dot (e.g., over "i") */
+.logo-dot-raspberry::after {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #f7d7de, $malinowy);
+    box-shadow: 0 2px 6px rgba(215, 80, 110, 0.22);
+    transform: translateY(-8px);
+}
+
 // Width utilities
 .w-5 {
     width: 5% !important;

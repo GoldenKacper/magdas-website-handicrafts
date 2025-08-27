@@ -1,0 +1,25 @@
+/* Override/upgrade .btn-primary */
+.btn-primary {
+    background: linear-gradient(135deg, $malinowy, $fiolet);
+    border: none;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(142, 111, 191, 0.14);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s;
+    padding: 0.6rem 1.05rem;
+    border-radius: 0.6rem;
+}
+.btn-primary:focus,
+.btn-primary:active {
+    outline: none;
+    box-shadow: 0 8px 22px rgba(142, 111, 191, 0.2);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+/* ghost buttons - more delicate than default */
+.btn-outline-primary {
+    color: $malinowy;
+    border-color: rgba(214, 78, 114, 0.18);
+    background-color: rgba(255, 255, 255, 0.6);
+}
