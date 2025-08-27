@@ -34,8 +34,7 @@
                 <li class="nav-item dropdown">
                     <a id="languageDropdown" class="nav-link dropdown-toggle text-center" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        🌐
-                        {{-- <i class="fa-solid fa-globe"></i> --}}
+                        <i class="fa-solid fa-globe"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                         <a class="dropdown-item" href="{{ route('lang.switch', 'pl') }}">
