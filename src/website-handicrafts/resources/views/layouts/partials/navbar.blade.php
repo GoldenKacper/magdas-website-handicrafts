@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
     <div class="container-fluid mx-4">
         {{-- Logo --}}
-        <a class="navbar-brand" href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">
+        <a class="navbar-brand d-flex align-items-center me-4"
+            href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">
             <img src="{{ Vite::asset('resources/images/magdas_website_logo_25_08_2025_demo.png') }}"
                 alt="Magda's Jewelry logo" class="img-fluid-logo">
         </a>
@@ -15,7 +16,7 @@
 
         {{-- Links --}}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto w-100 justify-content-evenly">
+            <ul class="navbar-nav custom-nav">
                 <li class="nav-item">
                     <a class="nav-link text-center"
                         href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">{{ __('messages.home') }}</a>
@@ -29,7 +30,18 @@
                 <li class="nav-item">
                     <a class="nav-link text-center" href="#contact">{{ __('messages.contact') }}</a>
                 </li>
-
+            </ul>
+            <ul class="navbar-nav navbar-social ms-4">
+                <li class="nav-item"><a class="nav-link text-center" href="#"><i
+                            class="fa-brands fa-facebook"></i></a></li>
+                <li class="nav-item"><a class="nav-link text-center" href="#"><i
+                            class="fa-brands fa-instagram"></i></a></li>
+                <li class="nav-item"><a class="nav-link text-center" href="#"><i
+                            class="fa-brands fa-twitter"></i></a></li>
+                <li class="nav-item"><a class="nav-link text-center" href="#"><i
+                            class="fa-brands fa-pinterest"></i></a></li>
+            </ul>
+            <ul class="navbar-nav ms-4">
                 {{-- Change language dropdown --}}
                 <li class="nav-item dropdown">
                     <a id="languageDropdown" class="nav-link dropdown-toggle text-center" href="#" role="button"

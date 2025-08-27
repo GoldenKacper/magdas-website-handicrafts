@@ -48,3 +48,11 @@ $theme-colors: (
     "light": #ffffff,
     "dark": #222222,
 );
+
+$logo-min: 36px;
+$logo-preferred: 6.5vw; // rise with viewport width
+$logo-max: 72px;
+
+$logo-min-small: calc($logo-min * 0.65);
+$logo-preferred-small: calc($logo-preferred * 1.25);
+$logo-max-small: calc($logo-max * 0.65);

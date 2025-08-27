@@ -1,19 +1,77 @@
-// Navbar logo
+//
+// ------------- Navbar Logo-------------
+//
 .img-fluid-logo {
-    max-width: 15%;
-    height: auto;
+    height: clamp($logo-min, $logo-preferred, $logo-max);
+    width: auto;
+    display: block;
+    object-fit: contain;
 }
 
-.dropdown-item {
-    font-weight: $nav-link-font-weight;
+//
+// ------------- Navbar -------------
+//
+/* Ensure brand doesn't grow/shrink */
+.navbar-brand {
+    flex: 0 0 auto;
+    padding-right: 1rem;
 }
 
-/* Links in navbar */
+/* Main nav: takes remaining space and aligns items nicely */
+.navbar-nav.custom-nav {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; // or space-between if you prefer
+    gap: 1.5rem; // space between links
+}
+
+/* link styles */
 .navbar .nav-link {
-    color: rgba(52, 50, 58, 0.88);
+    // color: rgba(52, 50, 58, 0.88);
+    color: $text-color;
     font-weight: $nav-link-font-weight;
-
+    padding: 0.5rem 0;
+    white-space: nowrap; // prevents wrapping
+    transition: color 0.15s ease;
     &:hover {
         color: $malinowy;
     }
+}
+
+/* Social icons group — bigger gap */
+.navbar-social {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    .nav-link {
+        padding: 0.2rem;
+        font-size: 1.05rem;
+    }
+}
+
+/* Mobile tweaks: smaller logo and tighter gap */
+@media (max-width: 768px) {
+    .img-fluid-logo {
+        height: clamp($logo-min-small, $logo-preferred-small, $logo-max-small);
+    }
+    .navbar-nav.custom-nav {
+        gap: 0.75rem;
+    }
+    .navbar-social {
+        gap: 0.35rem;
+    }
+}
+
+/* If Bootstrap styles override something, use more specific selector */
+.navbar .navbar-nav.custom-nav > .nav-item > .nav-link {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+//
+// ------------- Dropdown -------------
+//
+.dropdown-item {
+    font-weight: $nav-link-font-weight;
 }
