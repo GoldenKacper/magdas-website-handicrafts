@@ -23,14 +23,10 @@ return [
     // Meta home - Open Graph (to promotion of shared links)
     'home_og_title' => 'Malin — handmade jewelry by Magda',
     'home_og_description' => 'Explore a collection of unique handmade bracelets and necklaces — perfect as gifts or for everyday wear.',
-    // 'home_og_image' => 'images/home_og_1200x630.jpg',
-    // 'home_og_type' => 'website',
     // Meta home - Twitter card
-    // 'home_twitter_card' => 'summary_large_image',
     'home_twitter_site' => '@MagdasJewelry',
     'home_twitter_creator' => '@MagdasJewelry',
     'home_twitter_title' => 'Malin — handmade jewelry by Magda',
     'home_twitter_description' => 'Discover unique handmade bracelets, necklaces and earrings crafted with love by Magda.',
-    // 'home_twitter_image' => 'images/home_og_1200x630.jpg',
     'home_twitter_image_alt' => "Handmade bracelets and necklaces by Magda",
 ];

@@ -1,6 +1,5 @@
 TODO: Website logo + animation
 TODO: Test sandbox mailer
 TODO: Check Meta - Open Graph and Twitter
-TODO: Add favicon to website
 TODO: Choice a font
 TODO: Modify base color of bootstrap (in terms of selecting and adjusting the color scheme of the website)

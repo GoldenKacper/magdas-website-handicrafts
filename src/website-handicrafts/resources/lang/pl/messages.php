@@ -23,15 +23,10 @@ return [
     // Meta home - Open Graph (to promotion of shared links)
     'home_og_title' => 'Malin — ręcznie robiona biżuteria od Magdy',
     'home_og_description' => 'Zobacz kolekcję unikalnych, ręcznie robionych bransoletek i naszyjników — idealne na prezent i do codziennego noszenia.',
-    // przechowujemy RELATYWNĄ ścieżkę do obrazu (użyj asset() w Blade)
-    // 'home_og_image' => 'images/home_og_1200x630.jpg',
-    // 'home_og_type' => 'website',
     // Meta home - Twitter card
-    // 'home_twitter_card' => 'summary_large_image',
-    'home_twitter_site' => '@MagdasJewelry',      // zmień na swój handle jeśli masz
-    'home_twitter_creator' => '@MagdasJewelry',   // można to samo co site
+    'home_twitter_site' => '@MagdasJewelry',      // change it on your handle if you have one
+    'home_twitter_creator' => '@MagdasJewelry',   // can be the same as site
     'home_twitter_title' => 'Malin — ręcznie robiona biżuteria',
     'home_twitter_description' => 'Odkryj niepowtarzalne bransoletki, naszyjniki i kolczyki wykonane z miłością ręcznie przez Magdę.',
-    // 'home_twitter_image' => 'images/home_og_1200x630.jpg', // możesz użyć tego samego pliku
     'home_twitter_image_alt' => 'Ręcznie robione bransoletki i naszyjniki od Magdy',
 ];

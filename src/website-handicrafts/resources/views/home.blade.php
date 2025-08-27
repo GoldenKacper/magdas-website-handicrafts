@@ -25,7 +25,9 @@
             $n = 0;
         @endphp
         {{-- simple translation: --}}
-        <h1>{{ __('messages.welcome') }}</h1>
+        <h1>{{ __('messages.welcome') }}<i class="fa-solid fa-heart"></i>
+            <i class="fa-brands fa-instagram"></i>
+        </h1>
 
         {{-- interpolation: --}}
         <p>{{ __('messages.items_count', ['count' => $n]) }}</p>

@@ -30,9 +30,11 @@
 <meta name="twitter:image:alt" content="@yield('twitterImageAlt', 'Default description for Twitter image')">
 
 
-<!-- Fonts -->
-<link rel="dns-prefetch" href="//fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+<!-- Fonts | Locally hosted fonts-->
+{{-- <link rel="dns-prefetch" href="//fonts.bunny.net">
+<link
+    href="https://fonts.bunny.net/css?family=quicksand:300,400,500,600,700|Nunito|raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet" /> --}}
 
 {{-- Favicon --}}
 <link rel="icon" type="image/png" href="{{ asset('icons/favicon-96x96.png') }}" sizes="96x96" />
