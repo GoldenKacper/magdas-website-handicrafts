@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-pale sticky-top">
     <div class="container-fluid mx-4">
         {{-- Logo --}}
         <a class="navbar-brand d-flex align-items-center me-4"
@@ -15,40 +15,44 @@
         </button>
 
         {{-- Links --}}
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav custom-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-center"
-                        href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">{{ __('messages.home') }}</a>
+                    <a class="nav-link text-center gradient {{ request()->routeIs('home') ? 'active-pill' : '' }}"
+                        href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}"
+                        data-text="{{ __('messages.home') }}">{{ __('messages.home') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center" href="#about">{{ __('messages.about') }}</a>
+                    <a class="nav-link text-center gradient" href="#about"
+                        data-text="{{ __('messages.about') }}">{{ __('messages.about') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center" href="#gallery">{{ __('messages.gallery') }}</a>
+                    <a class="nav-link text-center gradient" href="#gallery"
+                        data-text="{{ __('messages.gallery') }}">{{ __('messages.gallery') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center" href="#contact">{{ __('messages.contact') }}</a>
+                    <a class="nav-link text-center gradient" href="#contact"
+                        data-text="{{ __('messages.contact') }}">{{ __('messages.contact') }}</a>
                 </li>
             </ul>
-            <ul class="navbar-nav navbar-social ms-4">
+            <ul class="navbar-nav navbar-social my-2 my-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link text-center" href="#"><i
                             class="fa-brands fa-facebook"></i></a></li>
                 <li class="nav-item"><a class="nav-link text-center" href="#"><i
                             class="fa-brands fa-instagram"></i></a></li>
                 <li class="nav-item"><a class="nav-link text-center" href="#"><i
-                            class="fa-brands fa-twitter"></i></a></li>
+                            class="fa-brands fa-x-twitter"></i></a></li>
                 <li class="nav-item"><a class="nav-link text-center" href="#"><i
                             class="fa-brands fa-pinterest"></i></a></li>
             </ul>
-            <ul class="navbar-nav ms-4">
+            <ul class="navbar-nav ms-lg-4">
                 {{-- Change language dropdown --}}
-                <li class="nav-item dropdown">
-                    <a id="languageDropdown" class="nav-link dropdown-toggle text-center" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item dropdown text-center">
+                    <a id="languageDropdown" class="nav-link dropdown-toggle text-center py-0" href="#"
+                        role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa-solid fa-globe"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                    <div class="dropdown-menu dropdown-menu-end bg-pale" aria-labelledby="languageDropdown">
                         <a class="dropdown-item" href="{{ route('lang.switch', 'pl') }}">
                             🇵🇱 <span title="Polski">Polski</span>
                         </a>

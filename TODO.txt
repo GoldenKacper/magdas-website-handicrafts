@@ -1,5 +1,3 @@
 TODO: Website logo + animation
 TODO: Test sandbox mailer
 TODO: Check Meta - Open Graph and Twitter
-TODO: Make wbesite background as Image
-TODO: After previous make Navbar, good structure and colors (finish it)

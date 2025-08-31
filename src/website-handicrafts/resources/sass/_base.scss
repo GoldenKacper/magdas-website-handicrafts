@@ -8,6 +8,9 @@
     --bg-pale: #{$bg-pale};
     --text-color: #{$text-color};
 
+    --nav-link-font-weight: #{$nav-link-font-weight};
+    --nav-link-font-weight-bold: #{$nav-link-font-weight-bold};
+
     --logo-min: #{$logo-min};
     --logo-preferred: #{$logo-preferred};
     --logo-max: #{$logo-max};
@@ -76,6 +79,11 @@ h6 {
     background: radial-gradient(circle at 30% 30%, #f7d7de, $malinowy);
     box-shadow: 0 2px 6px rgba(215, 80, 110, 0.22);
     transform: translateY(-8px);
+}
+
+.bg-pale {
+    --bs-bg-opacity: 1;
+    background-color: var(--bg-pale, $bg-pale);
 }
 
 // Width utilities
