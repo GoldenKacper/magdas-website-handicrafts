@@ -36,4 +36,7 @@ return [
     'hero_subtitle' => 'Unikalna biżuteria ręcznie robiona z pasją i precyzją.',
     'hero_cta' => 'Zobacz moją galerię',
     'hero_image_alt' => 'Ręcznie robiona biżuteria na tle naturalnych materiałów',
+
+    // Headings
+    'offer_heading' => 'Oferta',
 ];

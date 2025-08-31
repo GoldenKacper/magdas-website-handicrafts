@@ -15,9 +15,10 @@ $pale: #fff5f7;
 $text-color: #34323a;
 
 /* Bootstrap overrides */
+$body-color: $text-color;
+
 $bg-pale: $pale;
 $body-bg: $bg-pale;
-$body-color: $text-color;
 
 $font-family-sans-serif: "Quicksand", system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial;
@@ -52,6 +53,21 @@ $theme-colors: (
     "dark": #222222,
 );
 
+/* Spacing scale */
+$spacers: (
+    0: 0,
+    1: 0.25rem,
+    2: 0.5rem,
+    3: 1rem,
+    4: 1.5rem,
+    5: 3rem,
+    6: 3.5rem,
+    7: 4rem,
+    8: 5rem,
+    9: 7rem,
+    10: 10rem,
+);
+
 /* Logo sizes */
 $logo-min: 36px;
 $logo-preferred: 6.5vw; // rise with viewport width
@@ -75,3 +91,5 @@ $hero-cta-color: $pale;
 
 // optionally a slightly darker CTA hover
 $hero-cta-bg-hover: darken($hero-cta-bg, 6%);
+
+$triangle-h: 95px;

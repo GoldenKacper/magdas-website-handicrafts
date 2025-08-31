@@ -36,4 +36,7 @@ return [
     'hero_subtitle' => 'Unique handmade jewelry crafted with passion and precision.',
     'hero_cta' => 'See my gallery',
     'hero_image_alt' => 'Handmade jewelry against a backdrop of natural materials',
+
+    // Headings
+    'offer_heading' => 'Offer',
 ];

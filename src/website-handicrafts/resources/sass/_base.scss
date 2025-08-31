@@ -29,6 +29,8 @@
     --hero-cta-bg: #{$hero-cta-bg};
     --hero-cta-color: #{$hero-cta-color};
     --hero-cta-bg-hover: #{$hero-cta-bg-hover};
+
+    --triangle-h: #{$triangle-h};
 }
 
 /* Body */
@@ -103,6 +105,38 @@ h6 {
 @media (min-width: 768px) {
     .lead {
         font-size: 1.2rem !important;
+    }
+}
+
+.text-shadow {
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* underline for centered section headings */
+.heading-underline {
+    position: relative; // needed if you want absolute; here we use block flow
+    padding-bottom: 0.5rem; // distance between text and line
+    margin-bottom: 0.75rem;
+
+    &::after {
+        content: "";
+        display: block; // by margin: 0 auto; it centered
+        width: 5%; // line width (5% of container width)
+        height: 3px; // line thickness — adjust if you want
+        margin: 0.45rem auto 0; // top margin + centering
+        background: $primary;
+        border-radius: 50rem; // rounded ends of the line
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04); // subtle effect
+    }
+}
+
+/* responsiveness: on small screens, increase the line width for readability */
+@media (max-width: 768px) {
+    .heading-underline {
+        &::after {
+            width: 12%; // larger on small screens
+            height: 3px;
+        }
     }
 }
 

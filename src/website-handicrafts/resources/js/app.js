@@ -19,6 +19,9 @@ import "../images/magdas_website_logo_25_08_2025_demo.png";
 import "../images/magdas_website_logo_25_08_2025_demo_v2.png";
 import "../images/magdas_website_home_og_26_08_2025_demo.webp";
 import "../images/magdas_website_home_bg_27_08_2025_demo.png";
+import "../images/magdas_website_offer_bracelet_31_08_2025_demo.png"; // Offer demo 1
+import "../images/magdas_website_offer_earrings_31_08_2025_demo.png"; // Offer demo 2
+import "../images/magdas_website_offer_necklace_31_08_2025_demo.png"; // Offer demo 3
 
 // import "bootstrap/dist/css/bootstrap.min.css"; // loading Bootstrap's CSS
 import "../sass/app.scss";

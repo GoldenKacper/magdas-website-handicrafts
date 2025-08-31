@@ -2,3 +2,5 @@ TODO: Website logo + animation
 TODO: Test sandbox mailer
 TODO: Check Meta - Open Graph and Twitter
 TODO: Change navbar collapse button to another and make pretty animation
+
+TODO: Finish offer section. Remember to adjuct design on mobile.

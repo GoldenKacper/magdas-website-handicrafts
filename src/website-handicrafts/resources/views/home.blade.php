@@ -24,7 +24,6 @@
     <section class="hero position-relative d-flex align-items-center"
         style="background-image: url('{{ Vite::asset('resources/images/magdas_website_home_bg_27_08_2025_demo.png') }}');"
         role="img" aria-label="{{ __('messages.hero_image_alt', [], app()->getLocale()) }}">
-        {{-- dark overlay (CSS also applies, but keep semantic content on top) --}}
         <div class="hero-content container text-center text-pale">
             <h1 class="display-4 fw-bold mb-3">{{ __('messages.hero_title') }}</h1>
             <p class="lead mb-4">{{ __('messages.hero_subtitle') }}</p>
@@ -34,24 +33,49 @@
         </div>
     </section>
 
-    {{-- SMALL GAP BEFORE MAIN CONTENT (visual) --}}
-    <section class="py-5 bg-white">
-        <div class="container">
-            <h2 class="mb-3">Testowa sekcja - Tytuł</h2>
-            <p class="mb-3">
-                {{-- przykładowy losowy tekst --}}
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor,
-                dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula
-                massa, varius a, semper congue, euismod non, mi.
-            </p>
+    {{-- Offer Section --}}
+    <section class="pb-5 bg-pale with-divider offer-section">
+        <div class="container-fluid">
+            <div class="mb-5">
+                <h2 class="display-5 fw-bold text-center heading-underline">{{ __('messages.offer_heading') }}:</h2>
+            </div>
 
-            <p>
-                Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-                cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
-            </p>
+            {{-- TODO: Add translations (loading from database) --}}
+            <div class="row g-lg-8 justify-content-center mx-lg-9">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <a href="#" class="offer-card" aria-label="Oferta — bransoletki">
+                        <span class="offer-media">
+                            <img src="{{ Vite::asset('resources/images/magdas_website_offer_bracelet_31_08_2025_demo.png') }}"
+                                alt="Bransoletki rękodzieło" loading="lazy">
+                            <span class="offer-caption-overlay display-6 fw-bold">Bransoletki</span>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4">
+                    <a href="#" class="offer-card" aria-label="Oferta — naszyjniki">
+                        <span class="offer-media">
+                            <img src="{{ Vite::asset('resources/images/magdas_website_offer_necklace_31_08_2025_demo.png') }}"
+                                alt="Naszyjniki rękodzieło" loading="lazy">
+                            <span class="offer-caption-overlay display-6 fw-bold">Naszyjniki</span>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4">
+                    <a href="#" class="offer-card" aria-label="Oferta — kolczyki">
+                        <span class="offer-media">
+                            <img src="{{ Vite::asset('resources/images/magdas_website_offer_earrings_31_08_2025_demo.png') }}"
+                                alt="Kolczyki rękodzieło" loading="lazy">
+                            <span class="offer-caption-overlay display-6 fw-bold">Kolczyki</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
+    <hr>
     {{-- Dalej reszta treści strony... --}}
     <div class="jumbotron text-center mb-5">
         @php
