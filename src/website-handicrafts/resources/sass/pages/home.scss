@@ -44,7 +44,7 @@
     }
 
     p.lead {
-        color: rgba(255, 255, 255, 0.92);
+        color: rgba(var(--hero-text-color, $hero-text-color), 0.92);
         font-size: 1.125rem;
     }
 }

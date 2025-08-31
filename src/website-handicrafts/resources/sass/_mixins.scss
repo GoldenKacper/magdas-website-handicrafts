@@ -14,3 +14,86 @@
     background-clip: text;
     text-fill-color: transparent;
 }
+
+// gradient-button
+// Parametryzowalny mixin do efektu: gradientowy "border" (pseudo ::before) + maska (::after)
+// $gradient-start, $gradient-end - kolory gradientu
+// $mask-bg - kolor wnętrza (np. $bg-pale)
+// $inset - ile pseudo ma "wystawać" (np. -2px daje 2px ramki)
+// $radius - border-radius
+// $padding - padding wewnętrzny
+// $text-color - kolor tekstu w spoczynku
+// $text-color-on - kolor tekstu po hover (gdy tło staje się gradientowe)
+// $box-shadow-on - box-shadow na active
+// $text-shadow-on - text-shadow na active
+// $transition-speed - czas trwania animacji
+@mixin gradient-button(
+    $gradient-start: #d64e72,
+    $gradient-end: #b33b58,
+    $mask-bg: #fff5f7,
+    $inset: -2px,
+    $radius: 50rem,
+    // domyślnie pill; podaj px jeśli chcesz
+    $padding: inherit,
+    $text-color: inherit,
+    $text-color-on: #fff5f7,
+    $box-shadow-on: 0 8px 20px rgba(#b33b58, 0.6),
+    $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7),
+    $transition-speed: 0.3s
+) {
+    position: relative;
+    display: inline-block;
+    padding: $padding;
+    border-radius: $radius;
+    color: $text-color;
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    border: none; // nie polegamy na zwykłym borderzie
+    z-index: 2;
+    transition: color $transition-speed ease-in-out,
+        box-shadow $transition-speed ease-in-out,
+        text-shadow $transition-speed ease-in-out;
+
+    // gradient outer "border"
+    &::before {
+        content: "";
+        position: absolute;
+        inset: $inset; // wartość ujemna -> wystaje poza element
+        border-radius: inherit;
+        background: linear-gradient(135deg, $gradient-start, $gradient-end);
+        z-index: -2; // na samym dole
+        pointer-events: none;
+    }
+
+    // inner mask that hides the gradient inside
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: $mask-bg;
+        z-index: -1; // nad gradientem, pod treścią
+        pointer-events: none;
+        transition: opacity $transition-speed ease-in-out;
+    }
+
+    // hover / focus / active -> reveal gradient & adapt text
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: $text-color-on;
+
+        &::after {
+            opacity: 0;
+        } // odsłonięcie gradientu w środku
+    }
+
+    // dodatkowy efekt dla aktywnego / klikniętego
+    &:active,
+    &.active {
+        box-shadow: $box-shadow-on;
+        text-shadow: $text-shadow-on;
+    }
+}

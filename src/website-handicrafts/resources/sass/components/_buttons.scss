@@ -1,3 +1,6 @@
+//
+// ------------- Primary Button -------------
+//
 /* Override/upgrade .btn-primary */
 .btn-primary {
     background: linear-gradient(135deg, $malinowy, $fiolet);
@@ -24,7 +27,9 @@
     background-color: rgba(255, 255, 255, 0.6);
 }
 
-// Hero button style
+//
+// ------------- Hero Button -------------
+//
 .btn-hero {
     background-color: var(--hero-cta-bg, $hero-cta-bg);
     color: var(--hero-cta-color, $hero-cta-color);
@@ -34,4 +39,20 @@
         background-color: var(--hero-cta-bg-hover, $hero-cta-bg-hover);
         color: var(--hero-cta-color, $hero-cta-color);
     }
+}
+
+//
+// ------------- Gradient Button -------------
+//
+.btn-gradient {
+    @include m.gradient-button(
+        $gradient-start: $primary,
+        $gradient-end: $malinowy-dark,
+        $mask-bg: $bg-pale,
+        $padding: 0.375rem 1.5rem,
+        $text-color: $text-color,
+        $text-color-on: $bg-pale,
+        $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
+        $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
+    );
 }

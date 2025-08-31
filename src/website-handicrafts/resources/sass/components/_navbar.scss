@@ -172,52 +172,16 @@
    element + ::before (gradient, inset: -2px) + ::after (mask inset:0)
 */
 .navbar .navbar-nav.custom-nav > .nav-item > .nav-link.active-pill {
-    @extend .rounded-pill;
-    position: relative; // necessary for absolute positioning of pseudo-elements
-    display: inline-block;
-    z-index: 2; // content above pseudo-elements
-    background: transparent; // we do not use the element's background directly - the mask will simulate it
-    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
-        text-shadow 0.3s ease-in-out;
-
-    // gradient "border" (bigger by 2px)
-    &::before {
-        content: "";
-        position: absolute;
-        inset: -2px; // grows by 2px outside
-        border-radius: inherit; // match border-radius
-        background: linear-gradient(135deg, $primary, $malinowy-dark);
-        z-index: -1; // under mask ::after
-        pointer-events: none;
-    }
-
-    // inner mask (covers gradient inside)
-    &::after {
-        content: "";
-        position: absolute;
-        inset: 0; // covers the entire interior of the element
-        border-radius: inherit;
-        background: $bg-pale; // masks the gradient - the interior has the background color
-        z-index: -1; // above the gradient, below the content of the element
-        transition: opacity 0.3s ease-in-out;
-        pointer-events: none;
-    }
-
-    // hover / active state -> mask disappears and text becomes bright
-    &:hover,
-    &:active {
-        color: $bg-pale; // kontrastowy tekst, gdy tło staje się gradientowe
-
-        &::after {
-            opacity: 0; // fully reveals the gradient
-        }
-
-        // if you want an additional effect for really active (e.g., clicked)
-        &:active {
-            box-shadow: 0 8px 20px rgba($malinowy-dark, 0.6);
-            text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
-        }
-    }
+    @include m.gradient-button(
+        $gradient-start: $primary,
+        $gradient-end: $malinowy-dark,
+        $mask-bg: $bg-pale,
+        $padding: 0.25rem 1rem,
+        $text-color: inherit,
+        $text-color-on: $bg-pale,
+        $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
+        $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
+    );
 }
 
 //

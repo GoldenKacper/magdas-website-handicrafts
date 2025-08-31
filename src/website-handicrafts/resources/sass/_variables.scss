@@ -11,10 +11,11 @@ $malinowy-dark: #b33b58;
 $pudrowy: #f7d7de;
 $pudrowy-light: #f7e7ea;
 $fiolet: #8e6fbf;
-$bg-pale: #fff5f7;
+$pale: #fff5f7;
 $text-color: #34323a;
 
 /* Bootstrap overrides */
+$bg-pale: $pale;
 $body-bg: $bg-pale;
 $body-color: $text-color;
 
@@ -62,14 +63,15 @@ $logo-max-small: calc($logo-max * 0.65);
 
 /* Dropdown */
 $dropdown-link-hover-bg: $pudrowy;
+$dropdown-link-active-color: $pale;
 
 /* ---- hero-specific variables (Sass) ---- */
 $hero-overlay-start: rgba(0, 0, 0, 0.45);
 $hero-overlay-end: rgba(0, 0, 0, 0.35);
 
-$hero-text-color: #ffffff;
+$hero-text-color: $pale;
 $hero-cta-bg: $primary; // reuse $primary (malinowy)
-$hero-cta-color: #ffffff;
+$hero-cta-color: $pale;
 
 // optionally a slightly darker CTA hover
 $hero-cta-bg-hover: darken($hero-cta-bg, 6%);

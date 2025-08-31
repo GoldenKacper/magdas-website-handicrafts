@@ -25,10 +25,10 @@
         style="background-image: url('{{ Vite::asset('resources/images/magdas_website_home_bg_27_08_2025_demo.png') }}');"
         role="img" aria-label="{{ __('messages.hero_image_alt', [], app()->getLocale()) }}">
         {{-- dark overlay (CSS also applies, but keep semantic content on top) --}}
-        <div class="hero-content container text-center text-white">
+        <div class="hero-content container text-center text-pale">
             <h1 class="display-4 fw-bold mb-3">{{ __('messages.hero_title') }}</h1>
             <p class="lead mb-4">{{ __('messages.hero_subtitle') }}</p>
-            <a href="#gallery" class="btn btn-lg btn-hero">
+            <a href="#gallery" class="btn btn-lg btn-gradient">
                 {{ __('messages.hero_cta') }}
             </a>
         </div>
