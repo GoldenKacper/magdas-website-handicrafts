@@ -16,81 +16,92 @@
 }
 
 // gradient-button
-// Parametryzowalny mixin do efektu: gradientowy "border" (pseudo ::before) + maska (::after)
-// $gradient-start, $gradient-end - kolory gradientu
-// $mask-bg - kolor wnętrza (np. $bg-pale)
-// $inset - ile pseudo ma "wystawać" (np. -2px daje 2px ramki)
+// Parameterizable mixin for the effect: gradient “border” (pseudo ::before) + mask (::after)
+// $gradient-start, $gradient-end - gradient colors
+// $mask-bg - interior color (e.g., $bg-pale)
+// $border-size - border thickness
 // $radius - border-radius
-// $padding - padding wewnętrzny
-// $text-color - kolor tekstu w spoczynku
-// $text-color-on - kolor tekstu po hover (gdy tło staje się gradientowe)
-// $box-shadow-on - box-shadow na active
-// $text-shadow-on - text-shadow na active
-// $transition-speed - czas trwania animacji
+// $padding - internal padding
+// $text-color - text color at rest
+// $text-color-on - text color on hover (when the background becomes gradient)
+// $box-shadow-on - box-shadow on active
+// $text-shadow-on - text-shadow on active
+// $transition-speed - animation duration
+// $transparent-center - modified mixin with transparent center option
 @mixin gradient-button(
-    $gradient-start: #d64e72,
-    $gradient-end: #b33b58,
-    $mask-bg: #fff5f7,
-    $inset: -2px,
+    $gradient-start: $primary,
+    $gradient-end: $malinowy-dark,
+    $mask-bg: $bg-pale,
+    $border-size: 2px,
     $radius: 50rem,
-    // domyślnie pill; podaj px jeśli chcesz
     $padding: inherit,
     $text-color: inherit,
-    $text-color-on: #fff5f7,
-    $box-shadow-on: 0 8px 20px rgba(#b33b58, 0.6),
+    $text-color-on: $bg-pale,
+    $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
     $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7),
-    $transition-speed: 0.3s
+    $transition-speed: 0.3s,
+    $transparent-center: false
 ) {
     position: relative;
     display: inline-block;
     padding: $padding;
     border-radius: $radius;
     color: $text-color;
-    background: transparent;
     cursor: pointer;
     text-decoration: none;
-    border: none; // nie polegamy na zwykłym borderzie
     z-index: 2;
     transition: color $transition-speed ease-in-out,
         box-shadow $transition-speed ease-in-out,
-        text-shadow $transition-speed ease-in-out;
+        text-shadow $transition-speed ease-in-out,
+        background $transition-speed ease-in-out,
+        border-color $transition-speed ease-in-out;
 
-    // gradient outer "border"
-    &::before {
-        content: "";
-        position: absolute;
-        inset: $inset; // wartość ujemna -> wystaje poza element
-        border-radius: inherit;
-        background: linear-gradient(135deg, $gradient-start, $gradient-end);
-        z-index: -2; // na samym dole
-        pointer-events: none;
-    }
+    @if $transparent-center == true {
+        // transparent center mode — border as a “frame”
+        border: $border-size solid $gradient-start;
+        background: transparent;
 
-    // inner mask that hides the gradient inside
-    &::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: $mask-bg;
-        z-index: -1; // nad gradientem, pod treścią
-        pointer-events: none;
-        transition: opacity $transition-speed ease-in-out;
-    }
-
-    // hover / focus / active -> reveal gradient & adapt text
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-        color: $text-color-on;
-
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            color: $text-color-on;
+            border-color: transparent; // hide border
+            background: linear-gradient(135deg, $gradient-start, $gradient-end);
+        }
+    } @else {
+        // classic mode — gradient in ::before + mask in ::after
+        &::before {
+            content: "";
+            position: absolute;
+            inset: -$border-size;
+            border-radius: inherit;
+            background: linear-gradient(135deg, $gradient-start, $gradient-end);
+            z-index: -2;
+            pointer-events: none;
+        }
         &::after {
-            opacity: 0;
-        } // odsłonięcie gradientu w środku
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: $mask-bg;
+            z-index: -1;
+            pointer-events: none;
+            transition: opacity $transition-speed ease-in-out;
+        }
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            color: $text-color-on;
+            &::after {
+                opacity: 0;
+            }
+        }
     }
 
-    // dodatkowy efekt dla aktywnego / klikniętego
+    // shadow of click
     &:active,
     &.active {
         box-shadow: $box-shadow-on;

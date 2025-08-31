@@ -28,7 +28,7 @@
         <div class="hero-content container text-center text-pale">
             <h1 class="display-4 fw-bold mb-3">{{ __('messages.hero_title') }}</h1>
             <p class="lead mb-4">{{ __('messages.hero_subtitle') }}</p>
-            <a href="#gallery" class="btn btn-lg btn-gradient">
+            <a href="#gallery" class="btn btn-lg btn-gradient--transparent text-size-3/2">
                 {{ __('messages.hero_cta') }}
             </a>
         </div>

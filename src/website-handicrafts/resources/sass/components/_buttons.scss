@@ -51,7 +51,23 @@
         $mask-bg: $bg-pale,
         $padding: 0.375rem 1.5rem,
         $text-color: $text-color,
-        $text-color-on: $bg-pale,
+        $text-color-on: $pale,
+        $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
+        $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
+    );
+}
+
+.btn-gradient--transparent {
+    @include m.gradient-button(
+        $gradient-start: $primary,
+        $gradient-end: $malinowy-dark,
+        $mask-bg: transparent,
+        // Important - mask-bg together with transparent center gives the desired transparent effect
+        $transparent-center: true,
+        $padding: 0.375rem 1.5rem,
+        $text-color: $pale,
+        $text-color-on: $pale,
+
         $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
         $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
     );

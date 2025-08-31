@@ -95,6 +95,17 @@ h6 {
     background-color: var(--bg-pale, $bg-pale);
 }
 
+.text-size-3\/2 {
+    // clamp ensures responsiveness
+    font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+}
+
+@media (min-width: 768px) {
+    .lead {
+        font-size: 1.2rem !important;
+    }
+}
+
 // Width utilities
 .w-5 {
     width: 5% !important;

@@ -15,7 +15,7 @@
         </button>
 
         {{-- Links --}}
-        <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav custom-nav">
                 <li class="nav-item">
                     <a class="nav-link text-center gradient {{ request()->routeIs('home') ? 'active-pill' : '' }}"
