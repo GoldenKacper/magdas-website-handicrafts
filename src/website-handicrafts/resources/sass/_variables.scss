@@ -73,9 +73,9 @@ $logo-min: 36px;
 $logo-preferred: 6.5vw; // rise with viewport width
 $logo-max: 72px;
 
-$logo-min-small: calc($logo-min * 0.65);
-$logo-preferred-small: calc($logo-preferred * 1.25);
-$logo-max-small: calc($logo-max * 0.65);
+$logo-min-small: calc($logo-min * 1);
+$logo-preferred-small: calc($logo-preferred * 1.5);
+$logo-max-small: calc($logo-max * 0.75);
 
 /* Dropdown */
 $dropdown-link-hover-bg: $pudrowy;
@@ -92,4 +92,5 @@ $hero-cta-color: $pale;
 // optionally a slightly darker CTA hover
 $hero-cta-bg-hover: darken($hero-cta-bg, 6%);
 
-$triangle-h: 95px;
+// Offer section triangle height
+$offer-triangle-h: 95px;

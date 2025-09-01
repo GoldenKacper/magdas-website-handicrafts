@@ -7,7 +7,7 @@ return [
     'apples' => '{0} no apples|{1} one apple|[2,*] :count apples',
     // Navbar
     'home' => 'Home',
-    'about' => 'About',
+    'about' => 'About me',
     'gallery' => 'Gallery',
     'contact' => 'Contact',
     'toggle_navigation' => 'Toggle navigation',

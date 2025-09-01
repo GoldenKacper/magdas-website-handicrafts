@@ -15,13 +15,15 @@ if (token) {
 }
 
 // static Images
-import "../images/magdas_website_logo_25_08_2025_demo.png";
-import "../images/magdas_website_logo_25_08_2025_demo_v2.png";
-import "../images/magdas_website_home_og_26_08_2025_demo.webp";
-import "../images/magdas_website_home_bg_27_08_2025_demo.png";
-import "../images/magdas_website_offer_bracelet_31_08_2025_demo.png"; // Offer demo 1
-import "../images/magdas_website_offer_earrings_31_08_2025_demo.png"; // Offer demo 2
-import "../images/magdas_website_offer_necklace_31_08_2025_demo.png"; // Offer demo 3
+import "../images/magdas_website_logo_25_08_2025_demo.png"; // Website logo - version 1
+import "../images/magdas_website_logo_25_08_2025_demo_v2.png"; // Website logo - version 2
+import "../images/magdas_website_home_og_26_08_2025_demo.webp"; // Website logo - open graph / twitter (meta)
+import "../images/magdas_website_home_bg_27_08_2025_demo.png"; // Home Hero background image
+import "../images/magdas_website_offer_bracelet_31_08_2025_demo.png"; // Offer 1
+import "../images/magdas_website_offer_earrings_31_08_2025_demo.png"; // Offer 2
+import "../images/magdas_website_offer_necklace_31_08_2025_demo.png"; // Offer 3
+import "../images/magdas_website_home_about_me_bg_01_09_2025_demo.png"; // Home About Me - Backgorund
+import "../images/magdas_website_home_about_me_author_01_09_2025_demo.png"; // Home About Me - Author
 
 // import "bootstrap/dist/css/bootstrap.min.css"; // loading Bootstrap's CSS
 import "../sass/app.scss";

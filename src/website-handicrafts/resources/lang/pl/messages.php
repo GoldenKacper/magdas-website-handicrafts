@@ -7,7 +7,7 @@ return [
     'apples' => '{0} brak jabłek|{1} jedno jabłko|[2,*] :count jabłek',
     // Navbar
     'home' => 'Strona główna',
-    'about' => 'O nas',
+    'about' => 'O mnie',
     'gallery' => 'Galeria',
     'contact' => 'Kontakt',
     'toggle_navigation' => 'Przełącz nawigację',

@@ -49,49 +49,43 @@
         font-size: 1.125rem;
     }
 
-    // central triangle extending from the .with-divider section
+    // central triangle extending from the .with-divider section | height adjustment setting in _variables.scss
     &::after {
         content: "";
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        /* wysokość trójkąta */
-        --triangle-h: 95px;
 
         width: 0;
         height: 0;
 
-        /* TRÓJKĄT na CAŁĄ szerokość ekranu, wskazujący w górę (▲) */
+        /* TRIANGLE across the entire screen width, pointing upwards (▲) */
         border-left: 50vw solid transparent;
         border-right: 50vw solid transparent;
-        border-bottom: var(--triangle-h) solid rgba($pale, 1); /* <- zmiana: bottom zamiast top */
-
-        /* połowa trójkąta zachodzi nad sekcję (przykrywa area nad nim) */
-        // bottom: calc(
-        //     -1 * (var(--triangle-h) / 2)
-        // ); /* <- używamy top zamiast bottom */
+        border-bottom: var(--offer-triangle-h) solid rgba($pale, 1);
         bottom: 0px;
 
-        z-index: 1; /* nad overlayem, pod treścią (.hero-content z z-index:2) */
+        z-index: 1; /* above overlay, below content */
         pointer-events: none;
         filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
         opacity: 1;
     }
 }
 
-/* Responsywne dopasowanie wielkości trójkąta */
+/* Responsive adjustment of triangle size */
 @media (max-width: 992px) {
     .hero::after {
-        --triangle-h: 80px;
+        --offer-triangle-h: 70px;
         bottom: 0px;
     }
 }
 @media (max-width: 576px) {
     .hero::after {
-        --triangle-h: 64px;
+        --offer-triangle-h: 50px;
         bottom: 0px;
     }
 }
+
 /* When viewport is short, ensure hero content not cropped too badly */
 @media (max-height: 650px) {
     .hero {
@@ -127,14 +121,16 @@
         content: "";
         position: absolute;
         width: 50vw; // each takes half of the viewport
-        height: calc(var(--triangle-h) * 1.6); // height of the bar
+        height: calc(
+            var(--offer-triangle-h, $offer-triangle-h) * 1.6
+        ); // height of the bar
         top: calc(
-            -1 * var(--triangle-h) * 1.47
+            -1 * var(--offer-triangle-h, $offer-triangle-h) * 1.47
         ); // start aligned with the triangle's tip
         background: linear-gradient(
             180deg,
-            rgba($pale, 0.28),
-            rgba($pale, 0.12)
+            rgba(var(--pale, $pale), 0.28),
+            rgba(var(--pale, $pale), 0.12)
         );
         pointer-events: none;
         z-index: -1; // under .with-divider content, but above hero
@@ -170,28 +166,16 @@
     @media (max-width: 992px) {
         &::before,
         &::after {
-            height: calc(var(--triangle-h) * 1.2);
-            top: calc(-1 * (var(--triangle-h) / 2));
-        }
-        &::before {
-            clip-path: polygon(100% 80%, 100% 100%, 0% 100%, 0% 18%);
-        }
-        &::after {
-            clip-path: polygon(0% 80%, 100% 18%, 100% 100%, 0% 100%);
+            height: calc(var(--offer-triangle-h, $offer-triangle-h) * 1.2);
+            top: calc(-1 * (var(--offer-triangle-h, $offer-triangle-h) * 1.1));
         }
     }
 
     @media (max-width: 576px) {
         &::before,
         &::after {
-            height: calc(var(--triangle-h) * 1);
-            top: calc(-1 * (var(--triangle-h) / 2));
-        }
-        &::before {
-            clip-path: polygon(100% 76%, 100% 100%, 0% 100%, 0% 22%);
-        }
-        &::after {
-            clip-path: polygon(0% 76%, 100% 22%, 100% 100%, 0% 100%);
+            height: calc(var(--offer-triangle-h, $offer-triangle-h) * 1);
+            top: calc(-1 * (var(--offer-triangle-h, $offer-triangle-h) * 0.83));
         }
     }
 }
@@ -205,7 +189,7 @@
         text-decoration: none;
         color: inherit;
         border-radius: 0.75rem;
-        transition: transform 220ms ease, box-shadow 220ms ease;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         outline: none;
 
         .offer-media {
@@ -217,6 +201,17 @@
             overflow: hidden; // clip the content to the radius
             background: transparent;
 
+            @include m.gradient-panel(
+                $inset: 8px,
+                $border-size: 3px,
+                $border-color: $primary,
+                $gradient-start: $malinowy,
+                $gradient-end: $malinowy-dark,
+                $mask-bg: $bg-pale,
+                $text-on-gradient: $bg-pale,
+                $transition-speed: 0.3s
+            );
+
             img {
                 width: 100%;
                 height: 100%;
@@ -224,62 +219,42 @@
                 object-fit: cover;
                 object-position: center;
                 border-radius: inherit; // match the container
-                transition: transform 0.3s ease;
             }
 
-            // inner frame - does not affect size (masks inner part)
-            &::after {
-                content: "";
-                position: absolute;
-                inset: 8px; // distance of the frame from the edges
-                border-radius: calc(
-                    0.75rem - 8px
-                ); // match the container minus inset
-                pointer-events: none;
-                border: 3px solid $primary; // border color
-                box-sizing: border-box;
-                z-index: 2;
-            }
-
-            // I finish styling to this moment
             // caption on the image
             .offer-caption-overlay {
                 position: absolute;
                 left: 50%;
                 bottom: 10%;
                 transform: translateX(-50%);
-                z-index: 3;
+                z-index: 1;
                 display: inline-block;
-                padding: 0.45rem 0.9rem;
+                @include m.padding-inline-block(0.45rem, 0.9rem);
                 border-radius: 50rem;
                 color: var(--pale, $pale);
                 @extend .text-shadow;
+                transition: transform 0.2s ease-in-out,
+                    text-shadow 0.2s ease-in-out;
             }
         }
 
         // hover / focus states for the whole card
         &:hover,
-        &:focus {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12),
-                0 0 0 4px rgba($primary, 0.06);
-
-            .offer-media img {
-                transform: scale(1.03);
-            }
-
-            .offer-media::after {
-                border-color: darken($primary, 6%);
-            }
-
+        &:focus,
+        &:active,
+        &.active {
             .offer-media .offer-caption-overlay {
-                background: rgba(0, 0, 0, 0.45);
+                z-index: 4;
+                transform: translate(-50%, -200%);
             }
         }
 
-        // keyboard focus accessibility
-        &:focus-visible {
-            box-shadow: 0 0 0 4px rgba($primary, 0.18);
+        &:focus,
+        &:active,
+        &.active {
+            .offer-media .offer-caption-overlay {
+                @extend .text-shadow-big;
+            }
         }
     }
 

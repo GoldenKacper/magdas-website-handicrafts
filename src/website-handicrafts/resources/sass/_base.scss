@@ -1,4 +1,6 @@
-/* Root CSS variables */
+//
+// ------------- Root CSS variables -------------
+//
 :root {
     --malinowy: #{$malinowy};
     --malinowy-dark: #{$malinowy-dark};
@@ -30,15 +32,20 @@
     --hero-cta-color: #{$hero-cta-color};
     --hero-cta-bg-hover: #{$hero-cta-bg-hover};
 
-    --triangle-h: #{$triangle-h};
+    --offer-triangle-h: #{$offer-triangle-h};
 }
 
-/* Body */
+//
+// ------------- Body -------------
+//
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
+//
+// ------------- Headings -------------
+//
 /* Headings - more delicate than the default */
 h1,
 h2,
@@ -50,6 +57,80 @@ h6 {
     color: darken($text-color, 6%);
 }
 
+//
+// -------------  Pale colors -------------
+//
+/* More pinky white */
+.text-pale {
+    --bs-text-opacity: 1;
+    color: var(--pale, $pale);
+}
+
+.bg-pale {
+    --bs-bg-opacity: 1;
+    background-color: var(--bg-pale, $bg-pale);
+}
+
+//
+// ------------- Font sizes -------------
+//
+.text-size-3\/2 {
+    // clamp ensures responsiveness
+    font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+}
+
+@media (min-width: 768px) {
+    .lead {
+        font-size: 1.2rem !important;
+    }
+}
+
+//
+// ------------- Text shadows -------------
+//
+.text-shadow {
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+.text-shadow-big {
+    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+//
+// ------------- Heading underline -------------
+//
+/* underline for centered section headings */
+.heading-underline {
+    position: relative; // needed if you want absolute; here we use block flow
+    padding-bottom: 0.5rem; // distance between text and line
+    margin-bottom: 0.75rem;
+
+    &::after {
+        content: "";
+        display: block; // by margin: 0 auto; it centered
+        width: 5%; // line width (5% of container width)
+        height: 3px; // line thickness — adjust if you want
+        margin: 0.45rem auto 0; // top margin + centering
+        background: $primary;
+        border-radius: 50rem; // rounded ends of the line
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04); // subtle effect
+    }
+}
+
+/* responsiveness: on small screens, increase the line width for readability */
+@media (max-width: 768px) {
+    .heading-underline {
+        &::after {
+            width: 12%; // larger on small screens
+            height: 3px;
+        }
+    }
+}
+
+//
+// ------------- Website Logo styles -------------
+// Now unused
+//
 /* Logo (text logotype) */
 .brand-logo {
     font-family: "Great Vibes", "Quicksand", sans-serif; // if Great Vibes is added
@@ -87,60 +168,9 @@ h6 {
     transform: translateY(-8px);
 }
 
-.text-pale {
-    --bs-text-opacity: 1;
-    color: var(--pale, $pale);
-}
-
-.bg-pale {
-    --bs-bg-opacity: 1;
-    background-color: var(--bg-pale, $bg-pale);
-}
-
-.text-size-3\/2 {
-    // clamp ensures responsiveness
-    font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);
-}
-
-@media (min-width: 768px) {
-    .lead {
-        font-size: 1.2rem !important;
-    }
-}
-
-.text-shadow {
-    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
-}
-
-/* underline for centered section headings */
-.heading-underline {
-    position: relative; // needed if you want absolute; here we use block flow
-    padding-bottom: 0.5rem; // distance between text and line
-    margin-bottom: 0.75rem;
-
-    &::after {
-        content: "";
-        display: block; // by margin: 0 auto; it centered
-        width: 5%; // line width (5% of container width)
-        height: 3px; // line thickness — adjust if you want
-        margin: 0.45rem auto 0; // top margin + centering
-        background: $primary;
-        border-radius: 50rem; // rounded ends of the line
-        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04); // subtle effect
-    }
-}
-
-/* responsiveness: on small screens, increase the line width for readability */
-@media (max-width: 768px) {
-    .heading-underline {
-        &::after {
-            width: 12%; // larger on small screens
-            height: 3px;
-        }
-    }
-}
-
-// Width utilities
+//
+// ------------- Width utilities -------------
+//
 .w-5 {
     width: 5% !important;
 }
@@ -189,7 +219,9 @@ h6 {
 
 // .w-100 is in bootstrap
 
-// Height utilities
+//
+// ------------- Height utilities -------------
+//
 .h-5 {
     height: 5% !important;
 }

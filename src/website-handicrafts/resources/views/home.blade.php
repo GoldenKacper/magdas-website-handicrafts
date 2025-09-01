@@ -41,7 +41,7 @@
             </div>
 
             {{-- TODO: Add translations (loading from database) --}}
-            <div class="row g-lg-8 justify-content-center mx-lg-9">
+            <div class="row g-3 g-lg-8 justify-content-center mx-lg-9">
                 <div class="col-12 col-sm-6 col-md-4">
                     <a href="#" class="offer-card" aria-label="Oferta — bransoletki">
                         <span class="offer-media">
@@ -74,6 +74,9 @@
             </div>
         </div>
     </section>
+
+    {{-- About Me Section --}}
+
 
     <hr>
     {{-- Dalej reszta treści strony... --}}

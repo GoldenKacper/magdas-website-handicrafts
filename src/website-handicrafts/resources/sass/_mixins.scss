@@ -1,14 +1,17 @@
+// Inline and block padding
+// $inline, $block - padding values
 @mixin padding-inline-block($inline: 1rem, $block: 0.25rem) {
     padding-inline: $inline;
     padding-block: $block;
 }
 
-@mixin text-color-malin-gradient($malinowy: #d64e72, $malinowy-dark: #b33b58) {
-    background: linear-gradient(
-        135deg,
-        var(--malinowy, $malinowy),
-        var(--malinowy-dark, $malinowy-dark)
-    );
+// Gradient text color
+// $gradient-start, $gradient-end - gradient colors
+@mixin text-color-gradient(
+    $gradient-start: $malinowy,
+    $gradient-end: $malinowy-dark
+) {
+    background: linear-gradient(135deg, $gradient-start, $gradient-end);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -106,5 +109,86 @@
     &.active {
         box-shadow: $box-shadow-on;
         text-shadow: $text-shadow-on;
+    }
+}
+
+// gradient-panel mixin
+// $inset - internal distance of the panel from the edge (e.g., 8px)
+// $border-size - thickness of the normal border (0 = no border)
+// $border-color - border color in normal state
+// $gradient-start, $gradient-end - gradient colors for hover
+// $mask-bg - mask background (internal) in normal state (e.g. $bg-pale)
+// $text-on-gradient - text color when the panel is gradient (e.g. $bg-pale)
+// $transition-speed - animation time
+@mixin gradient-panel(
+    $inset: 8px,
+    $border-size: 3px,
+    $border-color: $primary,
+    $gradient-start: $malinowy,
+    $gradient-end: $malinowy-dark,
+    $mask-bg: $bg-pale,
+    $text-on-gradient: $bg-pale,
+    $transition-speed: 0.3s
+) {
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+
+    // picture frame
+    &::before {
+        content: "";
+        position: absolute;
+        inset: $inset;
+        border-radius: inherit;
+        background: transparent;
+        z-index: 3; // above element content and image
+        pointer-events: none;
+        transition: opacity $transition-speed ease-in-out,
+            border $transition-speed ease-in-out;
+        opacity: 1;
+
+        @if $border-size > 0 {
+            border: $border-size solid $border-color;
+        } @else {
+            border: none;
+        }
+    }
+
+    // internal panel (displayed as gradient on hover)
+    &::after {
+        content: "";
+        position: absolute;
+        inset: $inset;
+        border-radius: inherit;
+        background: transparent; // invisible in normal state
+        z-index: 3; // above element content and image
+        pointer-events: none;
+        background: linear-gradient(135deg, $gradient-start, $gradient-end);
+        transition: opacity $transition-speed ease-in-out;
+        opacity: 0;
+    }
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        &::before {
+            @if $border-size > 0 {
+                border: none;
+            }
+            opacity: 0;
+        }
+
+        &::after {
+            opacity: 0.7;
+        }
+    }
+
+    &:focus,
+    &:active,
+    &.active {
+        &::after {
+            opacity: 1;
+        }
     }
 }

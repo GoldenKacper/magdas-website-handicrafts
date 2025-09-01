@@ -106,7 +106,7 @@
     transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out; // it is hard to animate my gradient font's color | color, background, text-shadow
 
     &:not(.active-pill):hover {
-        @include m.text-color-malin-gradient($malinowy, $malinowy-dark);
+        @include m.text-color-gradient($malinowy, $malinowy-dark);
     }
 
     &:active {
@@ -140,7 +140,7 @@
         opacity: 0; // initially invisible
         transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
         transform: translateY(4px); // translateY(4px) to level vertically
-        @include m.text-color-malin-gradient($malinowy, $malinowy-dark);
+        @include m.text-color-gradient($malinowy, $malinowy-dark);
         -webkit-font-smoothing: antialiased;
     }
 
@@ -155,7 +155,7 @@
     }
 
     &:not(.gradient):not(.active-pill):hover {
-        @include m.text-color-malin-gradient($malinowy, $malinowy-dark);
+        @include m.text-color-gradient($malinowy, $malinowy-dark);
     }
 
     &:not(.active-pill):active {
