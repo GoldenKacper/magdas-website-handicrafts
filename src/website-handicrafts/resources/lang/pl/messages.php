@@ -1,10 +1,12 @@
 <?php
 
 return [
+    // Test messages
     'site_title' => 'Rękodzieło Magdy',
     'welcome' => 'Witamy w naszym sklepie',
     'items_count' => 'Jest :count przedmiotów',
     'apples' => '{0} brak jabłek|{1} jedno jabłko|[2,*] :count jabłek',
+
     // Navbar
     'home' => 'Strona główna',
     'about' => 'O mnie',
@@ -37,6 +39,14 @@ return [
     'hero_cta' => 'Zobacz moją galerię',
     'hero_image_alt' => 'Ręcznie robiona biżuteria na tle naturalnych materiałów',
 
-    // Headings
+    // Offer
     'offer_heading' => 'Oferta',
+
+    // About me
+    'about_section_alt' => 'Tło sekcji o mnie',
+    'author_image_alt' => 'Zdjęcie autorki Magdy',
+    'about_title' => 'O mnie',
+    'about_text' => 'Cześć — nazywam się Magda. Tworzę ręcznie robioną biżuterię: małe bransoletki i naszyjniki robione z pasją. Każdy egzemplarz powstaje z dbałością o szczegóły, z wysokiej jakości materiałów — idealny na prezent lub osobisty dodatek. Zapraszam do zapoznania się z moją galerią i skontaktowania się w sprawie zamówień.',
+    'about_read_more' => 'Czytaj więcej',
+
 ];

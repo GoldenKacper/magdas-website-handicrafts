@@ -73,15 +73,15 @@ $logo-min: 36px;
 $logo-preferred: 6.5vw; // rise with viewport width
 $logo-max: 72px;
 
-$logo-min-small: calc($logo-min * 1);
-$logo-preferred-small: calc($logo-preferred * 1.5);
-$logo-max-small: calc($logo-max * 0.75);
+$logo-min-small: calc($logo-min * 1.25);
+$logo-preferred-small: calc($logo-preferred * 2);
+$logo-max-small: calc($logo-max * 0.8);
 
 /* Dropdown */
 $dropdown-link-hover-bg: $pudrowy;
 $dropdown-link-active-color: $pale;
 
-/* ---- hero-specific variables (Sass) ---- */
+/* ---- hero overlay specific ---- */
 $hero-overlay-start: rgba(0, 0, 0, 0.45);
 $hero-overlay-end: rgba(0, 0, 0, 0.35);
 

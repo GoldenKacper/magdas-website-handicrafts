@@ -23,6 +23,7 @@ import "../images/magdas_website_offer_bracelet_31_08_2025_demo.png"; // Offer 1
 import "../images/magdas_website_offer_earrings_31_08_2025_demo.png"; // Offer 2
 import "../images/magdas_website_offer_necklace_31_08_2025_demo.png"; // Offer 3
 import "../images/magdas_website_home_about_me_bg_01_09_2025_demo.png"; // Home About Me - Backgorund
+import "../images/magdas_website_home_about_me_bg_01_09_2025_demo_v2.webp"; // Home About Me - Upgraded Backgorund
 import "../images/magdas_website_home_about_me_author_01_09_2025_demo.png"; // Home About Me - Author
 
 // import "bootstrap/dist/css/bootstrap.min.css"; // loading Bootstrap's CSS

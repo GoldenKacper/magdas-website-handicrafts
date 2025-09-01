@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-pale sticky-top">
     <div class="container-fluid mx-4">
         {{-- Logo --}}
-        <a class="navbar-brand d-flex align-items-center me-4"
+        <a class="navbar-brand d-flex align-items-center me-4 py-0"
             href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">
             <img src="{{ Vite::asset('resources/images/magdas_website_logo_25_08_2025_demo_v2.png') }}"
                 alt="{{ __('messages.logo_img_alt') }}" class="img-fluid-logo">

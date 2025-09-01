@@ -32,6 +32,7 @@
     --hero-cta-color: #{$hero-cta-color};
     --hero-cta-bg-hover: #{$hero-cta-bg-hover};
 
+    /* offer section triangle height */
     --offer-triangle-h: #{$offer-triangle-h};
 }
 
@@ -94,6 +95,13 @@ h6 {
 
 .text-shadow-big {
     text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+
+//
+// ------------- Translates -------------
+//
+.little-lower {
+    transform: translateY(25px);
 }
 
 //

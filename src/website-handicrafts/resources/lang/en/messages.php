@@ -1,10 +1,12 @@
 <?php
 
 return [
+    // Test messages
     'site_title' => "Magda's Handicrafts",
     'welcome' => 'Welcome to our store',
     'items_count' => 'There are :count items',
     'apples' => '{0} no apples|{1} one apple|[2,*] :count apples',
+
     // Navbar
     'home' => 'Home',
     'about' => 'About me',
@@ -37,6 +39,14 @@ return [
     'hero_cta' => 'See my gallery',
     'hero_image_alt' => 'Handmade jewelry against a backdrop of natural materials',
 
-    // Headings
+    // Offer
     'offer_heading' => 'Offer',
+
+    // About me
+    'about_section_alt' => 'About section background',
+    'author_image_alt' => "Author's portrait photo",
+    'about_title' => 'About me',
+    'about_text' => "Hi — I'm Magda. I handcraft small bracelets and necklaces with care and attention to detail. Each piece is made from quality materials and is perfect as a gift or a personal accessory. Browse my gallery and feel free to contact me for commissions.",
+    'about_read_more' => 'Read more',
+
 ];

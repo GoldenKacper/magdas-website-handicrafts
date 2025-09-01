@@ -64,13 +64,22 @@
         border: $border-size solid $gradient-start;
         background: transparent;
 
+        &:hover {
+            border-color: transparent; // hide border
+        }
+
         &:hover,
         &:focus,
         &:active,
         &.active {
-            color: $text-color-on;
-            border-color: transparent; // hide border
+            color: $text-color-on !important;
             background: linear-gradient(135deg, $gradient-start, $gradient-end);
+        }
+
+        &:focus,
+        &:active,
+        &.active {
+            border-color: $text-color-on !important; // hide border
         }
     } @else {
         // classic mode — gradient in ::before + mask in ::after
