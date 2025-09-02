@@ -68,7 +68,7 @@
         border-left: 50vw solid transparent;
         border-right: 50vw solid transparent;
         border-bottom: var(--offer-triangle-h) solid rgba($pale, 1);
-        bottom: 0px;
+        bottom: -1px;
 
         z-index: 1; /* above overlay, below content */
         pointer-events: none;
@@ -83,7 +83,7 @@
         --offer-triangle-h: calc(
             var(--offer-triangle-base, $offer-triangle-base) * 0.74
         );
-        bottom: 0px;
+        bottom: -1px;
     }
 }
 @media (max-width: 576px) {
@@ -91,7 +91,7 @@
         --offer-triangle-h: calc(
             var(--offer-triangle-base, $offer-triangle-base) * 0.526
         );
-        bottom: 0px;
+        bottom: -1px;
     }
 }
 
@@ -199,7 +199,7 @@
         display: block;
         text-decoration: none;
         color: inherit;
-        border-radius: 0.75rem;
+        border-radius: 1rem;
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         outline: none;
 
@@ -374,7 +374,7 @@ $opinion-duration: 1s !default; // dłuższy czas animacji -> wolniej
 $opinion-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
 $opinion-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
 $opinion-translate: 200px !default;
-$opinion-delay-base: 0s !default;
+$opinion-delay-base: 0 !default;
 $opinion-cards-count: 4 !default;
 
 .opinions-section {
@@ -470,13 +470,222 @@ $opinion-cards-count: 4 !default;
 
     // responsive tweaks
     @media (max-width: 768px) {
-        .opinions-section {
-            p.lead {
-                @include m.lead-style(
-                    $font-size: $lead-mobile-size,
-                    $color: $lead-color
-                );
+        p.lead {
+            @include m.lead-style(
+                $font-size: $lead-mobile-size,
+                $color: $lead-color
+            );
+        }
+
+        .opinion-card {
+            .opinion-text {
+                font-size: 1rem;
             }
+        }
+    }
+
+    @media (min-width: 960px) and (max-width: 1399px) {
+        // Override margin-top of this element of few resolutions
+        .row > [class*="col-"]:nth-child(4) {
+            margin-top: 0rem !important;
+        }
+    }
+}
+
+//
+// ------------- FAQ section -------------
+//
+$faq-overlay: rgba(0, 0, 0, 0.36);
+$faq-panel-bg: rgba(255, 255, 255, 0.62); // frosted light
+$faq-panel-border: rgba(255, 255, 255, 0.18);
+$faq-blur: 8px;
+
+// timings
+$faq-duration: 1s !default;
+$faq-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
+$faq-stagger: 0.3s !default;
+$faq-translate: 200px !default;
+$faq-delay-base: 0 !default;
+$faq-question-count: 4 !default;
+
+.faq-section {
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: var(--text-color, $text-color);
+    overflow: visible;
+
+    // subtle overlay gradient + parallax illusion
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba($malinowy, 0.3),
+            rgba($malinowy-dark, 0.4)
+        );
+        pointer-events: none;
+        z-index: 0;
+        mix-blend-mode: multiply;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    p.lead {
+        @include m.lead-style(
+            $font-size: $lead-font-size,
+            $color: rgba($hero-text-color, 0.92)
+        );
+    }
+
+    .faq-title,
+    .faq-subtitle {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    }
+
+    .faq-panel {
+        position: relative;
+        z-index: 2;
+        background: var(--pudrowy, $pudrowy);
+        border-radius: 1rem;
+        backdrop-filter: blur($faq-blur);
+        -webkit-backdrop-filter: blur($faq-blur);
+        border: 1px solid $faq-panel-border;
+        box-shadow: 0 12px 40px rgba(2, 6, 23, 0.08);
+
+        .faq-item {
+            opacity: 0;
+            transform: translateY($faq-translate);
+            transition: opacity $faq-duration $faq-ease
+                    var(--faq-delay, #{$faq-delay-base}),
+                transform $faq-duration $faq-ease
+                    var(--faq-delay, #{$faq-delay-base});
+
+            .faq-question {
+                background: transparent;
+                border: none;
+                text-align: left;
+                @include m.padding-inline-block(1rem, 0.85rem);
+                border-radius: 1rem;
+                cursor: pointer;
+                gap: 1rem;
+                transition: background 0.3s ease;
+
+                &:hover,
+                &:focus {
+                    background: var(--pudrowy-light, $pudrowy-light);
+                    outline: none;
+                }
+
+                .faq-q-icon {
+                    font-size: 1.5rem;
+                    @include m.text-color-gradient($malinowy, $malinowy-dark);
+                }
+
+                .faq-q-text {
+                    font-size: 1rem;
+                }
+
+                .faq-chevron {
+                    transition: transform 0.3s ease-in-out;
+                    color: rgba(0, 0, 0, 0.7);
+                }
+            }
+
+            .faq-answer {
+                box-sizing: border-box;
+                margin-top: 0.5rem;
+                padding: 0 2.4rem 0 3.2rem;
+                color: var(--text-color, $text-color);
+                line-height: 1.6;
+                height: 0;
+                overflow: hidden;
+                // transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out,
+                //     transform 0.3s ease-in-out;
+                transition: height 0.3s ease-in-out; /* tylko height, inner ma własne transitiony */
+                will-change: height;
+                // will-change: height, opacity, transform;
+                opacity: 1;
+                // transform: translateY(-6px);
+
+                .faq-answer-inner {
+                    /* tu prawdziwa animacja: transform + opacity - GPU-accelerated, nie powoduje reflow */
+                    transform-origin: top;
+                    transform: translateY(-6px);
+                    opacity: 0;
+                    transition: transform 0.3s ease-in-out,
+                        opacity 0.3s ease-in-out;
+                    will-change: transform, opacity;
+                    padding-top: 0; /* jeśli chcesz przenieść padding do inner, dodaj go tu i usuń z .faq-answer */
+                }
+            }
+
+            /* revealed state when JS toggles aria-expanded or adds .open */
+            .faq-question[aria-expanded="true"] ~ .faq-answer .faq-answer-inner,
+            &.open .faq-answer .faq-answer-inner {
+                opacity: 1;
+                transform: translateY(0);
+                /* large max-height to allow content (use px if you want) */
+                // max-height: 600px;
+            }
+
+            .faq-question[aria-expanded="true"] .faq-chevron,
+            &.open .faq-chevron {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    /* reveal animations when section becomes visible (IntersectionObserver) */
+    &.in-view {
+        .faq-title,
+        .faq-subtitle {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @for $i from 1 through $faq-question-count {
+            .faq-item:nth-child(#{$i}) {
+                --faq-delay: #{$faq-delay-base + $faq-stagger * $i};
+            }
+        }
+
+        .faq-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .faq-panel .faq-item .faq-q-text {
+            font-size: 1rem;
+        }
+
+        .faq-panel .faq-item .faq-answer {
+            padding: 0 1rem 0 1.5rem;
+            font-size: 1rem;
+        }
+
+        .faq-panel .faq-item .faq-question {
+            @include m.padding-inline-block(0.65rem, 0.5rem);
+
+            .faq-q-icon {
+                font-size: 1.25rem;
+            }
+        }
+
+        p.lead {
+            @include m.lead-style(
+                $font-size: $lead-mobile-size,
+                $color: rgba($hero-text-color, 0.92)
+            );
         }
     }
 }

@@ -117,6 +117,23 @@ h6 {
 }
 
 //
+// ------------- Custom padding -------------
+//
+@media (max-width: 768px) {
+    .p-xs-2rem {
+        padding: 2rem !important;
+    }
+
+    .py-xs-2rem {
+        padding-block: 2rem !important;
+    }
+
+    .px-xs-2rem {
+        padding-inline: 2rem !important;
+    }
+}
+
+//
 // ------------- Heading underline -------------
 //
 /* underline for centered section headings */

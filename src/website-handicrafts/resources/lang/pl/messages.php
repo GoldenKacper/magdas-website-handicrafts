@@ -53,4 +53,9 @@ return [
     'opinions_title' => 'Zadowoleni klienci',
     'opinions_subtitle' => 'Przeczytaj najnowsze opinie o mojej pracy',
 
+    // FAQ
+    'faq_title' => 'Najczęściej zadawane pytania',
+    'faq_subtitle' => 'Masz pytania? Sprawdź odpowiedzi na najczęstsze z nich.',
+    'faq_section_alt' => 'Tło sekcji FAQ',
+
 ];

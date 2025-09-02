@@ -53,4 +53,8 @@ return [
     'opinions_title' => 'Happy customers',
     'opinions_subtitle' => 'Read the latest opinions about my work',
 
+    // FAQ
+    'faq_title' => 'Frequently Asked Questions',
+    'faq_subtitle' => 'Have questions? Check the answers to the most common ones.',
+    'faq_section_alt' => 'FAQ section background',
 ];

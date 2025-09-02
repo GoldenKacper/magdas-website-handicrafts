@@ -34,7 +34,7 @@
     </section>
 
     {{-- Offer Section --}}
-    <section class="mb-3 mb-lg-4 pb-4 pb-lg-5 bg-pale with-divider offer-section">
+    <section class="mb-2 mb-lg-3 pb-4 pb-lg-5 bg-pale with-divider offer-section">
         <div class="container-fluid">
             <div class="mb-4 mb-lg-5">
                 <h2 class="display-5 fw-bold text-center heading-underline">{{ __('messages.offer_heading') }}:</h2>
@@ -42,7 +42,7 @@
 
             {{-- TODO: Add translations (loading from database) --}}
             <div class="row g-3 g-lg-8 justify-content-center mx-lg-9">
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-12 col-sm-6 col-xl-4">
                     <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — bransoletki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_bracelet_31_08_2025_demo.png') }}"
@@ -52,7 +52,7 @@
                     </a>
                 </div>
 
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-12 col-sm-6 col-xl-4">
                     <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — naszyjniki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_necklace_31_08_2025_demo.png') }}"
@@ -62,7 +62,7 @@
                     </a>
                 </div>
 
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-12 col-sm-6 col-xl-4">
                     <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — kolczyki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_earrings_31_08_2025_demo.png') }}"
@@ -108,7 +108,7 @@
     </section>
 
     {{-- Opinions section --}}
-    <section id="opinions" class="opinions-section py-5 bg-pale">
+    <section id="opinions" class="opinions-section pb-3 pb-lg-5 pt-5 mb-3 mb-lg-0 mt-0 mt-lg-2 bg-pale">
         <div class="container-fluid">
             <div class="text-center mb-4">
                 <h2 class="opinions-title display-6 fw-bold mb-2 opacity-anim"><i class="fa-regular fa-star"></i>
@@ -117,10 +117,10 @@
                     {{ __('messages.opinions_subtitle') }}</p>
             </div>
 
-            <div class="row g-3 g-lg-8 mx-lg-8 opinions-grid ">
+            <div class="row g-3 g-lg-8 mx-lg-8 opinions-grid justify-content-center">
                 {{-- Opinion 1 --}}
-                <div class="col-12 col-md-6 col-lg-3">
-                    <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Kacper">
+                <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+                    <article class="opinion-card p-3 p-lg-3 h-100 text-center" aria-label="Opinion by Kacper">
                         <div class="opinion-avatar mb-3">
                             <img src="{{ Vite::asset('resources/images/magdas_website_home_1_opinion_02_09_2025.png') }}"
                                 alt="Kacper" class="rounded-circle img-fluid">
@@ -132,7 +132,7 @@
                 </div>
 
                 {{-- Opinion 2 --}}
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
                     <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Katarzyna">
                         <div class="opinion-avatar mb-3">
                             <img src="{{ Vite::asset('resources/images/magdas_website_home_2_opinion_02_09_2025_demo.png') }}"
@@ -145,7 +145,7 @@
                 </div>
 
                 {{-- Opinion 3 --}}
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
                     <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Michał">
                         <div class="opinion-avatar mb-3">
                             <img src="{{ Vite::asset('resources/images/magdas_website_home_3_opinion_02_09_2025_demo.jpg') }}"
@@ -158,7 +158,7 @@
                 </div>
 
                 {{-- Opinion 4 --}}
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
                     <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Ewa">
                         <div class="opinion-avatar mb-3">
                             <img src="{{ Vite::asset('resources/images/magdas_website_home_4_opinion_02_09_2025_demo.jpg') }}"
@@ -172,6 +172,118 @@
             </div>
         </div>
     </section>
+
+    {{-- FAQ / Questions & Answers Section --}}
+    <section id="faq" class="faq-section pb-5 pb-lg-5 pt-5 pt-lg-7"
+        aria-label="{{ __('messages.faq_section_alt') }}"
+        style="background-image: url('{{ Vite::asset('resources/images/magdas_website_faq_bg_02_09_2025_demo_v2.webp') }}');">
+
+        <div class="container">
+            <div class="row justify-content-center text-center mb-2 mb-lg-4">
+                <div class="col-12 col-md-10">
+                    <h2 class="faq-title display-6 fw-bold mb-2 text-pale text-shadow"><i
+                            class="fa-regular fa-question-circle"></i>
+                        {{ __('messages.faq_title') }}
+                    </h2>
+                    <p class="faq-subtitle lead mb-4 text-shadow">
+                        {{ __('messages.faq_subtitle') }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center mb-0 mb-lg-3">
+                <div class="col-12 col-lg-10">
+                    {{-- frosted panel --}}
+                    <div class="faq-panel p-3 p-lg-5 shadow-soft">
+                        <div class="faq-grid row gy-3">
+
+                            {{-- FAQ item (kopiuj/edytuj) --}}
+                            <div class="col-12">
+                                <div class="faq-item" data-faq-index="1">
+                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
+                                        aria-expanded="false" aria-controls="faq-panel-1" id="faq-btn-1">
+                                        <span class="d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-circle-question faq-q-icon" aria-hidden="true"></i>
+                                            <span class="faq-q-text fw-bold">Jak mogę złożyć zamówienie?</span>
+                                        </span>
+
+                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+                                    </button>
+
+                                    <div id="faq-panel-1" class="faq-answer" role="region" aria-labelledby="faq-btn-1"
+                                        hidden>
+                                        <p>Możesz zamówić przez formularz kontaktowy lub bezpośrednio w sklepie — wybierz
+                                            produkt, dodaj do koszyka i przejdź do płatności. W razie problemów napisz do
+                                            nas.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Dodaj kolejne elementy FAQ --}}
+                            <div class="col-12">
+                                <div class="faq-item" data-faq-index="2">
+                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
+                                        aria-expanded="false" aria-controls="faq-panel-2" id="faq-btn-2">
+                                        <span class="d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-shipping-fast faq-q-icon" aria-hidden="true"></i>
+                                            <span class="faq-q-text fw-bold">Ile trwa wysyłka?</span>
+                                        </span>
+                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+                                    </button>
+
+                                    <div id="faq-panel-2" class="faq-answer" role="region" aria-labelledby="faq-btn-2"
+                                        hidden>
+                                        <p>Na ogół wysyłka trwa 2–5 dni roboczych. Dokładny termin zależy od opcji wysyłki i
+                                            lokalizacji klienta.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- przykłady: 3,4 --}}
+                            <div class="col-12">
+                                <div class="faq-item" data-faq-index="3">
+                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
+                                        aria-expanded="false" aria-controls="faq-panel-3" id="faq-btn-3">
+                                        <span class="d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-arrows-rotate faq-q-icon" aria-hidden="true"></i>
+                                            <span class="faq-q-text fw-bold">Czy mogę zwrócić produkt?</span>
+                                        </span>
+                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+                                    </button>
+                                    <div id="faq-panel-3" class="faq-answer" role="region" aria-labelledby="faq-btn-3"
+                                        hidden>
+                                        <p>Tak — przyjmujemy zwroty w ciągu 14 dni od otrzymania, jeśli produkt jest w
+                                            stanie nienaruszonym.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="faq-item" data-faq-index="4">
+                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
+                                        aria-expanded="false" aria-controls="faq-panel-4" id="faq-btn-4">
+                                        <span class="d-flex align-items-center gap-2">
+                                            <i class="fa-solid fa-hand-holding-heart faq-q-icon" aria-hidden="true"></i>
+                                            <span class="faq-q-text fw-bold">Czy oferujecie personalizacje?</span>
+                                        </span>
+                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+                                    </button>
+                                    <div id="faq-panel-4" class="faq-answer" role="region" aria-labelledby="faq-btn-4"
+                                        hidden>
+                                        <p>Tak — oferujemy grawer, dobór kolorów i pudełek — skontaktuj się z nami, żeby
+                                            omówić szczegóły.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- więcej pozycji -> kopiuj blok .col-12 --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
 
