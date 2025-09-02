@@ -34,16 +34,16 @@
     </section>
 
     {{-- Offer Section --}}
-    <section class="mb-3 mb-lg-4 pb-5 bg-pale with-divider offer-section">
+    <section class="mb-3 mb-lg-4 pb-4 pb-lg-5 bg-pale with-divider offer-section">
         <div class="container-fluid">
-            <div class="mb-5">
+            <div class="mb-4 mb-lg-5">
                 <h2 class="display-5 fw-bold text-center heading-underline">{{ __('messages.offer_heading') }}:</h2>
             </div>
 
             {{-- TODO: Add translations (loading from database) --}}
             <div class="row g-3 g-lg-8 justify-content-center mx-lg-9">
                 <div class="col-12 col-sm-6 col-md-4">
-                    <a href="#" class="offer-card" aria-label="Oferta — bransoletki">
+                    <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — bransoletki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_bracelet_31_08_2025_demo.png') }}"
                                 alt="Bransoletki rękodzieło" loading="lazy">
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-4">
-                    <a href="#" class="offer-card" aria-label="Oferta — naszyjniki">
+                    <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — naszyjniki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_necklace_31_08_2025_demo.png') }}"
                                 alt="Naszyjniki rękodzieło" loading="lazy">
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="col-12 col-sm-6 col-md-4">
-                    <a href="#" class="offer-card" aria-label="Oferta — kolczyki">
+                    <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — kolczyki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_earrings_31_08_2025_demo.png') }}"
                                 alt="Kolczyki rękodzieło" loading="lazy">
@@ -106,6 +106,73 @@
             </div>
         </div>
     </section>
+
+    {{-- Opinions section --}}
+    <section id="opinions" class="opinions-section py-5 bg-pale">
+        <div class="container-fluid">
+            <div class="text-center mb-4">
+                <h2 class="opinions-title display-6 fw-bold mb-2 opacity-anim"><i class="fa-regular fa-star"></i>
+                    {{ __('messages.opinions_title') }} <i class="fa-regular fa-star"></i></h2>
+                <p class="opinions-subtitle lead mb-4 opacity-anim">
+                    {{ __('messages.opinions_subtitle') }}</p>
+            </div>
+
+            <div class="row g-3 g-lg-8 mx-lg-8 opinions-grid ">
+                {{-- Opinion 1 --}}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Kacper">
+                        <div class="opinion-avatar mb-3">
+                            <img src="{{ Vite::asset('resources/images/magdas_website_home_1_opinion_02_09_2025.png') }}"
+                                alt="Kacper" class="rounded-circle img-fluid">
+                        </div>
+                        <h4 class="opinion-name mb-1">Kacper</h4>
+                        <p class="opinion-text fst-italic mb-0">„Piękna, staranna robota — dostałem mnóstwo
+                            komplementów. Polecam z całego serca!”</p>
+                    </article>
+                </div>
+
+                {{-- Opinion 2 --}}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Katarzyna">
+                        <div class="opinion-avatar mb-3">
+                            <img src="{{ Vite::asset('resources/images/magdas_website_home_2_opinion_02_09_2025_demo.png') }}"
+                                alt="Katarzyna" class="rounded-circle img-fluid">
+                        </div>
+                        <h4 class="opinion-name mb-1">Katarzyna</h4>
+                        <p class="opinion-text fst-italic mb-0">„Zamówienie przyszło szybko, wykonanie dokładne. Idealny
+                            prezent dla przyjaciółki.”</p>
+                    </article>
+                </div>
+
+                {{-- Opinion 3 --}}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Michał">
+                        <div class="opinion-avatar mb-3">
+                            <img src="{{ Vite::asset('resources/images/magdas_website_home_3_opinion_02_09_2025_demo.jpg') }}"
+                                alt="Michał" class="rounded-circle img-fluid">
+                        </div>
+                        <h4 class="opinion-name mb-1">Michał</h4>
+                        <p class="opinion-text fst-italic mb-0">„Świetny kontakt, ładne opakowanie i bardzo ładna biżuteria
+                            — polecam.”</p>
+                    </article>
+                </div>
+
+                {{-- Opinion 4 --}}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <article class="opinion-card p-3 p-lg-4 h-100 text-center" aria-label="Opinion by Ewa">
+                        <div class="opinion-avatar mb-3">
+                            <img src="{{ Vite::asset('resources/images/magdas_website_home_4_opinion_02_09_2025_demo.jpg') }}"
+                                alt="Ewa" class="rounded-circle img-fluid">
+                        </div>
+                        <h4 class="opinion-name mb-1">Ewa</h4>
+                        <p class="opinion-text fst-italic mb-0">„Czuć rękodzielniczy charakter i dbałość o szczegóły —
+                            zamówię ponownie.”</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
     <hr>

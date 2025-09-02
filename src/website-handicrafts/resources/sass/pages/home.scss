@@ -45,9 +45,11 @@
     }
 
     p.lead {
-        color: rgba($hero-text-color, 0.92);
+        @include m.lead-style(
+            $font-size: $lead-font-size,
+            $color: rgba($hero-text-color, 0.92)
+        );
         @extend .text-shadow;
-        font-size: 1.125rem;
     }
 
     // central triangle extending from the .with-divider section | height adjustment setting in _variables.scss
@@ -56,6 +58,8 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
+
+        --offer-triangle-h: var(--offer-triangle-base, $offer-triangle-base);
 
         width: 0;
         height: 0;
@@ -76,13 +80,17 @@
 /* Responsive adjustment of triangle size */
 @media (max-width: 992px) {
     .hero::after {
-        --offer-triangle-h: 70px;
+        --offer-triangle-h: calc(
+            var(--offer-triangle-base, $offer-triangle-base) * 0.74
+        );
         bottom: 0px;
     }
 }
 @media (max-width: 576px) {
     .hero::after {
-        --offer-triangle-h: 50px;
+        --offer-triangle-h: calc(
+            var(--offer-triangle-base, $offer-triangle-base) * 0.526
+        );
         bottom: 0px;
     }
 }
@@ -105,7 +113,11 @@
             font-size: 1.75rem;
         }
         p.lead {
-            font-size: 0.95rem;
+            @include m.lead-style(
+                $font-size: $lead-mobile-size,
+                $color: rgba($hero-text-color, 0.92)
+            );
+            @extend .text-shadow;
         }
     }
 }
@@ -122,11 +134,9 @@
         content: "";
         position: absolute;
         width: 50vw; // each takes half of the viewport
-        height: calc(
-            var(--offer-triangle-h, $offer-triangle-h) * 1.6
-        ); // height of the bar
+        height: calc(var(--offer-triangle-h) * 1.6); // height of the bar
         top: calc(
-            -1 * var(--offer-triangle-h, $offer-triangle-h) * 1.47
+            -1 * var(--offer-triangle-h) * 1.49
         ); // start aligned with the triangle's tip
         background: linear-gradient(
             180deg,
@@ -167,16 +177,16 @@
     @media (max-width: 992px) {
         &::before,
         &::after {
-            height: calc(var(--offer-triangle-h, $offer-triangle-h) * 1.2);
-            top: calc(-1 * (var(--offer-triangle-h, $offer-triangle-h) * 1.1));
+            height: calc(var(--offer-triangle-h) * 1.2);
+            top: calc(-1 * (var(--offer-triangle-h) * 1.1));
         }
     }
 
     @media (max-width: 576px) {
         &::before,
         &::after {
-            height: calc(var(--offer-triangle-h, $offer-triangle-h) * 1);
-            top: calc(-1 * (var(--offer-triangle-h, $offer-triangle-h) * 0.83));
+            height: calc(var(--offer-triangle-h) * 1);
+            top: calc(-1 * (var(--offer-triangle-h) * 0.82));
         }
     }
 }
@@ -353,6 +363,120 @@
 
         .about-text {
             font-size: 1rem;
+        }
+    }
+}
+
+//
+// ------------- Opinions section -------------
+//
+$opinion-duration: 1s !default; // dłuższy czas animacji -> wolniej
+$opinion-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
+$opinion-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
+$opinion-translate: 200px !default;
+$opinion-delay-base: 0s !default;
+$opinion-cards-count: 4 !default;
+
+.opinions-section {
+    background: $bg-pale;
+    color: var(--text-color, $text-color);
+
+    .opinions-title,
+    .opinions-subtitle {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity $opinion-duration ease-in-out $opinion-delay-base,
+            transform $opinion-duration ease-in-out $opinion-delay-base;
+    }
+
+    p.lead {
+        @include m.lead-style($font-size: $lead-font-size, $color: $lead-color);
+    }
+
+    .opinion-card {
+        background: transparent;
+        border-radius: 0.75rem;
+        color: var(--text-color, $text-color);
+
+        // Stan początkowy
+        opacity: 0;
+        transform: translateY($opinion-translate);
+        // transition: all $opinion-duration $opinion-ease
+        //     var(--opinion-delay, #{$opinion-delay-base});
+
+        transition: opacity $opinion-duration $opinion-ease
+                var(--opinion-delay, #{$opinion-delay-base}),
+            transform $opinion-duration $opinion-ease
+                var(--opinion-delay, #{$opinion-delay-base});
+
+        .opinion-avatar {
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+            @extend .rounded-circle;
+
+            @include m.gradient-frame(
+                $inset: 8px,
+                $border-size: 2px,
+                $border-color: $malinowy,
+                $z-index: 2
+            );
+
+            img {
+                object-fit: cover;
+                display: block;
+            }
+        }
+
+        .opinion-name {
+            @extend .h4;
+            color: var(--text-color, $text-color);
+            font-weight: 600;
+        }
+
+        .opinion-text {
+            color: var(--text-color, $text-color);
+            opacity: 0.95;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+    }
+
+    /* reveal animations added when .in-view is present on section */
+    &.in-view {
+        .opinions-title,
+        .opinions-subtitle {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* use nth-child to stagger (fallback) — will be replaced by JS stagger */
+        /* fallback CSS stagger: ustawiamy --opinion-delay przez nth-child automatycznie */
+        @for $i from 1 through $opinion-cards-count {
+            .opinion-card:nth-child(#{$i}) {
+                // obliczamy delay w Sass i interpolujemy wynik jako wartość CSS custom prop
+                --opinion-delay: #{$opinion-delay-base +
+                    $opinion-delay-step *
+                    $i};
+            }
+        }
+
+        /* after JS adds .show to each card it will animate in */
+        .opinion-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    // responsive tweaks
+    @media (max-width: 768px) {
+        .opinions-section {
+            p.lead {
+                @include m.lead-style(
+                    $font-size: $lead-mobile-size,
+                    $color: $lead-color
+                );
+            }
         }
     }
 }

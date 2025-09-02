@@ -49,4 +49,8 @@ return [
     'about_text' => "Hi — I'm Magda. I handcraft small bracelets and necklaces with care and attention to detail. Each piece is made from quality materials and is perfect as a gift or a personal accessory. Browse my gallery and feel free to contact me for commissions.",
     'about_read_more' => 'Read more',
 
+    // Opinions
+    'opinions_title' => 'Happy customers',
+    'opinions_subtitle' => 'Read the latest opinions about my work',
+
 ];

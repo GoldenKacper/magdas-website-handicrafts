@@ -93,4 +93,9 @@ $hero-cta-color: $pale;
 $hero-cta-bg-hover: darken($hero-cta-bg, 6%);
 
 // Offer section triangle height
-$offer-triangle-h: 95px;
+$offer-triangle-base: 95px;
+
+/* Lead modified variables/tokens */
+$lead-font-size: 1.125rem !default;
+$lead-color: rgba($text-color, 0.92) !default;
+$lead-mobile-size: 0.95rem !default;

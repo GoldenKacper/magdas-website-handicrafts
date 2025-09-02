@@ -33,7 +33,13 @@
     --hero-cta-bg-hover: #{$hero-cta-bg-hover};
 
     /* offer section triangle height */
-    --offer-triangle-h: #{$offer-triangle-h};
+    --offer-triangle-base: #{$offer-triangle-base};
+    --offer-triangle-h: #{$offer-triangle-base};
+
+    /* Lead modified variables/tokens */
+    --lead-font-size: #{$lead-font-size};
+    --lead-color: #{$lead-color};
+    --lead-mobile-size: #{$lead-mobile-size};
 }
 
 //
@@ -102,6 +108,12 @@ h6 {
 //
 .little-lower {
     transform: translateY(25px);
+}
+
+@media (max-width: 992px) {
+    .little-lower {
+        transform: translateY(20px);
+    }
 }
 
 //

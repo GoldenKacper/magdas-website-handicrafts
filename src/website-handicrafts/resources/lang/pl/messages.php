@@ -49,4 +49,8 @@ return [
     'about_text' => 'Cześć — nazywam się Magda. Tworzę ręcznie robioną biżuterię: małe bransoletki i naszyjniki robione z pasją. Każdy egzemplarz powstaje z dbałością o szczegóły, z wysokiej jakości materiałów — idealny na prezent lub osobisty dodatek. Zapraszam do zapoznania się z moją galerią i skontaktowania się w sprawie zamówień.',
     'about_read_more' => 'Czytaj więcej',
 
+    // Opinions
+    'opinions_title' => 'Zadowoleni klienci',
+    'opinions_subtitle' => 'Przeczytaj najnowsze opinie o mojej pracy',
+
 ];

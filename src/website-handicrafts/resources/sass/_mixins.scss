@@ -18,6 +18,14 @@
     text-fill-color: transparent;
 }
 
+// Lead modified styles
+// $font-size - font size (default $lead-font-size)
+// $color - text color (default $lead-color)
+@mixin lead-style($font-size: $lead-font-size, $color: $lead-color) {
+    font-size: $font-size;
+    color: $color;
+}
+
 // gradient-button
 // Parameterizable mixin for the effect: gradient “border” (pseudo ::before) + mask (::after)
 // $gradient-start, $gradient-end - gradient colors
@@ -198,6 +206,40 @@
     &.active {
         &::after {
             opacity: 1;
+        }
+    }
+}
+
+// gradient-frame mixin
+// $inset - internal distance of the panel from the edge (e.g., 8px)
+// $border-size - thickness of the normal border (<=0 = border 2px solid)
+// $border-color - border color in normal state
+// $z-index - z-index of the frame
+@mixin gradient-frame(
+    $inset: 8px,
+    $border-size: 2px,
+    $border-color: $primary,
+    $z-index: 2
+) {
+    position: relative;
+    overflow: hidden;
+    z-index: $z-index;
+
+    // picture frame
+    &::before {
+        content: "";
+        position: absolute;
+        inset: $inset;
+        border-radius: inherit;
+        background: transparent;
+        z-index: 3; // above element content and image
+        pointer-events: none;
+        opacity: 1;
+
+        @if $border-size > 0 {
+            border: $border-size solid $border-color;
+        } @else {
+            border: 2px solid $border-color;
         }
     }
 }
