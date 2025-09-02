@@ -76,7 +76,7 @@
     </section>
 
     {{-- About Me Section --}}
-    <section class="about-section py-4 py-lg-5"
+    <section id="about" class="about-section py-4 py-lg-5"
         style="background-image: url('{{ Vite::asset('resources/images/magdas_website_home_about_me_bg_01_09_2025_demo_v2.webp') }}');"
         aria-label="{{ __('messages.about_section_alt') }}">
 

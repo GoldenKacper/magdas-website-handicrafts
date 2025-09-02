@@ -2,9 +2,6 @@ import $ from "jquery"; // explicit import
 window.$ = window.jQuery = $; // (optinal) global expose
 // opinions reveal - requires jQuery available (you have it)
 
-//
-// ------------- Opinions section -------------
-//
 // What it does:
 // el.getBoundingClientRect() returns a rect object with the following fields: top, bottom, left, right, width, height.
 // These values are relative to the visible area of the browser window (viewport).
@@ -28,6 +25,36 @@ function isElementInViewport(el, offset = 0) {
     );
 }
 
+//
+// ------------- About section -------------
+//
+function revealAbout() {
+    const $section = $("#about");
+    if (!$section.length) return;
+
+    // if already triggered, do nothing
+    if ($section.hasClass("in-view")) return;
+
+    if (isElementInViewport($section[0], 200)) {
+        $section.addClass("in-view");
+    }
+}
+
+// init on load and scroll (debounce small)
+let aboutTimer = null;
+$(window).on("load scroll resize", function () {
+    if (aboutTimer) clearTimeout(aboutTimer);
+    aboutTimer = setTimeout(revealAbout, 60);
+});
+
+// also run once immediately
+$(document).ready(function () {
+    revealAbout();
+});
+
+//
+// ------------- Opinions section -------------
+//
 function revealOpinions() {
     const $section = $("#opinions");
     if (!$section.length) return;

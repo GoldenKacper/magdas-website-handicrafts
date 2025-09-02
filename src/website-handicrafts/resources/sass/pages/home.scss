@@ -288,6 +288,13 @@
 //
 // ------------- About me section -------------
 //
+$about-duration: 1s !default; // dłuższy czas animacji -> wolniej
+$about-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
+$about-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
+$about-translate: 150px !default;
+$about-delay-base: 0.2s !default;
+$about-count: 3 !default;
+
 .about-section {
     position: relative;
     background-size: cover;
@@ -328,6 +335,11 @@
         height: 100%;
         width: 100%;
 
+        opacity: 0;
+        transform: translateY($about-translate);
+        transition: opacity $about-duration $about-ease $about-delay-base,
+            transform $about-duration $about-ease $about-delay-base;
+
         .about-author-img {
             max-width: 100%;
             height: auto;
@@ -340,6 +352,17 @@
         }
     }
 
+    .about-title,
+    .about-text,
+    .btn {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity $about-duration ease-in-out #{$about-delay-base +
+                $about-delay-step},
+            transform $about-duration ease-in-out #{$about-delay-base +
+                $about-delay-step};
+    }
+
     .about-title {
         color: var(--pale, $pale);
     }
@@ -348,6 +371,20 @@
         color: var(--pale, $pale);
         line-height: 1.6;
         font-weight: 500;
+    }
+
+    &.in-view {
+        .about-title,
+        .about-text,
+        .btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-figure {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     // responsive tweaks
@@ -385,8 +422,8 @@ $opinion-cards-count: 4 !default;
     .opinions-subtitle {
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity $opinion-duration ease-in-out $opinion-delay-base,
-            transform $opinion-duration ease-in-out $opinion-delay-base;
+        transition: opacity $opinion-duration ease-in-out,
+            transform $opinion-duration ease-in-out;
     }
 
     p.lead {
