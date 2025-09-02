@@ -45,7 +45,7 @@
     }
 
     p.lead {
-        color: rgba(var(--hero-text-color, $hero-text-color), 0.92);
+        color: rgba($hero-text-color, 0.92);
         @extend .text-shadow;
         font-size: 1.125rem;
     }
@@ -130,8 +130,8 @@
         ); // start aligned with the triangle's tip
         background: linear-gradient(
             180deg,
-            rgba(var(--pale, $pale), 0.28),
-            rgba(var(--pale, $pale), 0.12)
+            rgba($pale, 0.28),
+            rgba($pale, 0.12)
         );
         pointer-events: none;
         z-index: -1; // under .with-divider content, but above hero
