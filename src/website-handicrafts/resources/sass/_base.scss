@@ -46,6 +46,7 @@
 // ------------- Body -------------
 //
 body {
+    margin-bottom: 0rem !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -93,6 +94,68 @@ h6 {
 }
 
 //
+// ------------- Animated gradient -------------
+//
+// .gradient-animated {
+//     @include m.gradient-animated-text($malinowy, $malinowy-dark, 0.3s, 4px);
+// }
+.gradient {
+    // pseudo-element containing gradient text (duplicate)
+    &:not(.active-pill)::after {
+        content: attr(data-text); // duplicate visible text
+        position: absolute;
+        inset: 0; // match parent position
+        left: 0;
+        top: 0;
+        white-space: nowrap; // keep the same single line
+        pointer-events: none;
+        z-index: 2; // above the original text
+        opacity: 0; // initially invisible
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        transform: translateY(4px); // translateY(4px) to level vertically
+        @include m.text-color-gradient($malinowy, $malinowy-dark);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    // On hover: original text becomes transparent (smoothly),
+    // pseudo-element with gradient fade-in -> looks like animated text color.
+    &:not(.active-pill):hover {
+        color: transparent;
+        &::after {
+            opacity: 1;
+            transform: translateY(4px); // translateY(4px) to level vertically
+        }
+    }
+
+    &:not(.active-pill):active {
+        color: $malinowy-dark;
+        text-shadow: 0 0 3px rgba($malinowy-dark, 0.3);
+    }
+}
+
+.gradient-animated-nav {
+    @include m.gradient-animated-text(
+        $malinowy,
+        $malinowy-dark,
+        0.3s,
+        4px,
+        active-pill,
+        $text-color
+    );
+}
+
+.gradient-animated-footer {
+    @include m.gradient-animated-text(
+        $malinowy,
+        $malinowy-dark,
+        0.2s,
+        0px,
+        active-pill,
+        $text-color
+    );
+}
+
+//
 // ------------- Text shadows -------------
 //
 .text-shadow {
@@ -130,6 +193,18 @@ h6 {
 
     .px-xs-2rem {
         padding-inline: 2rem !important;
+    }
+}
+
+//
+// ------------- Ultra-wide container constraints -------------
+//
+// ograniczenia tylko dla ultra-wide
+@media (min-width: 2560px) {
+    .container-fluid:not(.ultra-wide) {
+        max-width: 2560px; // np. dla 2K i 4K ekranów
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 

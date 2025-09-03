@@ -98,7 +98,7 @@
 /* When viewport is short, ensure hero content not cropped too badly */
 @media (max-height: 650px) {
     .hero {
-        min-height: 70vh;
+        min-height: 105vh;
     }
 }
 
@@ -292,7 +292,7 @@ $about-duration: 1s !default; // dłuższy czas animacji -> wolniej
 $about-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
 $about-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
 $about-translate: 150px !default;
-$about-delay-base: 0.2s !default;
+$about-delay-base: 0.01s !default;
 $about-count: 3 !default;
 
 .about-section {
@@ -411,7 +411,7 @@ $opinion-duration: 1s !default; // dłuższy czas animacji -> wolniej
 $opinion-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
 $opinion-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
 $opinion-translate: 200px !default;
-$opinion-delay-base: 0 !default;
+$opinion-delay-base: 0.01s !default;
 $opinion-cards-count: 4 !default;
 
 .opinions-section {
@@ -422,8 +422,8 @@ $opinion-cards-count: 4 !default;
     .opinions-subtitle {
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity $opinion-duration ease-in-out,
-            transform $opinion-duration ease-in-out;
+        transition: opacity $opinion-duration ease-in-out $opinion-delay-base,
+            transform $opinion-duration ease-in-out $opinion-delay-base;
     }
 
     p.lead {
@@ -540,9 +540,9 @@ $faq-blur: 8px;
 // timings
 $faq-duration: 1s !default;
 $faq-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
-$faq-stagger: 0.3s !default;
+$faq-delay-step: 0.3s !default;
 $faq-translate: 200px !default;
-$faq-delay-base: 0 !default;
+$faq-delay-base: 0.01s !default;
 $faq-question-count: 4 !default;
 
 .faq-section {
@@ -552,6 +552,10 @@ $faq-question-count: 4 !default;
     background-repeat: no-repeat;
     color: var(--text-color, $text-color);
     overflow: visible;
+
+    // smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
 
     // subtle overlay gradient + parallax illusion
     &::before {
@@ -584,7 +588,8 @@ $faq-question-count: 4 !default;
     .faq-subtitle {
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        transition: opacity $faq-duration ease-in-out $faq-delay-base,
+            transform $faq-duration ease-in-out $faq-delay-base;
     }
 
     .faq-panel {
@@ -690,7 +695,7 @@ $faq-question-count: 4 !default;
 
         @for $i from 1 through $faq-question-count {
             .faq-item:nth-child(#{$i}) {
-                --faq-delay: #{$faq-delay-base + $faq-stagger * $i};
+                --faq-delay: #{$faq-delay-base + $faq-delay-step * $i};
             }
         }
 

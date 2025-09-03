@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-pale sticky-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-pale sticky-top justify-content-center">
     <div class="container-fluid mx-4">
         {{-- Logo --}}
         <a class="navbar-brand d-flex align-items-center me-4 py-0"
@@ -18,20 +18,20 @@
         <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav custom-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-center gradient {{ request()->routeIs('home') ? 'active-pill' : '' }}"
+                    <a class="nav-link text-center gradient-animated-nav {{ request()->routeIs('home') ? 'active-pill' : '' }}"
                         href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}"
                         data-text="{{ __('messages.home') }}">{{ __('messages.home') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center gradient" href="#about"
+                    <a class="nav-link text-center gradient-animated-nav" href="#about"
                         data-text="{{ __('messages.about') }}">{{ __('messages.about') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center gradient" href="#gallery"
+                    <a class="nav-link text-center gradient-animated-nav" href="#gallery"
                         data-text="{{ __('messages.gallery') }}">{{ __('messages.gallery') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center gradient" href="#contact"
+                    <a class="nav-link text-center gradient-animated-nav" href="#contact"
                         data-text="{{ __('messages.contact') }}">{{ __('messages.contact') }}</a>
                 </li>
             </ul>

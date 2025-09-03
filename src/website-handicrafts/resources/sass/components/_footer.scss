@@ -1,0 +1,129 @@
+//
+// ------------- Footer -------------
+//
+footer,
+.footer {
+    background: $bg-pale; // uses your existing var
+    color: var(--text-color, $text-color);
+    position: relative;
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer-title {
+        color: var(--text-color, $text-color);
+    }
+
+    .footer-text {
+        color: rgba($text-color, 0.9);
+        font-size: 1rem;
+    }
+
+    .footer-link {
+        color: rgba($text-color, 0.8);
+        text-decoration: underline dotted rgba(0, 0, 0, 0.3);
+        transition: color 0.3s ease-in-out, transform 0.3s ease-in-out,
+            text-decoration 0.3s ease-in-out, background 0.3s ease-in-out,
+            text-shadow 0.3s ease-in-out;
+        position: relative; // needed for pseudo-elements to overlay
+        display: inline-block; // so pseudo-elements perfectly overlay the text
+        z-index: 1; // "base" text above background
+        // white-space: nowrap; // prevents wrapping
+    }
+
+    // Social icons line
+    .footer-social {
+        // Nie daję gradientowego koloru ponieważ nie byłbym w stanie łądnie to zanimować
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            background: inherit;
+            color: var(--text-color, $text-color);
+            transition: transform 0.3s ease-in-out, background 0.3s ease-in-out,
+                color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            font-size: 1.1rem;
+            text-decoration: none;
+
+            &:hover,
+            &:focus,
+            &:active,
+            &.active {
+                transform: translateY(-4px);
+                background: var(--pudrowy, $pudrowy);
+                color: $malinowy;
+                outline: none;
+            }
+
+            &:focus,
+            &:active,
+            &.active {
+                color: $malinowy-dark;
+                box-shadow: 0 0 3px rgba($malinowy-dark, 0.3);
+            }
+        }
+    }
+
+    .footer-contact {
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    }
+
+    // bottom area
+    .footer-bottom {
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+        background-color: var(--pudrowy-light, $pudrowy-light);
+
+        .footer-link {
+            color: rgba($text-color, 0.8);
+            text-decoration: none;
+
+            &:hover {
+                @include m.text-color-gradient($malinowy, $malinowy-dark);
+            }
+
+            &:focus,
+            &:active,
+            &.active {
+                color: $malinowy-dark;
+                text-shadow: 0 0 3px rgba($malinowy-dark, 0.6);
+            }
+        }
+    }
+
+    // make sure visible spacing on small screens
+    @media (max-width: 576px) {
+        .footer-social .social-link {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+        }
+
+        p.text-muted {
+            font-size: 0.9rem;
+        }
+
+        .footer-link {
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom .footer-link.small {
+            font-size: 0.7rem;
+        }
+    }
+}

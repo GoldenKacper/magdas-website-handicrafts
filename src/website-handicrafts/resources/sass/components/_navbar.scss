@@ -97,22 +97,20 @@
 // ------------- Navbar Links -------------
 //
 .navbar .nav-link {
-    color: var(--text-color, $text-color);
+    // color: var(--text-color, $text-color);
 
-    font-weight: var(--nav-link-font-weight, $nav-link-font-weight);
-    padding: 0.5rem 0;
-    white-space: nowrap; // prevents wrapping
-    // transition: all 0.3s ease-in-out; // it is hard to animate my gradient font's color | color, background, text-shadow
-    transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out; // it is hard to animate my gradient font's color | color, background, text-shadow
+    // font-weight: var(--nav-link-font-weight, $nav-link-font-weight);
+    // padding: 0.5rem 0;
+    // white-space: nowrap; // prevents wrapping
 
-    &:not(.active-pill):hover {
-        @include m.text-color-gradient($malinowy, $malinowy-dark);
-    }
+    // &:not(.active-pill):hover {
+    //     @include m.text-color-gradient($malinowy, $malinowy-dark);
+    // }
 
-    &:active {
-        color: $malinowy-dark;
-        text-shadow: 0 0 3px rgba($malinowy-dark, 0.6);
-    }
+    // &:active {
+    //     color: $malinowy-dark;
+    //     text-shadow: 0 0 3px rgba($malinowy-dark, 0.6);
+    // }
 }
 
 // nav-link: base settings for layers
@@ -127,40 +125,16 @@
     padding: 0.5rem 0;
     white-space: nowrap; // prevents wrapping
 
-    // pseudo-element containing gradient text (duplicate)
-    &.gradient:not(.active-pill)::after {
-        content: attr(data-text); // duplicate visible text
-        position: absolute;
-        inset: 0; // match parent position
-        left: 0;
-        top: 0;
-        white-space: nowrap; // keep the same single line
-        pointer-events: none;
-        z-index: 2; // above the original text
-        opacity: 0; // initially invisible
-        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        transform: translateY(4px); // translateY(4px) to level vertically
-        @include m.text-color-gradient($malinowy, $malinowy-dark);
-        -webkit-font-smoothing: antialiased;
-    }
-
-    // On hover: original text becomes transparent (smoothly),
-    // pseudo-element with gradient fade-in -> looks like animated text color.
-    &.gradient:not(.active-pill):hover {
-        color: transparent;
-        &::after {
-            opacity: 1;
-            transform: translateY(4px); // translateY(4px) to level vertically
-        }
-    }
-
-    &:not(.gradient):not(.active-pill):hover {
-        @include m.text-color-gradient($malinowy, $malinowy-dark);
-    }
+    // transition: all 0.3s ease-in-out; // it is hard to animate my gradient font's color | color, background, text-shadow
+    transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out; // it is hard to animate my gradient font's color | color, background, text-shadow
 
     &:not(.active-pill):active {
         color: $malinowy-dark;
         text-shadow: 0 0 3px rgba($malinowy-dark, 0.3);
+    }
+
+    &:not(.gradient):not(.active-pill):hover {
+        @include m.text-color-gradient($malinowy, $malinowy-dark);
     }
 }
 

@@ -18,6 +18,80 @@
     text-fill-color: transparent;
 }
 
+// gradient-animated-text
+// $start, $end         - gradient colors
+// $duration            - transition duration (s or ms)
+// $translateY          - starting translateY for ::after (np. 4px)
+// $exclude-class       - class name (bez kropki) which disables hover effect, default 'active-pill'
+// $text-color          - fallback base text color
+@mixin gradient-animated-text(
+    $start: $malinowy,
+    $end: $malinowy-dark,
+    $duration: 0.3s,
+    $translateY: 4px,
+    $exclude-class: active-pill,
+    $text-color: $text-color
+) {
+    // podstawowe zachowanie elementu (kontekst dla ::after)
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+    color: $text-color;
+    -webkit-font-smoothing: antialiased;
+    transition: color $duration ease-in-out; // synchronizacja, opcjonalne
+
+    // pseudo-element (nakładka gradientowa)
+    &:not(.#{$exclude-class})::after {
+        content: attr(data-text);
+        position: absolute;
+        inset: 0; // top/right/bottom/left: 0
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0;
+        transform: translateY($translateY);
+        transition: opacity $duration ease-in-out,
+            transform $duration ease-in-out;
+        background: linear-gradient(135deg, $start, $end);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-fill-color: transparent;
+        font: inherit; // ważne — ta sama wielkość / waga
+        line-height: inherit;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    // hover/focus — pokaż nakładkę. nie zmieniamy koloru bazowego tu (możesz dodać color: transparent jeśli chcesz)
+    &:not(.#{$exclude-class}) {
+        &:hover,
+        &:focus {
+            // opcjonalnie: color: transparent; // tylko jeśli chcesz że baza znika
+            color: transparent; // reveal pseudo-element
+            &::after {
+                opacity: 1;
+                transform: translateY($translateY);
+            }
+        }
+
+        // active (opcjonalny styl)
+        &:active {
+            color: $end;
+            text-shadow: 0 0 3px rgba($end, 0.3);
+        }
+    }
+
+    // jeżeli element ma klasę wykluczającą, możesz chcieć aby gradient był widoczny stale:
+    &.#{$exclude-class} {
+        &::after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
 // Lead modified styles
 // $font-size - font size (default $lead-font-size)
 // $color - text color (default $lead-color)
