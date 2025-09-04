@@ -44,8 +44,8 @@
 <link rel="manifest" href="{{ asset('site.webmanifest') }}" />
 <meta name="theme-color" content="#ffffff">
 
-{{-- Vite-managed assets (CSS + JS entry) --}}
-@vite(['resources/js/app.js'])
-
 {{-- Place for extra head content (meta tags, additional CSS, third-party SDKs) --}}
 @stack('head')
+
+{{-- Vite-managed assets (CSS + JS entry) --}}
+@vite(['resources/js/app.js'])

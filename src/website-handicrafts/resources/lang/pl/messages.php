@@ -58,4 +58,35 @@ return [
     'faq_subtitle' => 'Masz pytania? Sprawdź odpowiedzi na najczęstsze z nich.',
     'faq_section_alt' => 'Tło sekcji FAQ',
 
+    // Footer
+    'footer_about_title' => 'O mnie',
+    'footer_social_title' => 'Media społecznościowe',
+    'footer_contact_title' => 'Skontaktuj się',
+
+    'footer_about_text_1' => 'Rękodzieło z sercem — tworzone z dbałością o detale.',
+    'footer_about_link_1' => 'Poznaj moją historię',
+    'footer_about_text_2a' => 'Masz pytania? Zajrzyj do',
+    'footer_about_link_2' => 'FAQ',
+    'footer_about_text_2b' => '— może tam już znajdziesz odpowiedź.',
+
+    'footer_opinions_and_gallery' => 'Zajrzyj też do naszych opinii i galerii — znajdziesz tam realne realizacje.',
+
+    'footer_contact_form' => 'Formularz kontaktowy',
+    'footer_mail' => 'magda.handicrafts@gmail.com',
+    'footer_phone_number' => '+48 123 456 789',
+
+    'footer_copyright' => 'Kacper Jagodziński. Wszelkie prawa zastrzeżone.',
+    'footer_privacy_policy' => 'Polityka prywatności',
+    'footer_terms_of_service' => 'Regulamin',
+
+    // Contact
+    'contact_title' => 'Kontakt',
+    'contact_subtitle' => 'Masz pytania lub chcesz złożyć zamówienie? Skontaktuj się ze mną.',
+    'contact_name' => 'Imię i nazwisko',
+    'contact_email' => 'Adres e-mail',
+    'contact_message' => 'Wiadomość',
+    'contact_send' => 'Wyślij',
+    'contact_success' => 'Dziękuję za wiadomość! Odezwiemy się wkrótce.',
+    'contact_error' => 'Wystąpił błąd podczas wysyłania wiadomości. Spróbuj ponownie później.',
+
 ];

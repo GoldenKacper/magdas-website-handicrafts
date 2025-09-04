@@ -22,8 +22,16 @@
 @section('content')
     {{-- HERO --}}
     <section class="hero position-relative d-flex align-items-center"
-        style="background-image: url('{{ Vite::asset('resources/images/magdas_website_home_bg_27_08_2025_demo.png') }}');"
+        style="--hero-bg: url('{{ Vite::asset('resources/images/magdas_website_home_bg_27_08_2025_demo.png') }}');"
         role="img" aria-label="{{ __('messages.hero_image_alt', [], app()->getLocale()) }}">
+        {{-- Have to be as first elements in section --}}
+        @for ($i = 0; $i < 8; $i++)
+            <div class="heart heart-animation"></div>
+        @endfor
+
+        {{-- overlay gradient (we keep overlay here so it always sits above the bg image) --}}
+        <div class="hero-overlay" aria-hidden="true"></div>
+
         <div class="hero-content container text-center text-pale">
             <h1 class="display-4 fw-bold mb-3">{{ __('messages.hero_title') }}</h1>
             <p class="lead mb-4">{{ __('messages.hero_subtitle') }}</p>
@@ -34,7 +42,7 @@
     </section>
 
     {{-- Offer Section --}}
-    <section class="mb-2 mb-lg-3 pb-4 pb-lg-5 bg-pale with-divider offer-section">
+    <section class="mb-0 pb-4-5 pb-lg-7 bg-pale with-divider offer-section">
         <div class="container-fluid">
             <div class="mb-4 mb-lg-5">
                 <h2 class="display-5 fw-bold text-center heading-underline">{{ __('messages.offer_heading') }}:</h2>
@@ -108,7 +116,7 @@
     </section>
 
     {{-- Opinions section --}}
-    <section id="opinions" class="opinions-section pb-3 pb-lg-5 pt-5 mb-3 mb-lg-0 mt-0 mt-lg-2 bg-pale">
+    <section id="opinions" class="opinions-section bg-pale pb-3 pb-lg-5 pt-5 mb-3 mb-lg-0 mt-0 mt-lg-2">
         <div class="container-fluid">
             <div class="text-center mb-4">
                 <h2 class="opinions-title display-6 fw-bold mb-2 opacity-anim"><i class="fa-regular fa-star"></i>

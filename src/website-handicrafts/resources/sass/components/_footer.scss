@@ -1,6 +1,12 @@
 //
 // ------------- Footer -------------
 //
+$footer-duration: 1s !default; // dłuższy czas animacji -> wolniej
+$footer-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
+$footer-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
+$footer-translate: 100px !default;
+$footer-delay-base: 0.01s !default;
+$footer-count: 3 !default;
 footer,
 .footer {
     background: $bg-pale; // uses your existing var
@@ -10,6 +16,17 @@ footer,
     .container {
         position: relative;
         z-index: 2;
+    }
+
+    .footer-scroll-animation-1,
+    .footer-scroll-animation-2,
+    .footer-scroll-animation-3 {
+        opacity: 0;
+        transform: translateY($footer-translate);
+        transition: opacity $footer-duration $footer-ease
+                var(--footer-delay, #{$footer-delay-base}),
+            transform $footer-duration $footer-ease
+                var(--footer-delay, #{$footer-delay-base});
     }
 
     .footer-title {
@@ -96,6 +113,35 @@ footer,
                 color: $malinowy-dark;
                 text-shadow: 0 0 3px rgba($malinowy-dark, 0.6);
             }
+        }
+    }
+
+    &.in-view {
+        /* use nth-child to stagger (fallback) — will be replaced by JS stagger */
+        /* fallback CSS stagger: ustawiamy --footer-delay przez nth-child automatycznie */
+        // @for $i from 1 through $footer-count {
+        //     .footer-scroll-animation:nth-child(#{$i}) {
+        //         // obliczamy delay w Sass i interpolujemy wynik jako wartość CSS custom prop
+        //         --footer-delay: #{$footer-delay-base + $footer-delay-step * $i};
+        //     }
+        // }
+        .footer-scroll-animation-1 {
+            --footer-delay: #{$footer-delay-base + $footer-delay-step * 1};
+        }
+
+        .footer-scroll-animation-2 {
+            --footer-delay: #{$footer-delay-base + $footer-delay-step * 2};
+        }
+
+        .footer-scroll-animation-3 {
+            --footer-delay: #{$footer-delay-base + $footer-delay-step * 3};
+        }
+
+        .footer-scroll-animation-1.show,
+        .footer-scroll-animation-2.show,
+        .footer-scroll-animation-3.show {
+            opacity: 1;
+            transform: translateY(0);
         }
     }
 

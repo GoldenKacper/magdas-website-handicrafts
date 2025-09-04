@@ -36,3 +36,51 @@ $(function () {
     // optionally: also react to resize (e.g., when the browser bar changes height)
     $(window).on("resize", requestTick);
 });
+
+//
+// ------------- Footer section -------------
+//
+function isElementInViewportApp(el, offset = 0) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top <=
+            (window.innerHeight || document.documentElement.clientHeight) -
+                offset && rect.bottom >= 0 + offset
+    );
+}
+
+// Footer animation
+function revealFooter() {
+    const $section = $("footer");
+    if (!$section.length) return;
+
+    // if already triggered, do nothing
+    if ($section.hasClass("in-view")) return;
+
+    if (isElementInViewportApp($section[0], 100)) {
+        $section.addClass("in-view");
+
+        // fade-in title/subtitle done by CSS. Stagger cards using JS:
+        const $cards = $section.find(
+            ".footer-scroll-animation-1, .footer-scroll-animation-2, .footer-scroll-animation-3"
+        );
+
+        $cards.each(function (i, el) {
+            setTimeout(function () {
+                $(el).addClass("show");
+            }, 200 * i + 0); // 300ms, 600ms, 900ms, ...
+        });
+    }
+}
+
+// init on load and scroll (debounce small)
+let footerTimer = null;
+$(window).on("load scroll resize", function () {
+    if (footerTimer) clearTimeout(footerTimer);
+    footerTimer = setTimeout(revealFooter, 60);
+});
+
+// also run once immediately
+$(document).ready(function () {
+    revealFooter();
+});

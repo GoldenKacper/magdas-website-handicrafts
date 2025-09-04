@@ -57,4 +57,36 @@ return [
     'faq_title' => 'Frequently Asked Questions',
     'faq_subtitle' => 'Have questions? Check the answers to the most common ones.',
     'faq_section_alt' => 'FAQ section background',
+
+    // Footer
+    'footer_about_title' => 'About me',
+    'footer_social_title' => 'Social media',
+    'footer_contact_title' => 'Contact',
+
+    'footer_about_text_1' => 'Handicrafts with heart — created with attention to detail.',
+    'footer_about_link_1' => 'Learn my story',
+    'footer_about_text_2a' => 'Have questions? Check out',
+    'footer_about_link_2' => 'FAQ',
+    'footer_about_text_2b' => '— you might find the answer there.',
+
+    'footer_opinions_and_gallery' => 'Also, check out our reviews and gallery — you will find real implementations there.',
+
+    'footer_contact_form' => 'Contact form',
+    'footer_mail' => 'magda.handicrafts@gmail.com',
+    'footer_phone_number' => '+48 123 456 789',
+
+    'footer_copyright' => 'Kacper Jagodziński. All rights reserved.',
+    'footer_privacy_policy' => 'Privacy Policy',
+    'footer_terms_of_service' => 'Terms of Service',
+
+    // Contact
+    'contact_title' => 'Contact',
+    'contact_subtitle' => 'Have questions or want to place an order? Get in touch with me.',
+    'contact_name' => 'Name and surname',
+    'contact_email' => 'Email address',
+    'contact_message' => 'Message',
+    'contact_send' => 'Send',
+    'contact_success' => 'Thank you for your message! We will get back to you soon.',
+    'contact_error' => 'An error occurred while sending the message. Please try again later.',
+
 ];

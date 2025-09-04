@@ -4,30 +4,72 @@
 /* Hero full-viewport section */
 .hero {
     position: relative;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
     min-height: 105vh; // full viewport height
     display: flex;
     align-items: center;
     color: var(--hero-text-color, $hero-text-color);
     overflow: hidden;
 
-    // smooth background fix on mobile
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
+    background: none;
+    background-size: unset;
+    background-position: unset;
 
     // overlay
     &::before {
         content: "";
+        position: fixed; /* fixed to viewport so it doesn't move */
+        inset: 0; /* fill viewport */
+        z-index: 0; /* behind content */
+        pointer-events: none;
+        opacity: 1;
+
+        background-image: var(--hero-bg);
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+
+        /* promote to own layer for smoother rendering */
+        transform: translateZ(0);
+
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+        will-change: transform, opacity, background-position, transition;
+    }
+
+    // KLASA, którą JS będzie dodawać kiedy hero NIE MA BYĆ widoczny
+    &.hero-fixed-hidden::before {
+        opacity: 0;
+        transform: scale(0.995) translateY(-6px); // delikatne przesunięcie/przycięcie
+        /* pointer-events none zostaje (by nie blokować kliknięć) */
+        /* visibility: hidden; // optional: ale wtedy transition opacity nie zadziała */
+    }
+
+    // dodatkowo, w razie potrzeby możesz eksperymentalnie obniżyć z-index gdy schowane
+    &.hero-fixed-hidden {
+        // Jeżeli chcesz też chwilowo "wyłączyć" wpływ paint/kompozycji:
+        will-change: auto;
+    }
+
+    // Fallback dla mobilnych donde hero ma class .hero-scroll (wyłączamy fixed)
+    &.hero-scroll::before {
+        position: absolute; // zamiast fixed
+    }
+
+    // overlay element sits above the bg but under the hero content
+    .hero-overlay {
         position: absolute;
         inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        /* overlay gradient — keep the existing gradient */
         background: linear-gradient(
             var(--hero-overlay-start, $hero-overlay-start),
             var(--hero-overlay-end, $hero-overlay-end)
         );
-        pointer-events: none;
-        z-index: 1;
+        opacity: 1;
     }
 
     .hero-content {
@@ -70,7 +112,7 @@
         border-bottom: var(--offer-triangle-h) solid rgba($pale, 1);
         bottom: -1px;
 
-        z-index: 1; /* above overlay, below content */
+        z-index: 3; /* above overlay, below content */
         pointer-events: none;
         filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
         opacity: 1;
@@ -122,10 +164,116 @@
     }
 }
 
+//
+// ------------ CSS Heart -------------
+//
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(
+        135deg,
+        var(--malinowy, $malinowy),
+        var(--malinowy-dark, $malinowy-dark)
+    );
+    /* stan początkowy - niewidoczne przed startem animacji */
+    opacity: 0;
+
+    /* --d to opóźnienie (ustawiasz je w nth-child) */
+    --d: 1s;
+
+    transform: rotate(45deg);
+    animation: floatUp 6s ease-in calc(var(--d)) infinite;
+    z-index: 10;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: linear-gradient(
+            135deg,
+            var(--malinowy, $malinowy),
+            var(--malinowy-dark, $malinowy-dark)
+        );
+    }
+
+    &::before {
+        top: -11px;
+        left: 0;
+    }
+
+    &::after {
+        top: 0;
+        left: -11px;
+    }
+
+    /* ustawienie opóźnień / pozycji serduszek */
+    &:nth-child(1) {
+        --d: 1s;
+        left: 10%;
+        bottom: 30%;
+    }
+    &:nth-child(2) {
+        --d: 2s;
+        left: 70%;
+        bottom: 10%;
+    }
+    &:nth-child(3) {
+        --d: 3s;
+        left: 25%;
+        bottom: 45%;
+    }
+    &:nth-child(4) {
+        --d: 4s;
+        left: 55%;
+        bottom: 35%;
+    }
+    &:nth-child(5) {
+        --d: 5s;
+        left: 90%;
+        bottom: 15%;
+    }
+    &:nth-child(6) {
+        --d: 6s;
+        left: 5%;
+        bottom: 70%;
+    }
+    &:nth-child(7) {
+        --d: 7s;
+        left: 40%;
+        bottom: 60%;
+    }
+    &:nth-child(8) {
+        --d: 8s;
+        left: 80%;
+        bottom: 60%;
+    }
+
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) rotate(45deg);
+            opacity: 0;
+        }
+        20% {
+            opacity: 0.9;
+        }
+        70% {
+            opacity: 0.9;
+        }
+        100% {
+            transform: translateY(-300px) rotate(45deg);
+            opacity: 0;
+        }
+    }
+}
+
 /* Below Hero section, with side bars starting at the triangle's tip */
 .with-divider {
     position: relative;
-    z-index: 3; // above hero triangle — but pseudo-elements will be under section content
+    z-index: 4; // above hero triangle — but pseudo-elements will be under section content
     overflow: visible; // allow pseudo-elements to extend outside the box
 
     // Common settings for both bars
@@ -244,7 +392,7 @@
                 border-radius: 50rem;
                 color: var(--pale, $pale);
                 @extend .text-shadow;
-                transition: transform 0.2s ease-in-out,
+                transition: transform 0.2s ease-in-out, bottom 0.2s ease-in-out,
                     text-shadow 0.2s ease-in-out;
             }
         }
@@ -256,7 +404,7 @@
         &.active {
             .offer-media .offer-caption-overlay {
                 z-index: 4;
-                transform: translate(-50%, -200%);
+                bottom: 40%;
             }
         }
 
@@ -415,7 +563,6 @@ $opinion-delay-base: 0.01s !default;
 $opinion-cards-count: 4 !default;
 
 .opinions-section {
-    background: $bg-pale;
     color: var(--text-color, $text-color);
 
     .opinions-title,

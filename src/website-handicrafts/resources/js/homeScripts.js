@@ -2,6 +2,116 @@ import $ from "jquery"; // explicit import
 window.$ = window.jQuery = $; // (optinal) global expose
 // opinions reveal - requires jQuery available (you have it)
 
+// hero-visibility-toggle.js
+// Requires jQuery present (we'll still check if $ exists)
+// Uses IntersectionObserver if available, otherwise falls back to rAF scroll check
+$(function () {
+    // main function
+    function setupHeroVisibility(opts = {}) {
+        const selector = opts.selector || ".hero";
+        const threshold =
+            typeof opts.threshold !== "undefined" ? opts.threshold : 0.12; // how much hero visible to show bg
+        const rootMargin = opts.rootMargin || "0px 0px -10% 0px"; // optional tuning
+        const heroEl = document.querySelector(selector);
+        if (!heroEl) return;
+
+        // If hero uses hero-scroll (mobile fallback), do nothing — background handled by CSS absolute
+        if (heroEl.classList.contains("hero-scroll")) {
+            return;
+        }
+
+        const HIDE_CLASS = "hero-fixed-hidden";
+
+        // IntersectionObserver path (preferred)
+        if ("IntersectionObserver" in window) {
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        // entry.intersectionRatio gives fraction of element visible in viewport
+                        if (entry.intersectionRatio > threshold) {
+                            // hero visible enough -> show fixed bg
+                            heroEl.classList.remove(HIDE_CLASS);
+                            // also ensure aria? not necessary but safe:
+                            heroEl.setAttribute("data-hero-bg-hidden", "false");
+                        } else {
+                            // hero mostly out -> hide fixed bg
+                            heroEl.classList.add(HIDE_CLASS);
+                            heroEl.setAttribute("data-hero-bg-hidden", "true");
+                        }
+                    });
+                },
+                {
+                    threshold: [0, threshold, 0.5, 1],
+                    root: null,
+                    rootMargin: rootMargin,
+                }
+            );
+
+            io.observe(heroEl);
+
+            // optional: clean up on unload
+            window.addEventListener("beforeunload", function () {
+                io.disconnect();
+            });
+            return;
+        }
+
+        // Fallback: rAF-driven scroll/resize handler (less efficient but works)
+        let ticking = false;
+
+        function checkHero() {
+            ticking = false;
+            const rect = heroEl.getBoundingClientRect();
+            const vh =
+                window.innerHeight || document.documentElement.clientHeight;
+            // compute visible fraction approx:
+            const visibleTop = Math.max(
+                0,
+                Math.min(rect.bottom, vh) - Math.max(rect.top, 0)
+            );
+            const ratio = visibleTop / Math.max(1, rect.height);
+
+            if (ratio > threshold) {
+                heroEl.classList.remove(HIDE_CLASS);
+                heroEl.setAttribute("data-hero-bg-hidden", "false");
+            } else {
+                heroEl.classList.add(HIDE_CLASS);
+                heroEl.setAttribute("data-hero-bg-hidden", "true");
+            }
+        }
+
+        function onScrollTick() {
+            if (!ticking) {
+                ticking = true;
+                window.requestAnimationFrame(checkHero);
+            }
+        }
+
+        window.addEventListener("scroll", onScrollTick, { passive: true });
+        window.addEventListener("resize", onScrollTick, { passive: true });
+
+        // initial check
+        window.requestAnimationFrame(checkHero);
+    }
+
+    // Initialize on DOM ready
+    if (window.jQuery) {
+        $(function () {
+            setupHeroVisibility({
+                threshold: 0.12,
+                rootMargin: "0px 0px -8% 0px",
+            });
+        });
+    } else {
+        document.addEventListener("DOMContentLoaded", function () {
+            setupHeroVisibility({
+                threshold: 0.12,
+                rootMargin: "0px 0px -8% 0px",
+            });
+        });
+    }
+});
+
 // What it does:
 // el.getBoundingClientRect() returns a rect object with the following fields: top, bottom, left, right, width, height.
 // These values are relative to the visible area of the browser window (viewport).

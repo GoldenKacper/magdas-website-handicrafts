@@ -3,6 +3,4 @@ TODO: Test sandbox mailer
 TODO: Check Meta - Open Graph and Twitter
 TODO: Change navbar collapse button to another and make pretty animation
 
-TODO: Change gradinet button transparent styles similar to overlay on offers card technique
-TODO: Change backgroud-image scroll effect on fantastic one (seen on one website)
 TODO: Add css make heart with animation

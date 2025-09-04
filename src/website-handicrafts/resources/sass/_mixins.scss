@@ -107,6 +107,7 @@
 // $border-size - border thickness
 // $radius - border-radius
 // $padding - internal padding
+// $inset -
 // $text-color - text color at rest
 // $text-color-on - text color on hover (when the background becomes gradient)
 // $box-shadow-on - box-shadow on active
@@ -120,6 +121,7 @@
     $border-size: 2px,
     $radius: 50rem,
     $padding: inherit,
+    $inset: 0px,
     $text-color: inherit,
     $text-color-on: $bg-pale,
     $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
@@ -143,11 +145,39 @@
 
     @if $transparent-center == true {
         // transparent center mode — border as a “frame”
-        border: $border-size solid $gradient-start;
-        background: transparent;
+        &::before {
+            content: "";
+            position: absolute;
+            inset: $inset;
+            border-radius: inherit;
+            background: transparent;
+            z-index: 3; // above element content and image
+            pointer-events: none;
+            transition: opacity $transition-speed ease-in-out,
+                border $transition-speed ease-in-out;
+            opacity: 1;
 
-        &:hover {
-            border-color: transparent; // hide border
+            @if $border-size > 0 {
+                border: $border-size solid $gradient-start;
+            } @else {
+                border: none;
+            }
+        }
+
+        // internal panel (displayed as gradient on hover)
+        &::after {
+            content: "";
+            position: absolute;
+            inset: $inset;
+            border-radius: inherit;
+            background: transparent; // invisible in normal state
+            z-index: -1; // above element content and image
+            pointer-events: none;
+            border: none;
+            // border: $border-size solid $text-color-on;
+            background: linear-gradient(135deg, $gradient-start, $gradient-end);
+            transition: opacity $transition-speed ease-in-out;
+            opacity: 0;
         }
 
         &:hover,
@@ -155,13 +185,24 @@
         &:active,
         &.active {
             color: $text-color-on !important;
-            background: linear-gradient(135deg, $gradient-start, $gradient-end);
+            &::before {
+                @if $border-size > 0 {
+                    border: none;
+                }
+                opacity: 0;
+            }
+
+            &::after {
+                opacity: 1;
+            }
         }
 
         &:focus,
         &:active,
         &.active {
-            border-color: $text-color-on !important; // hide border
+            &::after {
+                border: #{$border-size - 1} solid $text-color-on;
+            }
         }
     } @else {
         // classic mode — gradient in ::before + mask in ::after
