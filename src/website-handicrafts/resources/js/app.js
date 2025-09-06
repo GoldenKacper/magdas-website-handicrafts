@@ -36,5 +36,43 @@ import "../images/magdas_website_faq_bg_02_09_2025_demo_v2.webp"; // Home FAQ v2
 import "../sass/app.scss";
 import "bootstrap"; // loading Bootstrap's JS (popper required)
 import "../css/appStyles.css";
-import "./appScripts.js";
-import "./homeScripts.js";
+
+import initNavbar from "./components/navbar.js";
+import initFooter from "./components/footer.js";
+
+// Initialize modules
+$(function () {
+    const destroyNavbar = initNavbar("nav.navbar.sticky-top");
+    const destroyFooter = initFooter({
+        footerSelector: "footer",
+        itemSelector: ".footer-scroll-animation",
+        rootMargin: "0px 0px -100px 0px",
+        threshold: 0,
+    });
+
+    // expose for debug (optional)
+    window.__appScripts = {
+        destroyNavbar,
+        destroyFooter,
+    };
+}); // jQuery DOM ready
+
+// detect page — możesz użyć data-attribute na <body> lub classu lub meta tagu
+const page =
+    document.body.dataset.page ||
+    document.documentElement.getAttribute("data-page");
+
+if (page) {
+    // dynamic import (vite will code-split)
+    import(`./pages/${page}.js`)
+        .then((module) => {
+            // if module default export is a function, call it
+            if (module && typeof module.default === "function") {
+                module.default();
+            }
+        })
+        .catch((err) => {
+            // optional: handle missing module quietly (non-critical)
+            console.error(`Page module ./pages/${page}.js not found`, err);
+        });
+}

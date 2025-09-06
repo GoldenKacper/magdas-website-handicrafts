@@ -40,6 +40,62 @@
     --lead-font-size: #{$lead-font-size};
     --lead-color: #{$lead-color};
     --lead-mobile-size: #{$lead-mobile-size};
+
+    /* Animations - hearts */
+    --heart-size-default: #{$heart-size-default};
+    --heart-duration-default: #{$heart-duration-default};
+    --heart-ease-default: #{$heart-ease-default};
+
+    /* Animations defaults */
+    --animation-duration-default: #{$animation-duration-default};
+    --animation-ease-default: #{$animation-ease-default};
+    --animation-delay-step-default: #{$animation-delay-step-default};
+    --animation-delay-base-default: #{$animation-delay-base-default};
+    --animation-translate-default: #{$animation-translate-default};
+    --animation-translate-text-default: #{$animation-translate-text-default};
+    --animation-count-default: #{$animation-count-default};
+
+    /* Animations - footer */
+    --footer-duration: #{$footer-duration};
+    --footer-ease: #{$footer-ease};
+    --footer-delay-step: #{$footer-delay-step};
+    --footer-translate: #{$footer-translate};
+    --footer-delay-base: #{$footer-delay-base};
+    --footer-count: #{$footer-count};
+
+    /* Animations - about me section */
+    --about-duration: #{$about-duration};
+    --about-ease: #{$about-ease};
+    --about-delay-step: #{$about-delay-step};
+    --about-translate: #{$about-translate};
+    --about-translate-text: #{$about-translate-text};
+    --about-delay-base: #{$about-delay-base};
+    --about-count: #{$about-count};
+    --about-author-img-height: #{$about-author-img-height};
+    --about-author-img-height-small: #{$about-author-img-height-small};
+
+    /* Animations - opinions section */
+    --opinion-duration: #{$opinion-duration};
+    --opinion-ease: #{$opinion-ease};
+    --opinion-delay-step: #{$opinion-delay-step};
+    --opinion-translate: #{$opinion-translate};
+    --opinion-translate-text: #{$opinion-translate-text};
+    --opinion-delay-base: #{$opinion-delay-base};
+    --opinion-count: #{$opinion-count};
+
+    /* Animations - FAQ section */
+    --faq-duration: #{$faq-duration};
+    --faq-ease: #{$faq-ease};
+    --faq-delay-step: #{$faq-delay-step};
+    --faq-translate: #{$faq-translate};
+    --faq-translate-text: #{$faq-translate-text};
+    --faq-delay-base: #{$faq-delay-base};
+    --faq-count: #{$faq-count};
+
+    --faq-overlay: #{$faq-overlay};
+    --faq-panel-bg: #{$faq-panel-bg};
+    --faq-panel-border: #{$faq-panel-border};
+    --faq-blur: #{$faq-blur};
 }
 
 //
@@ -54,15 +110,35 @@ body {
 //
 // ------------- Headings -------------
 //
-/* Headings - more delicate than the default */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+    /* Headings - more delicate than the default */
     line-height: 1.3;
     color: darken($text-color, 6%);
+}
+
+//
+// ------------- CSS Hearts -------------
+//
+.hearts {
+    // For the animation to work,
+    // the elements inside must be inside a div with the class hearts and have the class heart themselves.
+    // If we also want them to be animated, they must have the class heart-animation.
+    position: absolute;
+    inset: 0; // cover whole hero
+    pointer-events: none;
+    @include a.floating-hearts(
+        $positions: $home-heart-positions,
+        $size: $heart-size-default,
+        $duration: $heart-duration-default,
+        $ease: $heart-ease-default,
+        $gradient-start: $malinowy,
+        $gradient-end: $malinowy-dark
+    );
 }
 
 //
@@ -96,45 +172,8 @@ h6 {
 //
 // ------------- Animated gradient -------------
 //
-// .gradient-animated {
-//     @include m.gradient-animated-text($malinowy, $malinowy-dark, 0.3s, 4px);
-// }
-.gradient {
-    // pseudo-element containing gradient text (duplicate)
-    &:not(.active-pill)::after {
-        content: attr(data-text); // duplicate visible text
-        position: absolute;
-        inset: 0; // match parent position
-        left: 0;
-        top: 0;
-        white-space: nowrap; // keep the same single line
-        pointer-events: none;
-        z-index: 2; // above the original text
-        opacity: 0; // initially invisible
-        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        transform: translateY(4px); // translateY(4px) to level vertically
-        @include m.text-color-gradient($malinowy, $malinowy-dark);
-        -webkit-font-smoothing: antialiased;
-    }
-
-    // On hover: original text becomes transparent (smoothly),
-    // pseudo-element with gradient fade-in -> looks like animated text color.
-    &:not(.active-pill):hover {
-        color: transparent;
-        &::after {
-            opacity: 1;
-            transform: translateY(4px); // translateY(4px) to level vertically
-        }
-    }
-
-    &:not(.active-pill):active {
-        color: $malinowy-dark;
-        text-shadow: 0 0 3px rgba($malinowy-dark, 0.3);
-    }
-}
-
 .gradient-animated-nav {
-    @include m.gradient-animated-text(
+    @include g.gradient-animated-text(
         $malinowy,
         $malinowy-dark,
         0.3s,
@@ -145,7 +184,7 @@ h6 {
 }
 
 .gradient-animated-footer {
-    @include m.gradient-animated-text(
+    @include g.gradient-animated-text(
         $malinowy,
         $malinowy-dark,
         0.2s,
@@ -159,11 +198,11 @@ h6 {
 // ------------- Text shadows -------------
 //
 .text-shadow {
-    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+    @include m.text-shadow();
 }
 
 .text-shadow-big {
-    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+    @include m.text-shadow(0, 4px, 16px);
 }
 
 //
@@ -180,204 +219,30 @@ h6 {
 }
 
 //
-// ------------- Custom padding -------------
-//
-@media (max-width: 768px) {
-    .p-xs-2rem {
-        padding: 2rem !important;
-    }
-
-    .py-xs-2rem {
-        padding-block: 2rem !important;
-    }
-
-    .px-xs-2rem {
-        padding-inline: 2rem !important;
-    }
-}
-
-//
 // ------------- Ultra-wide container constraints -------------
 //
-// ograniczenia tylko dla ultra-wide
+// constraints for ultra-wide screens (4K and above)
 @media (min-width: 2560px) {
     .container-fluid:not(.ultra-wide) {
-        max-width: 2560px; // np. dla 2K i 4K ekranów
+        max-width: 2560px;
         margin-left: auto;
         margin-right: auto;
     }
 }
 
 //
-// ------------- Heading underline -------------
+// ------------- Headings underline -------------
 //
-/* underline for centered section headings */
 .heading-underline {
-    position: relative; // needed if you want absolute; here we use block flow
-    padding-bottom: 0.5rem; // distance between text and line
-    margin-bottom: 0.75rem;
+    @include m.heading-underline($color: $malinowy);
+}
 
-    &::after {
-        content: "";
-        display: block; // by margin: 0 auto; it centered
-        width: 5%; // line width (5% of container width)
-        height: 3px; // line thickness — adjust if you want
-        margin: 0.45rem auto 0; // top margin + centering
-        background: $primary;
-        border-radius: 50rem; // rounded ends of the line
-        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04); // subtle effect
+//
+// ------------- Order classes (animation delay) -------------
+//
+// convenient small helpers: generate .order-N classes up to N (adjust max as needed), use with animations' order
+@for $i from 0 through 12 {
+    .order-animation-#{$i} {
+        --order: #{$i};
     }
 }
-
-/* responsiveness: on small screens, increase the line width for readability */
-@media (max-width: 768px) {
-    .heading-underline {
-        &::after {
-            width: 12%; // larger on small screens
-            height: 3px;
-        }
-    }
-}
-
-//
-// ------------- Website Logo styles -------------
-// Now unused
-//
-/* Logo (text logotype) */
-.brand-logo {
-    font-family: "Great Vibes", "Quicksand", sans-serif; // if Great Vibes is added
-    font-weight: 400;
-    font-size: 2.6rem;
-    line-height: 1;
-    display: inline-block;
-    background: linear-gradient(90deg, $malinowy, $pudrowy);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    vertical-align: middle;
-}
-
-/* Subscript under the logo */
-.brand-sub {
-    display: block;
-    font-style: italic;
-    font-family: "Quicksand", sans-serif;
-    font-size: 0.95rem;
-    color: rgba(52, 50, 58, 0.75);
-    margin-top: 0.15rem;
-}
-
-/* Raspberry pseudo-dot (e.g., over "i") */
-.logo-dot-raspberry::after {
-    content: "";
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin-left: 6px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #f7d7de, $malinowy);
-    box-shadow: 0 2px 6px rgba(215, 80, 110, 0.22);
-    transform: translateY(-8px);
-}
-
-//
-// ------------- Width utilities -------------
-//
-.w-5 {
-    width: 5% !important;
-}
-
-.w-10 {
-    width: 10% !important;
-}
-
-.w-15 {
-    width: 15% !important;
-}
-
-.w-20 {
-    width: 20% !important;
-}
-
-.w-25 {
-    width: 25% !important;
-}
-
-.w-30 {
-    width: 30% !important;
-}
-
-.w-40 {
-    width: 40% !important;
-}
-
-// .w-50 is in bootstrap
-
-.w-60 {
-    width: 60% !important;
-}
-
-.w-75 {
-    width: 75% !important;
-}
-
-.w-90 {
-    width: 90% !important;
-}
-
-.w-95 {
-    width: 95% !important;
-}
-
-// .w-100 is in bootstrap
-
-//
-// ------------- Height utilities -------------
-//
-.h-5 {
-    height: 5% !important;
-}
-
-.h-10 {
-    height: 10% !important;
-}
-
-.h-15 {
-    height: 15% !important;
-}
-
-.h-20 {
-    height: 20% !important;
-}
-
-.h-25 {
-    height: 25% !important;
-}
-
-.h-30 {
-    height: 30% !important;
-}
-
-.h-40 {
-    height: 40% !important;
-}
-
-// .h-50 is in bootstrap
-
-.h-60 {
-    height: 60% !important;
-}
-
-.h-75 {
-    height: 75% !important;
-}
-
-.h-90 {
-    height: 90% !important;
-}
-
-.h-95 {
-    height: 95% !important;
-}
-
-// .h-100 is in bootstrap

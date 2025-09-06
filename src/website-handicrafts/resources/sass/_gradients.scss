@@ -1,12 +1,11 @@
-// Inline and block padding
-// $inline, $block - padding values
-@mixin padding-inline-block($inline: 1rem, $block: 0.25rem) {
-    padding-inline: $inline;
-    padding-block: $block;
-}
-
-// Gradient text color
-// $gradient-start, $gradient-end - gradient colors
+/**
+ *  text-color-gradient
+ *
+ *  Applies a gradient color effect to text using background-clip and text-fill-color.
+ *  Params:
+ *   - $gradient-start (color): starting color of the gradient (default $malinowy)
+ *   - $gradient-end (color): ending color of the gradient (default $malinowy-dark)
+ */
 @mixin text-color-gradient(
     $gradient-start: $malinowy,
     $gradient-end: $malinowy-dark
@@ -18,29 +17,39 @@
     text-fill-color: transparent;
 }
 
-// gradient-animated-text
-// $start, $end         - gradient colors
-// $duration            - transition duration (s or ms)
-// $translateY          - starting translateY for ::after (np. 4px)
-// $exclude-class       - class name (bez kropki) which disables hover effect, default 'active-pill'
-// $text-color          - fallback base text color
+/**
+ *  gradient-animated-text
+ *
+ *  Creates an animated gradient text effect on hover using a pseudo-element (::after).
+ *  The pseudo-element is positioned over the text and revealed on hover with a transition.
+ *  Params:
+ *   - $gradient-start (color): starting color of the gradient (default $malinowy)
+ *   - $gradient-end (color): ending color of the gradient (default $malinowy-dark)
+ *   - $duration (duration): transition duration (s or ms, default 0.3s)
+ *   - $translateY (length): starting translateY for ::after (default 4px)
+ *   - $exclude-class (string): class name (without dot) which disables hover effect (default 'active-pill')
+ *   - $text-color (color): base text color when not hovered (default $text-color)
+ *
+ *  Note: To use this mixin, the target element should have a data-text attribute with the same text content.
+ *  Example: <span class="gradient-animated" data-text="Hello">Hello</span>
+ */
 @mixin gradient-animated-text(
-    $start: $malinowy,
-    $end: $malinowy-dark,
+    $gradient-start: $malinowy,
+    $gradient-end: $malinowy-dark,
     $duration: 0.3s,
     $translateY: 4px,
     $exclude-class: active-pill,
     $text-color: $text-color
 ) {
-    // podstawowe zachowanie elementu (kontekst dla ::after)
+    // basic behavior of the element (context for ::after)
     position: relative;
     display: inline-block;
     z-index: 1;
     color: $text-color;
     -webkit-font-smoothing: antialiased;
-    transition: color $duration ease-in-out; // synchronizacja, opcjonalne
+    transition: color $duration ease-in-out; // synchronization
 
-    // pseudo-element (nakładka gradientowa)
+    // gradient overlay
     &:not(.#{$exclude-class})::after {
         content: attr(data-text);
         position: absolute;
@@ -54,21 +63,21 @@
         transform: translateY($translateY);
         transition: opacity $duration ease-in-out,
             transform $duration ease-in-out;
-        background: linear-gradient(135deg, $start, $end);
+        background: linear-gradient(135deg, $gradient-start, $gradient-end);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
         text-fill-color: transparent;
-        font: inherit; // ważne — ta sama wielkość / waga
+        font: inherit; // important — same size/weight
         line-height: inherit;
         -webkit-font-smoothing: antialiased;
     }
 
-    // hover/focus — pokaż nakładkę. nie zmieniamy koloru bazowego tu (możesz dodać color: transparent jeśli chcesz)
+    // hover/focus — show overlay. we don't change the base color here (you can add color: transparent if you want)
     &:not(.#{$exclude-class}) {
         &:hover,
         &:focus {
-            // opcjonalnie: color: transparent; // tylko jeśli chcesz że baza znika
+            // optionally: color: transparent; // only if you want the base to disappear
             color: transparent; // reveal pseudo-element
             &::after {
                 opacity: 1;
@@ -76,14 +85,13 @@
             }
         }
 
-        // active (opcjonalny styl)
         &:active {
-            color: $end;
-            text-shadow: 0 0 3px rgba($end, 0.3);
+            color: $gradient-end;
+            text-shadow: 0 0 3px rgba($gradient-end, 0.3);
         }
     }
 
-    // jeżeli element ma klasę wykluczającą, możesz chcieć aby gradient był widoczny stale:
+    // if the element has an exclude class, you may want the gradient to be always visible:
     &.#{$exclude-class} {
         &::after {
             opacity: 1;
@@ -92,28 +100,25 @@
     }
 }
 
-// Lead modified styles
-// $font-size - font size (default $lead-font-size)
-// $color - text color (default $lead-color)
-@mixin lead-style($font-size: $lead-font-size, $color: $lead-color) {
-    font-size: $font-size;
-    color: $color;
-}
-
-// gradient-button
-// Parameterizable mixin for the effect: gradient “border” (pseudo ::before) + mask (::after)
-// $gradient-start, $gradient-end - gradient colors
-// $mask-bg - interior color (e.g., $bg-pale)
-// $border-size - border thickness
-// $radius - border-radius
-// $padding - internal padding
-// $inset -
-// $text-color - text color at rest
-// $text-color-on - text color on hover (when the background becomes gradient)
-// $box-shadow-on - box-shadow on active
-// $text-shadow-on - text-shadow on active
-// $transition-speed - animation duration
-// $transparent-center - modified mixin with transparent center option
+/**
+ *  gradient-button
+ *
+ *  Creates a button with a gradient border effect using ::before and a mask using ::after.
+ *  Parameterizable mixin for the effect: gradient “border” (pseudo ::before) + mask (::after)
+ *  Params:
+ *   - $gradient-start, $gradient-end (color): gradient colors
+ *   - $mask-bg (color): interior color (e.g., $bg-pale)
+ *   - $border-size (length): border thickness
+ *   - $radius (length): border-radius
+ *   - $padding (length): internal padding
+ *   - $inset (length): inset
+ *   - $text-color (color): text color at rest
+ *   - $text-color-on (color): text color on hover (when the background becomes gradient)
+ *   - $box-shadow-on (box-shadow): box-shadow on active
+ *   - $text-shadow-on (text-shadow): text-shadow on active
+ *   - $transition-speed (duration): animation duration
+ *   - $transparent-center (boolean): modified mixin with transparent center option
+ */
 @mixin gradient-button(
     $gradient-start: $primary,
     $gradient-end: $malinowy-dark,
@@ -174,7 +179,6 @@
             z-index: -1; // above element content and image
             pointer-events: none;
             border: none;
-            // border: $border-size solid $text-color-on;
             background: linear-gradient(135deg, $gradient-start, $gradient-end);
             transition: opacity $transition-speed ease-in-out;
             opacity: 0;
@@ -244,14 +248,19 @@
     }
 }
 
-// gradient-panel mixin
-// $inset - internal distance of the panel from the edge (e.g., 8px)
-// $border-size - thickness of the normal border (0 = no border)
-// $border-color - border color in normal state
-// $gradient-start, $gradient-end - gradient colors for hover
-// $mask-bg - mask background (internal) in normal state (e.g. $bg-pale)
-// $text-on-gradient - text color when the panel is gradient (e.g. $bg-pale)
-// $transition-speed - animation time
+/**
+ * gradient-panel
+ *
+ * Creates a gradient panel effect with a border that transitions to a gradient background on hover.
+ * Params:
+ *  - $inset (length): internal distance of the panel from the edge (e.g., 8px)
+ *  - $border-size (length): thickness of the normal border (0 = no border)
+ *  - $border-color (color): border color in normal state
+ *  - $gradient-start (color), $gradient-end (color): gradient colors for hover
+ *  - $mask-bg (color): mask background (internal) in normal state (e.g. $bg-pale)
+ *  - $text-on-gradient (color): text color when the panel is gradient (e.g. $bg-pale)
+ *  - $transition-speed (duration): animation time
+ */
 @mixin gradient-panel(
     $inset: 8px,
     $border-size: 3px,
@@ -325,11 +334,16 @@
     }
 }
 
-// gradient-frame mixin
-// $inset - internal distance of the panel from the edge (e.g., 8px)
-// $border-size - thickness of the normal border (<=0 = border 2px solid)
-// $border-color - border color in normal state
-// $z-index - z-index of the frame
+/**
+ * gradient-frame
+ *
+ * Creates a gradient frame effect around an element.
+ * Params:
+ *  - $inset (length) : internal distance of the frame from the edge (default: 8px)
+ *  - $border-size (length) : thickness of the normal border (<=0 = border 2px solid)
+ *  - $border-color (color) : border color in normal state (default: $primary)
+ *  - $z-index (number) : z-index of the frame (default: 2)
+ */
 @mixin gradient-frame(
     $inset: 8px,
     $border-size: 2px,

@@ -1,0 +1,126 @@
+/**
+ * floating-hearts
+ *
+ * This mixin creates a floating hearts animation effect.
+ * It generates multiple heart elements that float upwards with a fade-out effect.
+ * The hearts are styled using pseudo-elements and animated using keyframes.
+ * Add the class `heart-animation` to individual heart elements to trigger the animation.
+ *
+ * Params:
+ *  - $positions (map): A map defining the positions and delays for each heart.
+ *                      Format: (index: (left, bottom, delay))
+ *                      Example map format:
+ *                      $my-hearts: (1: (10% 30% 1s), 2: (70% 10% 2s), 3: (25% 45% 3s));
+ *  - $size (length): Size of each heart (default: $heart-size-default)
+ *  - $duration (time): Duration of the float animation (default: $heart-duration-default)
+ *  - $ease (timing-function): Easing function for the animation (default: $heart-ease-default)
+ *  - $gradient-start (color): Start color for the heart gradient (default: $malinowy)
+ *  - $gradient-end (color): End color for the heart gradient (default: $malinowy-dark)
+ */
+@mixin floating-hearts(
+    $positions,
+    $size: $heart-size-default,
+    $duration: $heart-duration-default,
+    $ease: $heart-ease-default,
+    $gradient-start: $malinowy,
+    $gradient-end: $malinowy-dark
+) {
+    .heart {
+        position: absolute;
+        width: $size;
+        height: $size;
+        transform: rotate(45deg);
+        background: linear-gradient(135deg, $gradient-start, $gradient-end);
+        z-index: 10;
+        opacity: 1;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            width: $size;
+            height: $size;
+            border-radius: 50%;
+            background: linear-gradient(135deg, $gradient-start, $gradient-end);
+        }
+
+        &::before {
+            top: -($size * 0.55);
+            left: 0;
+        }
+        &::after {
+            top: 0;
+            left: -($size * 0.55);
+        }
+
+        // base animation (kept but disabled until heart gets .heart-animation)
+        &.heart-animation {
+            opacity: 0;
+            animation: heart-float #{$duration} #{$ease} infinite;
+            animation-fill-mode: both;
+            // we will set delays per nth-child below
+        }
+    }
+
+    @keyframes heart-float {
+        0% {
+            transform: translateY(0) rotate(45deg);
+            opacity: 0;
+        }
+        18% {
+            opacity: 0.9;
+        }
+        70% {
+            opacity: 0.9;
+        }
+        100% {
+            transform: translateY(-300px) rotate(45deg);
+            opacity: 0;
+        }
+    }
+
+    // way to debug values
+    // @each $i, $values in $positions {
+    //     @debug "heart #" + $i + " values = " + $values;
+    //     @debug nth($values, 1);
+    //     @debug nth($values, 2);
+    //     @debug nth($values, 3);
+    // }
+
+    // iterate positions map and output nth-child rules
+    @each $i, $values in $positions {
+        // destructure values: left bottom delay
+        $left: nth($values, 1);
+        $bottom: nth($values, 2);
+        $delay: nth($values, 3);
+
+        .heart:nth-child(#{$i}) {
+            left: $left;
+            bottom: $bottom;
+            &.heart-animation {
+                animation-delay: $delay;
+            }
+        }
+    }
+
+    @media (max-width: 992px) {
+        width: #{$size * 0.8};
+        height: #{$size * 0.8};
+
+        &::before,
+        &::after {
+            width: #{$size * 0.8};
+            height: #{$size * 0.8};
+        }
+
+        &::before {
+            top: -($size * 0.8 * 0.55);
+            left: 0;
+        }
+
+        &::after {
+            top: 0;
+            left: -($size * 0.8 * 0.55);
+        }
+    }
+}

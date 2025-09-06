@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row gy-4 justify-content-start">
             {{-- About --}}
-            <div class="footer-scroll-animation-1 col-12 col-md-6 col-lg-4">
+            <div class="footer-scroll-animation order-animation-0 col-12 col-md-6 col-lg-4">
                 <h4 class="footer-title fw-bold h5 mb-3">{{ __('messages.footer_about_title') }}</h4>
                 <p class="footer-text mb-2">
                     {{ __('messages.footer_about_text_1') }} <a href="#"
@@ -19,7 +19,7 @@
             <hr class="d-block d-sm-none">
 
             {{-- Social --}}
-            <div class="footer-scroll-animation-2 col-12 col-md-6 col-lg-4">
+            <div class="footer-scroll-animation order-animation-1 col-12 col-md-6 col-lg-4">
                 <h4 class="footer-title fw-bold h5 mb-3">{{ __('messages.footer_social_title') }}</h4>
 
                 <ul class="footer-social list-unstyled d-flex gap-2 mb-3"
@@ -56,7 +56,7 @@
             <hr class="d-block d-sm-none">
 
             {{-- Contact --}}
-            <div class="footer-scroll-animation-3 col-12 col-md-6 col-lg-4">
+            <div class="footer-scroll-animation order-animation-2 col-12 col-md-6 col-lg-4">
                 <h4 class="footer-title fw-bold h5 mb-3">{{ __('messages.footer_contact_title') }}</h4>
 
                 <ul class="list-unstyled footer-contact mb-4 mb-lg-3">

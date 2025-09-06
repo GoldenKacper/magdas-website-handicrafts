@@ -11,7 +11,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $page = 'home';
         // render home view
-        return view('pages.home');
+        return view('pages.home', compact('page'));
     }
 }

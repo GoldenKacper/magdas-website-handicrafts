@@ -45,7 +45,7 @@
 // ------------- Gradient Button -------------
 //
 .btn-gradient {
-    @include m.gradient-button(
+    @include g.gradient-button(
         $gradient-start: $primary,
         $gradient-end: $malinowy-dark,
         $mask-bg: $bg-pale,
@@ -58,7 +58,7 @@
 }
 
 .btn-gradient--transparent {
-    @include m.gradient-button(
+    @include g.gradient-button(
         $gradient-start: $primary,
         $gradient-end: $malinowy-dark,
         $mask-bg: transparent,

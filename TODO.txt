@@ -1,6 +1,4 @@
 TODO: Website logo + animation
 TODO: Test sandbox mailer
 TODO: Check Meta - Open Graph and Twitter
-TODO: Change navbar collapse button to another and make pretty animation
 
-TODO: Add css make heart with animation

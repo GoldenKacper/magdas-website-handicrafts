@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // Import Bootstrap functions to use darken()/lighten() before importing bootstrap.scss
 @import "bootstrap/scss/functions";
 
@@ -60,12 +62,59 @@ $spacers: (
     2: 0.5rem,
     3: 1rem,
     4: 1.5rem,
+    "4-5": 2rem,
     5: 3rem,
     6: 3.5rem,
     7: 4rem,
     8: 5rem,
     9: 7rem,
     10: 10rem,
+);
+
+/* Custom width utilities */
+$custom-widths: ();
+
+// prettier-ignore
+@for $i from 0 through 20 {
+    $key: $i * 5;
+    $value: $key * 1%;
+    $custom-widths: map.merge(
+        $custom-widths,
+        (
+            "#{$key}": $value
+        )
+    );
+}
+
+/* Custom height utilities */
+$custom-heights: ();
+
+// prettier-ignore
+@for $i from 0 through 20 {
+    $key: $i * 5;
+    $value: $key * 1%;
+    $custom-heights: map.merge(
+        $custom-heights,
+        (
+            "#{$key}": $value
+        )
+    );
+}
+
+/* Custom width and height utilities */
+$utilities: (
+    "w": (
+        property: width,
+        class: w,
+        values: $custom-widths,
+        responsive: true,
+    ),
+    "h": (
+        property: height,
+        class: h,
+        values: $custom-heights,
+        responsive: true,
+    ),
 );
 
 /* Logo sizes */
@@ -81,7 +130,7 @@ $logo-max-small: calc($logo-max * 0.8);
 $dropdown-link-hover-bg: $pudrowy;
 $dropdown-link-active-color: $pale;
 
-/* ---- hero overlay specific ---- */
+/* hero overlay specific */
 $hero-overlay-start: rgba(0, 0, 0, 0.45);
 $hero-overlay-end: rgba(0, 0, 0, 0.35);
 
@@ -89,13 +138,86 @@ $hero-text-color: $pale;
 $hero-cta-bg: $primary; // reuse $primary (malinowy)
 $hero-cta-color: $pale;
 
-// optionally a slightly darker CTA hover
+/* A slightly darker CTA hover */
 $hero-cta-bg-hover: darken($hero-cta-bg, 6%);
 
-// Offer section triangle height
+/* Offer section triangle height */
 $offer-triangle-base: 95px;
 
 /* Lead modified variables/tokens */
 $lead-font-size: 1.125rem !default;
 $lead-color: rgba($text-color, 0.92) !default;
 $lead-mobile-size: 1rem !default;
+
+/* Animations - hearts */
+$heart-size-default: 20px !default;
+$heart-duration-default: 6s !default;
+$heart-ease-default: ease-in !default;
+
+/* Animations defaults */
+$animation-duration-default: 1s !default;
+$animation-ease-default: cubic-bezier(0.66, 0, 0.34, 1) !default;
+$animation-delay-step-default: 0.3s !default; // spacing between starts' animation
+$animation-delay-base-default: 0.01s !default;
+$animation-translate-default: 200px !default;
+$animation-translate-text-default: 30px !default;
+$animation-count-default: 3 !default;
+
+/* Animations - footer */
+$footer-duration: $animation-duration-default !default;
+$footer-ease: $animation-ease-default !default;
+$footer-delay-step: $animation-delay-step-default !default; // spacing between starts' animation
+$footer-translate: 100px !default;
+$footer-delay-base: $animation-delay-base-default !default;
+$footer-count: $animation-count-default !default;
+
+/* Animations - about me section */
+$about-duration: $animation-duration-default !default;
+$about-ease: $animation-ease-default !default;
+$about-delay-step: $animation-delay-step-default !default;
+$about-translate: 150px !default;
+$about-translate-text: $animation-translate-text-default !default;
+$about-delay-base: $animation-delay-base-default !default;
+$about-count: $animation-count-default !default;
+$about-author-img-height: 520px !default; // height of author image
+$about-author-img-height-small: 300px !default; // height of author image on small screens
+
+/* Animations - opinions section */
+$opinion-duration: $animation-duration-default !default;
+$opinion-ease: $animation-ease-default !default;
+$opinion-delay-step: $animation-delay-step-default !default;
+$opinion-translate: $animation-translate-default !default;
+$opinion-translate-text: $animation-translate-text-default !default;
+$opinion-delay-base: $animation-delay-base-default !default;
+$opinion-count: 4 !default;
+
+/* Animations - FAQ section */
+$faq-duration: $animation-duration-default !default;
+$faq-ease: $animation-ease-default !default;
+$faq-delay-step: $animation-delay-step-default !default;
+$faq-translate: $animation-translate-default !default;
+$faq-translate-text: $animation-translate-text-default !default;
+$faq-delay-base: $animation-delay-base-default !default;
+$faq-count: 4 !default;
+
+$faq-overlay: rgba(0, 0, 0, 0.36);
+$faq-panel-bg: rgba(255, 255, 255, 0.62); // frosted light
+$faq-panel-border: rgba(255, 255, 255, 0.18);
+$faq-blur: 8px;
+
+/**
+ * define heart positions once (easy to edit)
+ * The following comment is used to prevent my code formatter from formatting this fragment because it adds a comma,
+ * which changes the logic of the code and causes an error.
+ */
+// prettier-ignore
+$home-heart-positions: (
+    1: (10% 30% 1s),
+    2: (70% 10% 2s),
+    3: (25% 45% 3s),
+    4: (55% 35% 4s),
+    5: (90% 15% 5s),
+    6: (5% 70% 6s),
+    7: (40% 60% 7s),
+    8: ( 80% 60% 8s),
+);

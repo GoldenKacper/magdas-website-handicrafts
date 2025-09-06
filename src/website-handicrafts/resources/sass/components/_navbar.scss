@@ -96,22 +96,6 @@
 //
 // ------------- Navbar Links -------------
 //
-.navbar .nav-link {
-    // color: var(--text-color, $text-color);
-
-    // font-weight: var(--nav-link-font-weight, $nav-link-font-weight);
-    // padding: 0.5rem 0;
-    // white-space: nowrap; // prevents wrapping
-
-    // &:not(.active-pill):hover {
-    //     @include m.text-color-gradient($malinowy, $malinowy-dark);
-    // }
-
-    // &:active {
-    //     color: $malinowy-dark;
-    //     text-shadow: 0 0 3px rgba($malinowy-dark, 0.6);
-    // }
-}
 
 // nav-link: base settings for layers
 .navbar .nav-link {
@@ -133,8 +117,8 @@
         text-shadow: 0 0 3px rgba($malinowy-dark, 0.3);
     }
 
-    &:not(.gradient):not(.active-pill):hover {
-        @include m.text-color-gradient($malinowy, $malinowy-dark);
+    &:not(.gradient-animated-nav):not(.active-pill):hover {
+        @include g.text-color-gradient($malinowy, $malinowy-dark);
     }
 }
 
@@ -142,11 +126,10 @@
     @include m.padding-inline-block; //  use default padding values (1rem / 0.25rem)
 }
 
-/* gradient border (pseudo-element) + inner mask (pseudo-element)
-   element + ::before (gradient, inset: -2px) + ::after (mask inset:0)
-*/
+// gradient border (pseudo-element) + inner mask (pseudo-element)
+// element + ::before (gradient, inset: -2px) + ::after (mask inset:0)
 .navbar .navbar-nav.custom-nav > .nav-item > .nav-link.active-pill {
-    @include m.gradient-button(
+    @include g.gradient-button(
         $gradient-start: $primary,
         $gradient-end: $malinowy-dark,
         $mask-bg: $bg-pale,
@@ -159,17 +142,131 @@
 }
 
 //
+// ------------- Navbar Toggler -------------
+//
+// Navbar toggler (hamburger -> X)
+.navbar .navbar-toggler {
+    // adjust default bootstrap styles
+    padding: var(--bs-navbar-toggler-padding-y)
+        var(--bs-navbar-toggler-padding-x);
+    font-size: var(--bs-navbar-toggler-font-size);
+    line-height: 1;
+    color: var(--bs-navbar-color);
+    background-color: transparent;
+    transition: var(--bs-navbar-toggler-transition);
+
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    // visible focus for keyboard users
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba($primary, 0.12); // or use $malinowy at your variables
+        border-radius: var(--bs-navbar-toggler-border-radius);
+    }
+
+    // the hamburger lines wrapper
+    .hamburger {
+        display: inline-block;
+        width: 1.8rem; // total width of icon
+        height: 1.8rem; // vertical space used by three lines
+        position: relative;
+        transform: translateZ(0); // promote to own layer
+        pointer-events: none; // click handled by button
+
+        span {
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px; // line thickness
+            border-radius: 2px;
+            background: var(--hamburger-color, $text-color);
+            transition: transform 0.3s ease-in-out, opacity 0.2s ease,
+                top 0.3s ease-in-out, bottom 0.3s ease-in-out;
+            transform-origin: center;
+            // center line
+            &:nth-child(2) {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            // top line
+            &:nth-child(1) {
+                top: 4px;
+            }
+            // bottom line
+            &:nth-child(3) {
+                bottom: 4px;
+            }
+        }
+    }
+
+    // when expanded (Bootstrap toggles aria-expanded="true")
+    &[aria-expanded="true"] {
+        .hamburger {
+            span {
+                // hide middle line smoothly
+                &:nth-child(2) {
+                    opacity: 0;
+                    transform: translateY(-50%) scaleX(0.95);
+                }
+
+                // rotate top to form X
+                &:nth-child(1) {
+                    top: 50%;
+                    transform: translateY(-50%) rotate(45deg);
+                }
+
+                // rotate bottom to form X
+                &:nth-child(3) {
+                    bottom: 50%;
+                    transform: translateY(50%) rotate(-45deg);
+                }
+            }
+        }
+    }
+}
+
+// hide toggler on large screens (>= 992px)
+@media (min-width: 992px) {
+    .navbar .navbar-toggler {
+        display: none !important;
+    }
+}
+
+// Show toggler on medium screens (< 992px)
+@media (max-width: 991.98px) {
+    .navbar .navbar-toggler {
+        display: inline-flex; // or block
+    }
+}
+
+//
 // ------------- Dropdown -------------
 //
-/* make sure the caret has a transition */
+// make sure the caret has a transition
 .dropdown .dropdown-toggle::after {
+    transform-origin: center;
     transition: transform 0.3s ease-in-out; // element don't have animation so pseudo element should don't have animation too | border-top-color 0.3s ease-in-out,
 }
 
-/* on hover/focus change the color of the "top" of the triangle (border-top-color) */
+// on hover/focus change the color of the "top" of the triangle (border-top-color)
 .dropdown .dropdown-toggle:hover::after,
 .dropdown .dropdown-toggle:active::after {
     border-top-color: var(--malinowy, $malinowy);
+}
+
+// rotate caret when toggle has aria-expanded="true"
+.navbar .dropdown .dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+// fallback: also allow buttons/anchors specifically (just in case markup differs)
+.navbar button.dropdown-toggle[aria-expanded="true"]::after,
+.navbar a.dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
 }
 
 .dropdown .dropdown-item {

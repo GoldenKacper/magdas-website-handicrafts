@@ -6,7 +6,7 @@
     @include('layouts.partials.head')
 </head>
 
-<body>
+<body data-page="@yield('bodyDataPage')">
     <div id="app">
         @include('layouts.partials.preloader')
         @include('layouts.partials.navbar')

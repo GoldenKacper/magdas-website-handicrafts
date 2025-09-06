@@ -11,12 +11,17 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="{{ __('messages.toggle_navigation') }}">
-            <span class="navbar-toggler-icon"></span>
+            <span class="hamburger" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
         </button>
 
+
         {{-- Links --}}
-        <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarSupportedContent">
-            <ul class="navbar-nav custom-nav">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav custom-nav pt-3 pt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link text-center gradient-animated-nav {{ request()->routeIs('home') ? 'active-pill' : '' }}"
                         href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}"

@@ -1,12 +1,6 @@
 //
 // ------------- Footer -------------
 //
-$footer-duration: 1s !default; // dłuższy czas animacji -> wolniej
-$footer-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
-$footer-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
-$footer-translate: 100px !default;
-$footer-delay-base: 0.01s !default;
-$footer-count: 3 !default;
 footer,
 .footer {
     background: $bg-pale; // uses your existing var
@@ -18,15 +12,21 @@ footer,
         z-index: 2;
     }
 
-    .footer-scroll-animation-1,
-    .footer-scroll-animation-2,
-    .footer-scroll-animation-3 {
+    .footer-scroll-animation {
+        // default order = 0 (safe)
+        // calculate footer delay using --order: (order * step) + base
+        // we interpolate Sass vars into calc() so units are correct
+        --footer-delay: calc(
+            var(--order, 0) * #{$footer-delay-step} + #{$footer-delay-base}
+        );
+
         opacity: 0;
         transform: translateY($footer-translate);
         transition: opacity $footer-duration $footer-ease
                 var(--footer-delay, #{$footer-delay-base}),
             transform $footer-duration $footer-ease
                 var(--footer-delay, #{$footer-delay-base});
+        will-change: opacity, transform;
     }
 
     .footer-title {
@@ -47,12 +47,11 @@ footer,
         position: relative; // needed for pseudo-elements to overlay
         display: inline-block; // so pseudo-elements perfectly overlay the text
         z-index: 1; // "base" text above background
-        // white-space: nowrap; // prevents wrapping
     }
 
     // Social icons line
     .footer-social {
-        // Nie daję gradientowego koloru ponieważ nie byłbym w stanie łądnie to zanimować
+        // I'm not giving it a gradient color because I wouldn't be able to animate it nicely.
         .social-link {
             display: inline-flex;
             align-items: center;
@@ -104,7 +103,7 @@ footer,
             text-decoration: none;
 
             &:hover {
-                @include m.text-color-gradient($malinowy, $malinowy-dark);
+                @include g.text-color-gradient($malinowy, $malinowy-dark);
             }
 
             &:focus,
@@ -117,29 +116,7 @@ footer,
     }
 
     &.in-view {
-        /* use nth-child to stagger (fallback) — will be replaced by JS stagger */
-        /* fallback CSS stagger: ustawiamy --footer-delay przez nth-child automatycznie */
-        // @for $i from 1 through $footer-count {
-        //     .footer-scroll-animation:nth-child(#{$i}) {
-        //         // obliczamy delay w Sass i interpolujemy wynik jako wartość CSS custom prop
-        //         --footer-delay: #{$footer-delay-base + $footer-delay-step * $i};
-        //     }
-        // }
-        .footer-scroll-animation-1 {
-            --footer-delay: #{$footer-delay-base + $footer-delay-step * 1};
-        }
-
-        .footer-scroll-animation-2 {
-            --footer-delay: #{$footer-delay-base + $footer-delay-step * 2};
-        }
-
-        .footer-scroll-animation-3 {
-            --footer-delay: #{$footer-delay-base + $footer-delay-step * 3};
-        }
-
-        .footer-scroll-animation-1.show,
-        .footer-scroll-animation-2.show,
-        .footer-scroll-animation-3.show {
+        .footer-scroll-animation.show {
             opacity: 1;
             transform: translateY(0);
         }

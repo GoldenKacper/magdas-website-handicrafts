@@ -1,7 +1,13 @@
+// Use mixins using Sass modules
+@use "../primary-mixins" as m;
+@use "../gradients" as g;
+@use "../animations" as a;
+
+@use "../variables" as *;
+
 //
 // ------------- HERO section -------------
 //
-/* Hero full-viewport section */
 .hero {
     position: relative;
     min-height: 105vh; // full viewport height
@@ -15,47 +21,30 @@
     background-position: unset;
 
     // overlay
-    &::before {
-        content: "";
-        position: fixed; /* fixed to viewport so it doesn't move */
-        inset: 0; /* fill viewport */
-        z-index: 0; /* behind content */
-        pointer-events: none;
-        opacity: 1;
+    @include m.hero-bg-layer(
+        $bg-var: var(--hero-bg, none),
+        $position: fixed,
+        $z: 0
+    );
 
-        background-image: var(--hero-bg);
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-
-        /* promote to own layer for smoother rendering */
-        transform: translateZ(0);
-
-        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-
-        will-change: transform, opacity, background-position, transition;
-    }
-
-    // KLASA, którą JS będzie dodawać kiedy hero NIE MA BYĆ widoczny
+    // The class that JS will add when the hero is NOT to be visible
     &.hero-fixed-hidden::before {
         opacity: 0;
-        transform: scale(0.995) translateY(-6px); // delikatne przesunięcie/przycięcie
-        /* pointer-events none zostaje (by nie blokować kliknięć) */
-        /* visibility: hidden; // optional: ale wtedy transition opacity nie zadziała */
+        transform: scale(0.995) translateY(-6px); // slight shift/trimming
+        pointer-events: none;
     }
 
-    // dodatkowo, w razie potrzeby możesz eksperymentalnie obniżyć z-index gdy schowane
     &.hero-fixed-hidden {
-        // Jeżeli chcesz też chwilowo "wyłączyć" wpływ paint/kompozycji:
         will-change: auto;
     }
 
-    // Fallback dla mobilnych donde hero ma class .hero-scroll (wyłączamy fixed)
-    &.hero-scroll::before {
-        position: absolute; // zamiast fixed
+    // Fallback for mobile where hero has class .hero-fixed (disable fixed)
+    &.hero-scroll {
+        @include m.hero-bg-layer(
+            $bg-var: var(--hero-bg, none),
+            $position: absolute,
+            $z: 0
+        );
     }
 
     // overlay element sits above the bg but under the hero content
@@ -64,7 +53,7 @@
         inset: 0;
         z-index: 1;
         pointer-events: none;
-        /* overlay gradient — keep the existing gradient */
+        // overlay gradient — keep the existing gradient
         background: linear-gradient(
             var(--hero-overlay-start, $hero-overlay-start),
             var(--hero-overlay-end, $hero-overlay-end)
@@ -82,7 +71,7 @@
 
     h1 {
         color: var(--hero-text-color, $hero-text-color);
-        @extend .text-shadow;
+        @include m.text-shadow();
         line-height: 1.05;
     }
 
@@ -91,252 +80,59 @@
             $font-size: $lead-font-size,
             $color: rgba($hero-text-color, 0.92)
         );
-        @extend .text-shadow;
+        @include m.text-shadow();
     }
 
     // central triangle extending from the .with-divider section | height adjustment setting in _variables.scss
-    &::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-
-        --offer-triangle-h: var(--offer-triangle-base, $offer-triangle-base);
-
-        width: 0;
-        height: 0;
-
-        /* TRIANGLE across the entire screen width, pointing upwards (▲) */
-        border-left: 50vw solid transparent;
-        border-right: 50vw solid transparent;
-        border-bottom: var(--offer-triangle-h) solid rgba($pale, 1);
-        bottom: -1px;
-
-        z-index: 3; /* above overlay, below content */
-        pointer-events: none;
-        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
-        opacity: 1;
-    }
-}
-
-/* Responsive adjustment of triangle size */
-@media (max-width: 992px) {
-    .hero::after {
-        --offer-triangle-h: calc(
-            var(--offer-triangle-base, $offer-triangle-base) * 0.74
-        );
-        bottom: -1px;
-    }
-}
-@media (max-width: 576px) {
-    .hero::after {
-        --offer-triangle-h: calc(
-            var(--offer-triangle-base, $offer-triangle-base) * 0.526
-        );
-        bottom: -1px;
-    }
-}
-
-/* When viewport is short, ensure hero content not cropped too badly */
-@media (max-height: 650px) {
-    .hero {
-        min-height: 105vh;
-    }
-}
-
-/* Mobile tweaks */
-@media (max-width: 768px) {
-    .hero {
-        min-height: 60vh;
-        .hero-content {
-            padding: 1.25rem;
-        }
-        h1 {
-            font-size: 1.75rem;
-        }
-        p.lead {
-            @include m.lead-style(
-                $font-size: $lead-mobile-size,
-                $color: rgba($hero-text-color, 0.92)
-            );
-            @extend .text-shadow;
-        }
-    }
-}
-
-//
-// ------------ CSS Heart -------------
-//
-.heart {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: linear-gradient(
-        135deg,
-        var(--malinowy, $malinowy),
-        var(--malinowy-dark, $malinowy-dark)
+    @include m.hero-triangle(
+        $height: var(--offer-triangle-h, $offer-triangle-base),
+        $color: $pale,
+        $z: 3,
+        $offset: -1px
     );
-    /* stan początkowy - niewidoczne przed startem animacji */
-    opacity: 0;
 
-    /* --d to opóźnienie (ustawiasz je w nth-child) */
-    --d: 1s;
-
-    transform: rotate(45deg);
-    animation: floatUp 6s ease-in calc(var(--d)) infinite;
-    z-index: 10;
-
-    &::before,
-    &::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: linear-gradient(
-            135deg,
-            var(--malinowy, $malinowy),
-            var(--malinowy-dark, $malinowy-dark)
-        );
-    }
-
-    &::before {
-        top: -11px;
-        left: 0;
-    }
-
-    &::after {
-        top: 0;
-        left: -11px;
-    }
-
-    /* ustawienie opóźnień / pozycji serduszek */
-    &:nth-child(1) {
-        --d: 1s;
-        left: 10%;
-        bottom: 30%;
-    }
-    &:nth-child(2) {
-        --d: 2s;
-        left: 70%;
-        bottom: 10%;
-    }
-    &:nth-child(3) {
-        --d: 3s;
-        left: 25%;
-        bottom: 45%;
-    }
-    &:nth-child(4) {
-        --d: 4s;
-        left: 55%;
-        bottom: 35%;
-    }
-    &:nth-child(5) {
-        --d: 5s;
-        left: 90%;
-        bottom: 15%;
-    }
-    &:nth-child(6) {
-        --d: 6s;
-        left: 5%;
-        bottom: 70%;
-    }
-    &:nth-child(7) {
-        --d: 7s;
-        left: 40%;
-        bottom: 60%;
-    }
-    &:nth-child(8) {
-        --d: 8s;
-        left: 80%;
-        bottom: 60%;
-    }
-
-    @keyframes floatUp {
-        0% {
-            transform: translateY(0) rotate(45deg);
-            opacity: 0;
+    // When viewport is short, ensure hero content not cropped too badly
+    @media (max-height: 650px) {
+        & {
+            min-height: 105vh;
         }
-        20% {
-            opacity: 0.9;
-        }
-        70% {
-            opacity: 0.9;
-        }
-        100% {
-            transform: translateY(-300px) rotate(45deg);
-            opacity: 0;
+    }
+
+    // Mobile tweaks
+    @media (max-width: 768px) {
+        & {
+            min-height: 60vh;
+            .hero-content {
+                padding: 1.25rem;
+            }
+            h1 {
+                font-size: 1.75rem;
+            }
+            p.lead {
+                @include m.lead-style(
+                    $font-size: $lead-mobile-size,
+                    $color: rgba($hero-text-color, 0.92)
+                );
+                @include m.text-shadow();
+            }
         }
     }
 }
 
-/* Below Hero section, with side bars starting at the triangle's tip */
+// Below Hero section, with side bars starting at the triangle's tip
 .with-divider {
     position: relative;
     z-index: 4; // above hero triangle — but pseudo-elements will be under section content
     overflow: visible; // allow pseudo-elements to extend outside the box
 
-    // Common settings for both bars
-    &::before,
-    &::after {
-        content: "";
-        position: absolute;
-        width: 50vw; // each takes half of the viewport
-        height: calc(var(--offer-triangle-h) * 1.6); // height of the bar
-        top: calc(
-            -1 * var(--offer-triangle-h) * 1.49
-        ); // start aligned with the triangle's tip
-        background: linear-gradient(
-            180deg,
-            rgba($pale, 0.28),
-            rgba($pale, 0.12)
-        );
-        pointer-events: none;
-        z-index: -1; // under .with-divider content, but above hero
-    }
-
-    /* LEFT bar (grows upwards to the left) */
-    &::before {
-        left: 0;
-        /* shape: from center (right edge of pseudo) lower, to left edge higher */
-        clip-path: polygon(
-            100% 30% /* right edge (near center) - low (30% down) */,
-            100% 100% /* bottom-right */,
-            0% 100% /* bottom-left */,
-            0% 10% /* top-left (high) */
-        );
-        transform-origin: left bottom;
-    }
-
-    /* RIGHT bar (grows upwards to the right) */
-    &::after {
-        right: 0;
-        /* shape: from center (left edge of pseudo) lower, to right edge higher */
-        clip-path: polygon(
-            0% 30% /* left edge (near center) - low (30% down) */,
-            100% 10% /* top-right (high) */,
-            100% 100% /* bottom-right */,
-            0% 100% /* bottom-left */
-        );
-        transform-origin: right bottom;
-    }
-
-    /* Responsive tweaks: smaller heights and different proportions on small screens */
-    @media (max-width: 992px) {
-        &::before,
-        &::after {
-            height: calc(var(--offer-triangle-h) * 1.2);
-            top: calc(-1 * (var(--offer-triangle-h) * 1.1));
-        }
-    }
-
-    @media (max-width: 576px) {
-        &::before,
-        &::after {
-            height: calc(var(--offer-triangle-h) * 1);
-            top: calc(-1 * (var(--offer-triangle-h) * 0.82));
-        }
-    }
+    @include m.with-divider-bars(
+        $triangle-h: var(--offer-triangle-h, #{$offer-triangle-base}),
+        $height-mult: 1.6,
+        $top-offset-mult: -1.49,
+        $color-start: rgba($pale, 0.28),
+        $color-end: rgba($pale, 0.12),
+        $z: -1
+    );
 }
 
 //
@@ -360,7 +156,7 @@
             overflow: hidden; // clip the content to the radius
             background: transparent;
 
-            @include m.gradient-panel(
+            @include g.gradient-panel(
                 $inset: 8px,
                 $border-size: 3px,
                 $border-color: $primary,
@@ -391,7 +187,7 @@
                 @include m.padding-inline-block(0.45rem, 0.9rem);
                 border-radius: 50rem;
                 color: var(--pale, $pale);
-                @extend .text-shadow;
+                @include m.text-shadow();
                 transition: transform 0.2s ease-in-out, bottom 0.2s ease-in-out,
                     text-shadow 0.2s ease-in-out;
             }
@@ -412,7 +208,7 @@
         &:active,
         &.active {
             .offer-media .offer-caption-overlay {
-                @extend .text-shadow-big;
+                @include m.text-shadow(0, 4px, 16px);
             }
         }
     }
@@ -436,13 +232,6 @@
 //
 // ------------- About me section -------------
 //
-$about-duration: 1s !default; // dłuższy czas animacji -> wolniej
-$about-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
-$about-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
-$about-translate: 150px !default;
-$about-delay-base: 0.01s !default;
-$about-count: 3 !default;
-
 .about-section {
     position: relative;
     background-size: cover;
@@ -488,12 +277,18 @@ $about-count: 3 !default;
         transition: opacity $about-duration $about-ease $about-delay-base,
             transform $about-duration $about-ease $about-delay-base;
 
+        will-change: opacity, transform;
+
         .about-author-img {
             max-width: 100%;
             height: auto;
             width: auto;
-            /* keep good proportions up to 2:3 - limit height on mobile */
-            max-height: 520px;
+
+            // keep good proportions up to 2:3 - limit height on mobile
+            max-height: var(
+                --about-author-img-height,
+                $about-author-img-height
+            );
             border-radius: 0.5rem;
             object-fit: cover;
             transform: translate(-10%, 3rem);
@@ -504,7 +299,9 @@ $about-count: 3 !default;
     .about-text,
     .btn {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(
+            var(--about-translate-text, $about-translate-text)
+        );
         transition: opacity $about-duration ease-in-out #{$about-delay-base +
                 $about-delay-step},
             transform $about-duration ease-in-out #{$about-delay-base +
@@ -538,9 +335,12 @@ $about-count: 3 !default;
     // responsive tweaks
     @media (max-width: 992px) {
         .about-figure {
-            /* on small — author image smaller so text readable */
+            // on small — author image smaller so text readable
             .about-author-img {
-                max-height: 300px;
+                max-height: var(
+                    --about-author-img-height-small,
+                    $about-author-img-height-small
+                );
                 width: auto;
                 transform: translate(0, 1.5rem);
             }
@@ -555,22 +355,19 @@ $about-count: 3 !default;
 //
 // ------------- Opinions section -------------
 //
-$opinion-duration: 1s !default; // dłuższy czas animacji -> wolniej
-$opinion-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
-$opinion-delay-step: 0.3s !default; // odstęp pomiędzy kolejnymi kartami
-$opinion-translate: 200px !default;
-$opinion-delay-base: 0.01s !default;
-$opinion-cards-count: 4 !default;
-
 .opinions-section {
     color: var(--text-color, $text-color);
 
     .opinions-title,
     .opinions-subtitle {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(
+            var(--opinion-translate-text, $opinion-translate-text)
+        );
         transition: opacity $opinion-duration ease-in-out $opinion-delay-base,
             transform $opinion-duration ease-in-out $opinion-delay-base;
+
+        will-change: opacity, transform;
     }
 
     p.lead {
@@ -582,24 +379,24 @@ $opinion-cards-count: 4 !default;
         border-radius: 0.75rem;
         color: var(--text-color, $text-color);
 
-        // Stan początkowy
+        // start state
         opacity: 0;
         transform: translateY($opinion-translate);
-        // transition: all $opinion-duration $opinion-ease
-        //     var(--opinion-delay, #{$opinion-delay-base});
 
         transition: opacity $opinion-duration $opinion-ease
                 var(--opinion-delay, #{$opinion-delay-base}),
             transform $opinion-duration $opinion-ease
                 var(--opinion-delay, #{$opinion-delay-base});
 
+        will-change: opacity, transform;
+
         .opinion-avatar {
             margin-left: auto;
             margin-right: auto;
             overflow: hidden;
-            @extend .rounded-circle;
+            @include m.rounded-circle;
 
-            @include m.gradient-frame(
+            @include g.gradient-frame(
                 $inset: 8px,
                 $border-size: 2px,
                 $border-color: $malinowy,
@@ -613,7 +410,7 @@ $opinion-cards-count: 4 !default;
         }
 
         .opinion-name {
-            @extend .h4;
+            @include m.h4;
             color: var(--text-color, $text-color);
             font-weight: 600;
         }
@@ -626,7 +423,7 @@ $opinion-cards-count: 4 !default;
         }
     }
 
-    /* reveal animations added when .in-view is present on section */
+    // reveal animations added when .in-view is present on section
     &.in-view {
         .opinions-title,
         .opinions-subtitle {
@@ -634,18 +431,17 @@ $opinion-cards-count: 4 !default;
             transform: translateY(0);
         }
 
-        /* use nth-child to stagger (fallback) — will be replaced by JS stagger */
-        /* fallback CSS stagger: ustawiamy --opinion-delay przez nth-child automatycznie */
-        @for $i from 1 through $opinion-cards-count {
+        // use nth-child to stagger (fallback) — will be replaced by JS stagger
+        @for $i from 1 through $opinion-count {
             .opinion-card:nth-child(#{$i}) {
-                // obliczamy delay w Sass i interpolujemy wynik jako wartość CSS custom prop
+                // calculate delay in Sass and interpolate result as CSS custom prop
                 --opinion-delay: #{$opinion-delay-base +
                     $opinion-delay-step *
                     $i};
             }
         }
 
-        /* after JS adds .show to each card it will animate in */
+        // after JS adds .show to each card it will animate in
         .opinion-card.show {
             opacity: 1;
             transform: translateY(0);
@@ -679,19 +475,6 @@ $opinion-cards-count: 4 !default;
 //
 // ------------- FAQ section -------------
 //
-$faq-overlay: rgba(0, 0, 0, 0.36);
-$faq-panel-bg: rgba(255, 255, 255, 0.62); // frosted light
-$faq-panel-border: rgba(255, 255, 255, 0.18);
-$faq-blur: 8px;
-
-// timings
-$faq-duration: 1s !default;
-$faq-ease: cubic-bezier(0.66, 0, 0.34, 1) !default;
-$faq-delay-step: 0.3s !default;
-$faq-translate: 200px !default;
-$faq-delay-base: 0.01s !default;
-$faq-question-count: 4 !default;
-
 .faq-section {
     position: relative;
     background-size: cover;
@@ -734,9 +517,11 @@ $faq-question-count: 4 !default;
     .faq-title,
     .faq-subtitle {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(var(--faq-translate-text, $faq-translate-text));
         transition: opacity $faq-duration ease-in-out $faq-delay-base,
             transform $faq-duration ease-in-out $faq-delay-base;
+
+        will-change: opacity, transform;
     }
 
     .faq-panel {
@@ -775,7 +560,7 @@ $faq-question-count: 4 !default;
 
                 .faq-q-icon {
                     font-size: 1.5rem;
-                    @include m.text-color-gradient($malinowy, $malinowy-dark);
+                    @include g.text-color-gradient($malinowy, $malinowy-dark);
                 }
 
                 .faq-q-text {
@@ -796,33 +581,27 @@ $faq-question-count: 4 !default;
                 line-height: 1.6;
                 height: 0;
                 overflow: hidden;
-                // transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out,
-                //     transform 0.3s ease-in-out;
-                transition: height 0.3s ease-in-out; /* tylko height, inner ma własne transitiony */
+                transition: height 0.3s ease-in-out; // only height, inner has its own transitions
                 will-change: height;
-                // will-change: height, opacity, transform;
                 opacity: 1;
-                // transform: translateY(-6px);
 
                 .faq-answer-inner {
-                    /* tu prawdziwa animacja: transform + opacity - GPU-accelerated, nie powoduje reflow */
+                    // this is the real animation: transform + opacity - GPU-accelerated, does not cause reflow
                     transform-origin: top;
                     transform: translateY(-6px);
                     opacity: 0;
                     transition: transform 0.3s ease-in-out,
                         opacity 0.3s ease-in-out;
                     will-change: transform, opacity;
-                    padding-top: 0; /* jeśli chcesz przenieść padding do inner, dodaj go tu i usuń z .faq-answer */
+                    padding-top: 0;
                 }
             }
 
-            /* revealed state when JS toggles aria-expanded or adds .open */
+            // revealed state when JS toggles aria-expanded or adds .open
             .faq-question[aria-expanded="true"] ~ .faq-answer .faq-answer-inner,
             &.open .faq-answer .faq-answer-inner {
                 opacity: 1;
                 transform: translateY(0);
-                /* large max-height to allow content (use px if you want) */
-                // max-height: 600px;
             }
 
             .faq-question[aria-expanded="true"] .faq-chevron,
@@ -832,7 +611,7 @@ $faq-question-count: 4 !default;
         }
     }
 
-    /* reveal animations when section becomes visible (IntersectionObserver) */
+    // reveal animations when section becomes visible (IntersectionObserver)
     &.in-view {
         .faq-title,
         .faq-subtitle {
@@ -840,7 +619,7 @@ $faq-question-count: 4 !default;
             transform: translateY(0);
         }
 
-        @for $i from 1 through $faq-question-count {
+        @for $i from 1 through $faq-count {
             .faq-item:nth-child(#{$i}) {
                 --faq-delay: #{$faq-delay-base + $faq-delay-step * $i};
             }

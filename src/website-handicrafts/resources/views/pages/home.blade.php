@@ -18,16 +18,18 @@
 @section('twitterImage', Vite::asset('resources/images/magdas_website_home_og_26_08_2025_demo.webp'))
 @section('twitterImageAlt', __('messages.home_twitter_image_alt'))
 
+@section('bodyDataPage', $page ?? 'home')
 
 @section('content')
     {{-- HERO --}}
     <section class="hero position-relative d-flex align-items-center"
         style="--hero-bg: url('{{ Vite::asset('resources/images/magdas_website_home_bg_27_08_2025_demo.png') }}');"
         role="img" aria-label="{{ __('messages.hero_image_alt', [], app()->getLocale()) }}">
-        {{-- Have to be as first elements in section --}}
-        @for ($i = 0; $i < 8; $i++)
-            <div class="heart heart-animation"></div>
-        @endfor
+        <div class="hearts">
+            @for ($i = 0; $i < 8; $i++)
+                <div class="heart heart-animation"></div>
+            @endfor
+        </div>
 
         {{-- overlay gradient (we keep overlay here so it always sits above the bg image) --}}
         <div class="hero-overlay" aria-hidden="true"></div>
