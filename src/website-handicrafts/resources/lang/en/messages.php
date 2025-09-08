@@ -19,19 +19,28 @@ return [
     'page_not_found_description' => 'It looks like this page does not exist or has been moved.',
     'back_to_home' => 'Back to home',
 
-    // Meta home
-    'home_title' => "Malin - Home",
-    'home_description' => "Discover unique handmade jewelry created with love by Magda.",
-    'home_keywords' => 'handmade, jewelry, bracelets, necklaces, earrings',
+    // Meta - Meta home
+    'title_meta' => "Malin - Home",
+    'description_meta' => "Discover unique handmade jewelry created with love by Magda.",
+    'keywords_meta' => 'handmade, jewelry, bracelets, necklaces, earrings',
     // Meta home - Open Graph (to promotion of shared links)
-    'home_og_title' => 'Malin — handmade jewelry by Magda',
-    'home_og_description' => 'Explore a collection of unique handmade bracelets and necklaces — perfect as gifts or for everyday wear.',
+    'og_title_meta' => 'Malin — handmade jewelry by Magda',
+    'og_description_meta' => 'Explore a collection of unique handmade bracelets and necklaces — perfect as gifts or for everyday wear.',
     // Meta home - Twitter card
-    'home_twitter_site' => '@MagdasJewelry',
-    'home_twitter_creator' => '@MagdasJewelry',
-    'home_twitter_title' => 'Malin — handmade jewelry by Magda',
-    'home_twitter_description' => 'Discover unique handmade bracelets, necklaces and earrings crafted with love by Magda.',
-    'home_twitter_image_alt' => "Handmade bracelets and necklaces by Magda",
+    'twitter_site_meta' => '@MagdasJewelry',
+    'twitter_creator_meta' => '@MagdasJewelry',
+    'twitter_title_meta' => 'Malin — handmade jewelry by Magda',
+    'twitter_description_meta' => 'Discover unique handmade bracelets, necklaces and earrings crafted with love by Magda.',
+    'twitter_image_alt_meta' => "Handmade bracelets and necklaces by Magda",
+
+    // Meta About
+    'about_title_meta' => 'Malin - About',
+    'about_description_meta' => 'Hi, my name is Magda. I create handmade jewelry: small bracelets and necklaces made with passion. Each piece is crafted with attention to detail, using high-quality materials—perfect as a gift or personal accessory.',
+    'about_keywords_meta' => 'about me, Magda, handmade jewelry, artist, original jewelry, handicrafts, jewelry, bracelets, necklaces, earrings',
+    'about_og_title_meta' => 'Malin — about me, Magda',
+    'about_og_description_meta' => 'Hi, my name is Magda. I create handmade jewelry: small bracelets and necklaces made with passion. Each piece is crafted with attention to detail, using high-quality materials—perfect as a gift or personal accessory.',
+    'about_twitter_title_meta' => 'Malin — about me, Magda',
+    'about_twitter_description_meta' => 'Hi, my name is Magda. I create handmade jewelry: small bracelets and necklaces made with passion. Each piece is crafted with attention to detail, using high-quality materials—perfect as a gift or personal accessory.',
 
     // Hero
     'hero_title' => 'Welcome to Magda\'s Handicrafts',

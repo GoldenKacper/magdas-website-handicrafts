@@ -1,0 +1,162 @@
+// Use mixins using Sass modules
+@use "../primary-mixins" as m;
+@use "../gradients" as g;
+@use "../animations" as a;
+
+@use "../variables" as *;
+
+//
+// ------------- About me section -------------
+//
+.about-section {
+    position: relative;
+    min-height: 95vh; // preferujemy min-height — pozwala sekcji rozrastać się jeśli treści będzie więcej
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: $text-color;
+
+    // overlay (tło przyciemnienie)
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba($malinowy, 0.3),
+            rgba($malinowy-dark, 0.4)
+        );
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .about-figure {
+        position: absolute;
+        bottom: 0;
+        left: 7%; // give some space from left edge
+
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 100%; // ensure flex container fills the column
+        width: auto;
+        margin: 0;
+        opacity: 1;
+
+        z-index: 3; // above overlay (z-index:1) and above container base (z-index:2)
+        pointer-events: none; // image won't block clicks if needed
+
+        .about-author-img {
+            pointer-events: auto; // allow interactions if needed
+            display: block;
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            max-height: clamp(
+                var(
+                    --about-author-img-height-small,
+                    #{$about-author-img-height-small}
+                ),
+                40vw,
+                calc(
+                    var(--about-author-img-height, #{$about-author-img-height}) *
+                        1.4
+                )
+            ); // Bigger than original on home page
+            object-fit: cover; // fill available space nicely (change to 'contain' if you prefer)
+            object-position: center bottom; // prefer bottom of the image to be visible
+            border-radius: 0.5rem;
+        }
+    }
+
+    // make container be above overlay and hold paddings
+    .container,
+    .container-fluid {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        // padding moved to container in HTML (py-4 py-lg-5) — jeżeli chcesz możesz zadeklarować fallback:
+        // padding-top: 1rem; padding-bottom: 1rem;
+    }
+
+    .about-title {
+        color: var(--pale, $pale);
+        text-align: center;
+        // padding-right: 10rem;
+        padding-right: clamp(
+            var(--about-side-gap-min, #{$about-side-gap-min}),
+            var(--about-side-gap-preferred, #{$about-side-gap-preferred}),
+            var(--about-side-gap-max, #{$about-side-gap-max})
+        );
+    }
+
+    .about-text {
+        color: var(--pale, $pale);
+        line-height: 1.6;
+        font-weight: 500;
+        // margin-bottom: 5rem;
+    }
+
+    /* left aligned: stick to left edge of the column, leave gap on the right */
+    .about-text--left {
+        margin-left: 0;
+        margin-right: auto;
+        text-align: left;
+        padding-right: clamp(
+            var(--about-side-gap-min, #{$about-side-gap-min}),
+            var(--about-side-gap-preferred, #{$about-side-gap-preferred}),
+            var(--about-side-gap-max, #{$about-side-gap-max})
+        );
+    }
+
+    /* right aligned: stick to right edge of the column, leave gap on the left */
+    .about-text--right {
+        margin-right: 0;
+        margin-left: auto;
+        text-align: right;
+        padding-left: clamp(
+            var(--about-side-gap-min, #{$about-side-gap-min}),
+            var(--about-side-gap-preferred, #{$about-side-gap-preferred}),
+            var(--about-side-gap-max, #{$about-side-gap-max})
+        );
+    }
+
+    // responsive tweaks
+    @media (max-width: 992px) {
+        .about-title {
+            margin-top: 1.5rem;
+        }
+
+        .about-text {
+            font-size: 1rem !important;
+        }
+
+        .about-figure {
+            position: relative; // now it's in document flow (pushes content up)
+            bottom: auto;
+            left: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: auto;
+            margin: 0; // gap between text and image on small screens
+            pointer-events: none;
+            z-index: 2; // keep under overlay if needed (adjust if overlay should be above)
+
+            .about-author-img {
+                transform: translateY(1.5rem);
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .about-title {
+            padding-right: 0;
+        }
+
+        .about-text {
+            font-size: 0.9rem !important;
+        }
+    }
+}

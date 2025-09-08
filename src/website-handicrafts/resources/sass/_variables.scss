@@ -182,6 +182,10 @@ $about-count: $animation-count-default !default;
 $about-author-img-height: 520px !default; // height of author image
 $about-author-img-height-small: 300px !default; // height of author image on small screens
 
+$about-side-gap-max: 10rem !default; // max side gap for about section
+$about-side-gap-preferred: 9vw !default; // preferred side gap for about section
+$about-side-gap-min: 5rem !default; // min side gap for about section
+
 /* Animations - opinions section */
 $opinion-duration: $animation-duration-default !default;
 $opinion-ease: $animation-ease-default !default;

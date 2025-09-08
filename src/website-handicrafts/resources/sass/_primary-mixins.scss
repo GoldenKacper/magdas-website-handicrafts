@@ -32,6 +32,17 @@
 }
 
 /**
+ *  min-vh-custom
+ *
+ *  Applies a custom minimum height to an element.
+ *  Params:
+ *   - $vh (number): minimum height in viewport height units (default 100)
+ */
+@mixin min-vh-custom($vh: 100) {
+    min-height: #{$vh}vh !important;
+}
+
+/**
  *  padding-inline-block
  *
  *  Applies padding to inline and block directions.
