@@ -1,0 +1,291 @@
+/**  text-shadow
+ *
+ *  Applies a text shadow to the element.
+ *  Params:
+ *   - $x (length): horizontal offset (default 0)
+ *   - $y (length): vertical offset (default 3px)
+ *   - $blur (length): blur radius (default 12px)
+ *   - $color (color): shadow color (default rgba(0, 0, 0, 0.45))
+ */
+@mixin text-shadow($x: 0, $y: 3px, $blur: 12px, $color: rgba(0, 0, 0, 0.45)) {
+    text-shadow: $x $y $blur $color;
+}
+
+/**
+ *  rounded-circle
+ *
+ *  Applies a fully rounded border-radius to create a circle or oval shape.
+ */
+@mixin rounded-circle {
+    border-radius: 50% !important;
+}
+
+/**
+ *  h4
+ *
+ *  Applies standard styles for <h4> headings.
+ */
+@mixin h4 {
+    font-size: 1.5rem; // Bootstrap 5 standard
+    font-weight: 500; // refers to <h4>
+    line-height: 1.2;
+}
+
+/**
+ *  padding-inline-block
+ *
+ *  Applies padding to inline and block directions.
+ *  Params:
+ *   - $inline (length): padding value for inline direction (default 1rem)
+ *   - $block (length): padding value for block direction (default 0.25rem)
+ */
+@mixin padding-inline-block($inline: 1rem, $block: 0.25rem) {
+    padding-inline: $inline;
+    padding-block: $block;
+}
+
+/**
+ *  lead-style
+ *
+ *  Modified styles for lead text elements.
+ *  Params:
+ *   - $font-size (length): font size (default $lead-font-size)
+ *   - $color (color): text color (default $lead-color)
+ */
+@mixin lead-style($font-size: $lead-font-size, $color: $lead-color) {
+    font-size: $font-size;
+    color: $color;
+}
+
+/**
+ * heading-underline
+ *
+ * Adds a centered underline below a heading using ::after.
+ * Params:
+ *  - $width: main line width (can be %, px, rem, etc.)
+ *  - $height: thickness of the underline
+ *  - $color: underline color (default uses $primary)
+ *  - $radius: border-radius for rounded ends
+ *  - $padding-bottom: spacing between text baseline and underline area
+ *  - $margin-bottom: spacing below heading
+ *  - $responsive-width: width to use on small screens
+ *  - $responsive-breakpoint: breakpoint where responsive width applies
+ *  - $shadow: optional subtle shadow under the line
+ */
+@mixin heading-underline(
+    $width: 5%,
+    $height: 3px,
+    $color: $primary,
+    $radius: 50rem,
+    $padding-bottom: 0.5rem,
+    $margin-bottom: 0.75rem,
+    $responsive-width: 12%,
+    $responsive-breakpoint: 768px,
+    $shadow: 0 1px 0 rgba(0, 0, 0, 0.04)
+) {
+    position: relative;
+    padding-bottom: $padding-bottom;
+    margin-bottom: $margin-bottom;
+
+    &::after {
+        content: "";
+        display: block;
+        width: $width;
+        height: $height;
+        margin: 0.45rem auto 0;
+        background: $color;
+        border-radius: $radius;
+        box-shadow: $shadow;
+        pointer-events: none;
+    }
+
+    // responsive override
+    @media (max-width: $responsive-breakpoint) {
+        &::after {
+            width: $responsive-width;
+            height: $height;
+        }
+    }
+}
+
+//
+// ------------- Hero mixins ------------- //
+//
+/**
+ * hero-bg-layer
+ *
+ * Creates a full-viewport background layer using ::before.
+ * Params:
+ *  - $bg-var (string) : CSS custom property name or gradient value to use as background-image (default: var(--hero-bg))
+ *  - $position (string) : "fixed" or "absolute" — fixed pins to viewport, absolute positions inside container (default: fixed)
+ *  - $z (number) : z-index of the background pseudo (default: 0)
+ *  - $transition (list) : transition properties for smooth hide/show (default: opacity & transform)
+ */
+@mixin hero-bg-layer(
+    $bg-var: var(--hero-bg, none),
+    $position: fixed,
+    $z: 0,
+    $transition: (
+        opacity 0.3s ease-in-out,
+        transform 0.3s ease-in-out,
+    )
+) {
+    &::before {
+        content: "";
+        position: $position;
+        inset: 0;
+        z-index: $z;
+        pointer-events: none;
+        opacity: 1;
+
+        // background hooks: allow either CSS variable or raw value
+        background-image: $bg-var;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+
+        transform: translateZ(0); // promote to own layer
+
+        // transitions: accept a list
+        @if type-of($transition) == "list" {
+            transition: #{join($transition, ", ")};
+        } @else {
+            transition: $transition;
+        }
+
+        will-change: transform, opacity, background-position, transition;
+    }
+}
+
+/**
+ * hero-triangle
+ *
+ * Creates a centered upward-pointing triangle using ::after.
+ * Params:
+ *  - $height (length) : triangle height (default uses CSS var --offer-triangle-h or $offer-triangle-base)
+ *  - $color : fill color for triangle (default $pale)
+ *  - $z : z-index for triangle (default: 3)
+ *  - $offset (length) : vertical offset from bottom, default -1px to match your previous positioning
+ */
+@mixin hero-triangle(
+    $height: var(--offer-triangle-h, #{$offer-triangle-base}),
+    $color: $pale,
+    $z: 3,
+    $offset: -1px
+) {
+    &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        /* expose a CSS var so JS or responsive rules can override */
+        --triangle-h: #{$height};
+
+        width: 0;
+        height: 0;
+
+        /* triangle pointing up */
+        border-left: 50vw solid transparent;
+        border-right: 50vw solid transparent;
+        border-bottom: var(--triangle-h, #{$height}) solid #{$color};
+        bottom: $offset;
+
+        z-index: $z;
+        pointer-events: none;
+
+        /* small shadow for depth */
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.12));
+        opacity: 1;
+    }
+
+    /* Responsive adjustment of triangle size */
+    @media (max-width: 992px) {
+        &::after {
+            --triangle-h: calc(#{$height} * 0.74);
+            bottom: $offset;
+        }
+    }
+    @media (max-width: 576px) {
+        &::after {
+            --triangle-h: calc(#{$height} * 0.526);
+            bottom: $offset;
+        }
+    }
+}
+
+/**
+ * with-divider-bars
+ *
+ * Adds left & right decorative side bars for the section that follows the hero.
+ * Bars are implemented with ::before and ::after on the target element.
+ * Params:
+ *  - $triangle-h (length) : height of the triangle (default uses CSS var --offer-triangle-h or $offer-triangle-base)
+ *  - $height-mult (number) : multiplier for var(--offer-triangle-h) => height of bars (default 1.6)
+ *  - $top-offset-mult (number) : multiplier for top offset (default -1.49)
+ *  - $color-start, $color-end : gradient colors for the bars
+ *  - $z (number) : z-index of bars (default -1 -> under content but above hero)
+ */
+@mixin with-divider-bars(
+    $triangle-h: var(--offer-triangle-h, #{$offer-triangle-base}),
+    $height-mult: 1.6,
+    $top-offset-mult: -1.49,
+    $color-start: rgba($pale, 0.28),
+    $color-end: rgba($pale, 0.12),
+    $z: -1
+) {
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: 50vw;
+        /* calculate bar height from CSS var */
+        height: calc(#{$triangle-h} * #{$height-mult});
+        top: calc(#{$top-offset-mult} * #{$triangle-h});
+        background: linear-gradient(180deg, $color-start, $color-end);
+        pointer-events: none;
+        z-index: $z; /* below content but visually above hero layer if desired */
+        transform-origin: center bottom;
+    }
+
+    &::before {
+        left: 0;
+        clip-path: polygon(
+            100% 30%,
+            /* right edge near center - lower */ 100% 100%,
+            0% 100%,
+            0% 10%
+        );
+        transform-origin: left bottom;
+    }
+
+    &::after {
+        right: 0;
+        clip-path: polygon(
+            0% 30%,
+            /* left edge near center - lower */ 100% 10%,
+            100% 100%,
+            0% 100%
+        );
+        transform-origin: right bottom;
+    }
+
+    /* Responsive shrink rules: developer can override with media queries or pass flags */
+    @media (max-width: 992px) {
+        &::before,
+        &::after {
+            height: calc(#{$triangle-h} * 1.2);
+            top: calc(-1 * (#{$triangle-h} * 1.1));
+        }
+    }
+
+    @media (max-width: 576px) {
+        &::before,
+        &::after {
+            height: calc(#{$triangle-h} * 1);
+            top: calc(-1 * (#{$triangle-h} * 0.82));
+        }
+    }
+}

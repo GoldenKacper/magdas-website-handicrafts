@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Author
+    |--------------------------------------------------------------------------
+    |
+    | This value is the author of your application, which will be used when the
+    | framework needs to place the application's author in a notification or
+    | other UI elements where an application author needs to be displayed.
+    |
+    */
+
+    'author' => env('APP_AUTHOR', 'Unknown'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
@@ -78,11 +91,11 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    'locale' => env('APP_LOCALE', 'pl'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
+    'faker_locale' => env('APP_FAKER_LOCALE', 'pl_PL'),
 
     /*
     |--------------------------------------------------------------------------

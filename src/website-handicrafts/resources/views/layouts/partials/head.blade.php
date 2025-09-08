@@ -1,4 +1,3 @@
-{{-- resources/views/layouts/partials/head.blade.php --}}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -6,39 +5,47 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 {{-- Title & description (fallbacks) --}}
-<title>{{ $title ?? config('app.name', 'Laravel') }}</title>
-<meta name="author" content="{{ $metaAuthor ?? 'Your Name' }}">
-<meta name="description" content="{{ $metaDescription ?? 'Handmade jewelry — bracelets & necklaces' }}">
-<meta name="keywords" content="{{ $metaKeywords ?? 'handmade, jewelry, bracelets, necklaces' }}">
-<meta name="robots" content="index, follow">
+<title>@yield('title', config('app.name', 'Laravel'))</title>
+<meta name="author" content="@yield('metaAuthor', config('app.author', 'Unknown'))">
+<meta name="description" content="@yield('metaDescription', 'Handmade jewelry — bracelets & necklaces')">
+<meta name="keywords" content="@yield('metaKeywords', 'handmade, jewelry, bracelets, necklaces')">
+<meta name="robots" content="@yield('metaRobots', 'index, follow')">
 <link rel="canonical" href="{{ url()->current() }}">
 
 <!-- Open Graph -->
-<meta property="og:title" content="{{ $title ?? config('app.name', 'Laravel') }}">
-<meta property="og:description" content="{{ $metaDescription ?? 'Handmade jewelry — bracelets & necklaces' }}">
-<meta property="og:image" content="{{ $metaImage ?? asset('default-image.jpg') }}">
+<meta property="og:title" content="@yield('ogTitle', View::yieldContent('title', config('app.name', 'Laravel')))">
+<meta property="og:description" content="@yield('ogDescription', View::yieldContent('metaDescription', 'Handmade jewelry — bracelets & necklaces'))">
+<meta property="og:image" content="@yield('ogImage', asset('default-image.jpg'))">
 <meta property="og:url" content="{{ url()->current() }}">
-<meta property="og:type" content="article">
+<meta property="og:type" content="@yield('ogType', 'article')">
 <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}">
 
-<!-- Twitter Cards analogicznie -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@TwojaStrona">
-<meta name="twitter:creator" content="@AutorTreści"> <!-- optional -->
-<meta name="twitter:title" content="{{ $title ?? config('app.name', 'Laravel') }}">
-<meta name="twitter:description" content="{{ $metaDescription ?? 'Handmade jewelry — bracelets & necklaces' }}">
-<meta name="twitter:image" content="{{ $metaImage ?? asset('default-image.jpg') }}">
-<meta name="twitter:image:alt" content="{{ $metaImageAlt ?? 'Default description for Twitter image' }}">
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="@yield('twitterCard', 'summary_large_image')">
+<meta name="twitter:site" content="@yield('twitterSite', '@TwojaStrona')">
+<meta name="twitter:creator" content="@yield('twitterCreator', '@AutorTreści')">
+<meta name="twitter:title" content="@yield('twitterTitle', View::yieldContent('title', config('app.name', 'Laravel')))">
+<meta name="twitter:description" content="@yield('twitterDescription', View::yieldContent('metaDescription', 'Handmade jewelry — bracelets & necklaces'))">
+<meta name="twitter:image" content="@yield('twitterImage', asset('default-image.jpg'))">
+<meta name="twitter:image:alt" content="@yield('twitterImageAlt', 'Default description for Twitter image')">
 
-<!-- Fonts -->
-<link rel="dns-prefetch" href="//fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-{{-- Optional favicon --}}
-<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+<!-- Fonts | Locally hosted fonts-->
+{{-- <link rel="dns-prefetch" href="//fonts.bunny.net">
+<link
+    href="https://fonts.bunny.net/css?family=quicksand:300,400,500,600,700|Nunito|raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet" /> --}}
 
-{{-- Vite-managed assets (CSS + JS entry) --}}
-@vite(['resources/sass/app.scss', 'resources/js/app.js'])
+{{-- Favicon --}}
+<link rel="icon" type="image/png" href="{{ asset('icons/favicon-96x96.png') }}" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="{{ asset('icons/favicon.svg') }}" />
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}" />
+<link rel="manifest" href="{{ asset('site.webmanifest') }}" />
+<meta name="theme-color" content="#ffffff">
 
 {{-- Place for extra head content (meta tags, additional CSS, third-party SDKs) --}}
 @stack('head')
+
+{{-- Vite-managed assets (CSS + JS entry) --}}
+@vite(['resources/js/app.js'])

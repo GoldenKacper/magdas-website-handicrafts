@@ -1,23 +1,29 @@
-{{-- resources/views/layouts/app.blade.php --}}
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    @include('layouts.partials.preloader-assets')
     @include('layouts.partials.head')
 </head>
 
-<body>
+<body data-page="@yield('bodyDataPage')">
     <div id="app">
         @include('layouts.partials.preloader')
         @include('layouts.partials.navbar')
 
         {{-- Main content container --}}
-        <main class="py-4">
-            <div class="container">
+        <main>
+            <div class="container-fluid ultra-wide px-0">
                 {{-- flash messages --}}
-                @if (session('status'))
+                @if (session('success'))
                     <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
                     </div>
                 @endif
 
@@ -28,6 +34,8 @@
                 @endif
 
                 @yield('content')
+
+                @include('layouts.partials.footer')
             </div>
         </main>
     </div>

@@ -315,3 +315,37 @@ php artisan route:clear
 - If using Docker: is port `5173` mapped and `vite` server listening on `0.0.0.0`?
 
 - Any SCSS compile errors will prevent CSS from loading — check terminal logs running `npm run dev`.
+
+<br>
+
+<!-- ## 💡 Tip for Bootstrap 5 + Sass users
+
+When using Bootstrap 5 with `npm run dev`, you may see many warnings like:
+
+```bash
+Deprecation Warning [color-functions]: green() is deprecated.
+```
+
+These come from Bootstrap’s internal SCSS functions and not from your own code.
+It can clutter your terminal output during development.
+
+✅ **Solution: Create a custom override file**
+
+Create a file at `resources/sass/\_overrides.scss` with the following content:
+
+```scss
+// mute all Sass warnings
+@use "sass:meta";
+
+@function warnless($value) {
+  @return $value; // proxy function to silence warnings
+}
+```
+
+👍 **Pros**:
+
+- Keeps your **own warnings and errors visible**
+
+- Prevents spam from deprecated Bootstrap SCSS functions
+
+- No impact on your compiled CSS -->

@@ -1,0 +1,92 @@
+<?php
+
+return [
+    // Test messages
+    'site_title' => "Magda's Handicrafts",
+    'welcome' => 'Welcome to our store',
+    'items_count' => 'There are :count items',
+    'apples' => '{0} no apples|{1} one apple|[2,*] :count apples',
+
+    // Navbar
+    'home' => 'Home',
+    'about' => 'About me',
+    'gallery' => 'Gallery',
+    'contact' => 'Contact',
+    'toggle_navigation' => 'Toggle navigation',
+    'logo_img_alt' => 'Magda\'s Jewelry logo',
+    // 404
+    'page_not_found' => 'Page not found',
+    'page_not_found_description' => 'It looks like this page does not exist or has been moved.',
+    'back_to_home' => 'Back to home',
+
+    // Meta home
+    'home_title' => "Malin - Home",
+    'home_description' => "Discover unique handmade jewelry created with love by Magda.",
+    'home_keywords' => 'handmade, jewelry, bracelets, necklaces, earrings',
+    // Meta home - Open Graph (to promotion of shared links)
+    'home_og_title' => 'Malin — handmade jewelry by Magda',
+    'home_og_description' => 'Explore a collection of unique handmade bracelets and necklaces — perfect as gifts or for everyday wear.',
+    // Meta home - Twitter card
+    'home_twitter_site' => '@MagdasJewelry',
+    'home_twitter_creator' => '@MagdasJewelry',
+    'home_twitter_title' => 'Malin — handmade jewelry by Magda',
+    'home_twitter_description' => 'Discover unique handmade bracelets, necklaces and earrings crafted with love by Magda.',
+    'home_twitter_image_alt' => "Handmade bracelets and necklaces by Magda",
+
+    // Hero
+    'hero_title' => 'Welcome to Magda\'s Handicrafts',
+    'hero_subtitle' => 'Unique handmade jewelry crafted with passion and precision.',
+    'hero_cta' => 'See my gallery',
+    'hero_image_alt' => 'Handmade jewelry against a backdrop of natural materials',
+
+    // Offer
+    'offer_heading' => 'Offer',
+
+    // About me
+    'about_section_alt' => 'About section background',
+    'author_image_alt' => "Author's portrait photo",
+    'about_title' => 'About me',
+    'about_text' => "Hi — I'm Magda. I handcraft small bracelets and necklaces with care and attention to detail. Each piece is made from quality materials and is perfect as a gift or a personal accessory. Browse my gallery and feel free to contact me for commissions.",
+    'about_read_more' => 'Read more',
+
+    // Opinions
+    'opinions_title' => 'Happy customers',
+    'opinions_subtitle' => 'Read the latest opinions about my work',
+
+    // FAQ
+    'faq_title' => 'Frequently Asked Questions',
+    'faq_subtitle' => 'Have questions? Check the answers to the most common ones.',
+    'faq_section_alt' => 'FAQ section background',
+
+    // Footer
+    'footer_about_title' => 'About me',
+    'footer_social_title' => 'Social media',
+    'footer_contact_title' => 'Contact',
+
+    'footer_about_text_1' => 'Handicrafts with heart — created with attention to detail.',
+    'footer_about_link_1' => 'Learn my story',
+    'footer_about_text_2a' => 'Have questions? Check out',
+    'footer_about_link_2' => 'FAQ',
+    'footer_about_text_2b' => '— you might find the answer there.',
+
+    'footer_opinions_and_gallery' => 'Also, check out our reviews and gallery — you will find real implementations there.',
+
+    'footer_contact_form' => 'Contact form',
+    'footer_mail' => 'magda.handicrafts@gmail.com',
+    'footer_phone_number' => '+48 123 456 789',
+
+    'footer_copyright' => 'Kacper Jagodziński. All rights reserved.',
+    'footer_privacy_policy' => 'Privacy Policy',
+    'footer_terms_of_service' => 'Terms of Service',
+
+    // Contact
+    'contact_title' => 'Contact',
+    'contact_subtitle' => 'Have questions or want to place an order? Get in touch with me.',
+    'contact_name' => 'Name and surname',
+    'contact_email' => 'Email address',
+    'contact_message' => 'Message',
+    'contact_send' => 'Send',
+    'contact_success' => 'Thank you for your message! We will get back to you soon.',
+    'contact_error' => 'An error occurred while sending the message. Please try again later.',
+
+];

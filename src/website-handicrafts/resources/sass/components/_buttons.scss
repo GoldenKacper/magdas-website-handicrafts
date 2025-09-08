@@ -1,0 +1,74 @@
+//
+// ------------- Primary Button -------------
+//
+/* Override/upgrade .btn-primary */
+.btn-primary {
+    background: linear-gradient(135deg, $malinowy, $fiolet);
+    border: none;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(142, 111, 191, 0.14);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s;
+    padding: 0.6rem 1.05rem;
+    border-radius: 0.6rem;
+}
+.btn-primary:focus,
+.btn-primary:active {
+    outline: none;
+    box-shadow: 0 8px 22px rgba(142, 111, 191, 0.2);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+/* ghost buttons - more delicate than default */
+.btn-outline-primary {
+    color: $malinowy;
+    border-color: rgba(214, 78, 114, 0.18);
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+//
+// ------------- Hero Button -------------
+//
+.btn-hero {
+    background-color: var(--hero-cta-bg, $hero-cta-bg);
+    color: var(--hero-cta-color, $hero-cta-color);
+    border: none;
+
+    &:hover {
+        background-color: var(--hero-cta-bg-hover, $hero-cta-bg-hover);
+        color: var(--hero-cta-color, $hero-cta-color);
+    }
+}
+
+//
+// ------------- Gradient Button -------------
+//
+.btn-gradient {
+    @include g.gradient-button(
+        $gradient-start: $primary,
+        $gradient-end: $malinowy-dark,
+        $mask-bg: $bg-pale,
+        $padding: 0.375rem 1.5rem,
+        $text-color: $text-color,
+        $text-color-on: $pale,
+        $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
+        $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
+    );
+}
+
+.btn-gradient--transparent {
+    @include g.gradient-button(
+        $gradient-start: $primary,
+        $gradient-end: $malinowy-dark,
+        $mask-bg: transparent,
+        // Important - mask-bg together with transparent center gives the desired transparent effect
+        $transparent-center: true,
+        $padding: 0.375rem 1.5rem,
+        $text-color: $pale,
+        $text-color-on: $pale,
+
+        $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
+        $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
+    );
+}

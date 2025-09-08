@@ -1,0 +1,4 @@
+TODO: Website logo + animation
+TODO: Test sandbox mailer
+TODO: Check Meta - Open Graph and Twitter
+

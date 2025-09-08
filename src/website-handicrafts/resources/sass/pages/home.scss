@@ -1,0 +1,659 @@
+// Use mixins using Sass modules
+@use "../primary-mixins" as m;
+@use "../gradients" as g;
+@use "../animations" as a;
+
+@use "../variables" as *;
+
+//
+// ------------- HERO section -------------
+//
+.hero {
+    position: relative;
+    min-height: 105vh; // full viewport height
+    display: flex;
+    align-items: center;
+    color: var(--hero-text-color, $hero-text-color);
+    overflow: hidden;
+
+    background: none;
+    background-size: unset;
+    background-position: unset;
+
+    // overlay
+    @include m.hero-bg-layer(
+        $bg-var: var(--hero-bg, none),
+        $position: fixed,
+        $z: 0
+    );
+
+    // The class that JS will add when the hero is NOT to be visible
+    &.hero-fixed-hidden::before {
+        opacity: 0;
+        transform: scale(0.995) translateY(-6px); // slight shift/trimming
+        pointer-events: none;
+    }
+
+    &.hero-fixed-hidden {
+        will-change: auto;
+    }
+
+    // Fallback for mobile where hero has class .hero-fixed (disable fixed)
+    &.hero-scroll {
+        @include m.hero-bg-layer(
+            $bg-var: var(--hero-bg, none),
+            $position: absolute,
+            $z: 0
+        );
+    }
+
+    // overlay element sits above the bg but under the hero content
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        // overlay gradient — keep the existing gradient
+        background: linear-gradient(
+            var(--hero-overlay-start, $hero-overlay-start),
+            var(--hero-overlay-end, $hero-overlay-end)
+        );
+        opacity: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2; // above overlay
+        padding: 2rem 1rem;
+        max-width: 1040px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        color: var(--hero-text-color, $hero-text-color);
+        @include m.text-shadow();
+        line-height: 1.05;
+    }
+
+    p.lead {
+        @include m.lead-style(
+            $font-size: $lead-font-size,
+            $color: rgba($hero-text-color, 0.92)
+        );
+        @include m.text-shadow();
+    }
+
+    // central triangle extending from the .with-divider section | height adjustment setting in _variables.scss
+    @include m.hero-triangle(
+        $height: var(--offer-triangle-h, $offer-triangle-base),
+        $color: $pale,
+        $z: 3,
+        $offset: -1px
+    );
+
+    // When viewport is short, ensure hero content not cropped too badly
+    @media (max-height: 650px) {
+        & {
+            min-height: 105vh;
+        }
+    }
+
+    // Mobile tweaks
+    @media (max-width: 768px) {
+        & {
+            min-height: 60vh;
+            .hero-content {
+                padding: 1.25rem;
+            }
+            h1 {
+                font-size: 1.75rem;
+            }
+            p.lead {
+                @include m.lead-style(
+                    $font-size: $lead-mobile-size,
+                    $color: rgba($hero-text-color, 0.92)
+                );
+                @include m.text-shadow();
+            }
+        }
+    }
+}
+
+// Below Hero section, with side bars starting at the triangle's tip
+.with-divider {
+    position: relative;
+    z-index: 4; // above hero triangle — but pseudo-elements will be under section content
+    overflow: visible; // allow pseudo-elements to extend outside the box
+
+    @include m.with-divider-bars(
+        $triangle-h: var(--offer-triangle-h, #{$offer-triangle-base}),
+        $height-mult: 1.6,
+        $top-offset-mult: -1.49,
+        $color-start: rgba($pale, 0.28),
+        $color-end: rgba($pale, 0.12),
+        $z: -1
+    );
+}
+
+//
+// ------------- Offer section -------------
+//
+.offer-section {
+    .offer-card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border-radius: 1rem;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        outline: none;
+
+        .offer-media {
+            position: relative;
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: inherit; // the same radius as the card
+            overflow: hidden; // clip the content to the radius
+            background: transparent;
+
+            @include g.gradient-panel(
+                $inset: 8px,
+                $border-size: 3px,
+                $border-color: $primary,
+                $gradient-start: $malinowy,
+                $gradient-end: $malinowy-dark,
+                $mask-bg: $bg-pale,
+                $text-on-gradient: $bg-pale,
+                $transition-speed: 0.3s
+            );
+
+            img {
+                width: 100%;
+                height: 100%;
+                display: block;
+                object-fit: cover;
+                object-position: center;
+                border-radius: inherit; // match the container
+            }
+
+            // caption on the image
+            .offer-caption-overlay {
+                position: absolute;
+                left: 50%;
+                bottom: 10%;
+                transform: translateX(-50%);
+                z-index: 1;
+                display: inline-block;
+                @include m.padding-inline-block(0.45rem, 0.9rem);
+                border-radius: 50rem;
+                color: var(--pale, $pale);
+                @include m.text-shadow();
+                transition: transform 0.2s ease-in-out, bottom 0.2s ease-in-out,
+                    text-shadow 0.2s ease-in-out;
+            }
+        }
+
+        // hover / focus states for the whole card
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            .offer-media .offer-caption-overlay {
+                z-index: 4;
+                bottom: 40%;
+            }
+        }
+
+        &:focus,
+        &:active,
+        &.active {
+            .offer-media .offer-caption-overlay {
+                @include m.text-shadow(0, 4px, 16px);
+            }
+        }
+    }
+
+    // fallback for browsers without aspect-ratio
+    @supports not (aspect-ratio: 1/1) {
+        .offer-media {
+            height: 0;
+            padding-top: 100%;
+            & > img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
+
+//
+// ------------- About me section -------------
+//
+.about-section {
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    @include m.padding-inline-block(0, 4.5rem);
+    color: $text-color;
+
+    // smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+
+    // overlay
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba($malinowy, 0.3),
+            rgba($malinowy-dark, 0.4)
+        );
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    // ensure content is above overlay
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    // Left image
+    .about-figure {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+
+        opacity: 0;
+        transform: translateY($about-translate);
+        transition: opacity $about-duration $about-ease $about-delay-base,
+            transform $about-duration $about-ease $about-delay-base;
+
+        will-change: opacity, transform;
+
+        .about-author-img {
+            max-width: 100%;
+            height: auto;
+            width: auto;
+
+            // keep good proportions up to 2:3 - limit height on mobile
+            max-height: var(
+                --about-author-img-height,
+                $about-author-img-height
+            );
+            border-radius: 0.5rem;
+            object-fit: cover;
+            transform: translate(-10%, 3rem);
+        }
+    }
+
+    .about-title,
+    .about-text,
+    .btn {
+        opacity: 0;
+        transform: translateY(
+            var(--about-translate-text, $about-translate-text)
+        );
+        transition: opacity $about-duration ease-in-out #{$about-delay-base +
+                $about-delay-step},
+            transform $about-duration ease-in-out #{$about-delay-base +
+                $about-delay-step};
+    }
+
+    .about-title {
+        color: var(--pale, $pale);
+    }
+
+    .about-text {
+        color: var(--pale, $pale);
+        line-height: 1.6;
+        font-weight: 500;
+    }
+
+    &.in-view {
+        .about-title,
+        .about-text,
+        .btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-figure {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    // responsive tweaks
+    @media (max-width: 992px) {
+        .about-figure {
+            // on small — author image smaller so text readable
+            .about-author-img {
+                max-height: var(
+                    --about-author-img-height-small,
+                    $about-author-img-height-small
+                );
+                width: auto;
+                transform: translate(0, 1.5rem);
+            }
+        }
+
+        .about-text {
+            font-size: 1rem;
+        }
+    }
+}
+
+//
+// ------------- Opinions section -------------
+//
+.opinions-section {
+    color: var(--text-color, $text-color);
+
+    .opinions-title,
+    .opinions-subtitle {
+        opacity: 0;
+        transform: translateY(
+            var(--opinion-translate-text, $opinion-translate-text)
+        );
+        transition: opacity $opinion-duration ease-in-out $opinion-delay-base,
+            transform $opinion-duration ease-in-out $opinion-delay-base;
+
+        will-change: opacity, transform;
+    }
+
+    p.lead {
+        @include m.lead-style($font-size: $lead-font-size, $color: $lead-color);
+    }
+
+    .opinion-card {
+        background: transparent;
+        border-radius: 0.75rem;
+        color: var(--text-color, $text-color);
+
+        // start state
+        opacity: 0;
+        transform: translateY($opinion-translate);
+
+        transition: opacity $opinion-duration $opinion-ease
+                var(--opinion-delay, #{$opinion-delay-base}),
+            transform $opinion-duration $opinion-ease
+                var(--opinion-delay, #{$opinion-delay-base});
+
+        will-change: opacity, transform;
+
+        .opinion-avatar {
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+            @include m.rounded-circle;
+
+            @include g.gradient-frame(
+                $inset: 8px,
+                $border-size: 2px,
+                $border-color: $malinowy,
+                $z-index: 2
+            );
+
+            img {
+                object-fit: cover;
+                display: block;
+            }
+        }
+
+        .opinion-name {
+            @include m.h4;
+            color: var(--text-color, $text-color);
+            font-weight: 600;
+        }
+
+        .opinion-text {
+            color: var(--text-color, $text-color);
+            opacity: 0.95;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+    }
+
+    // reveal animations added when .in-view is present on section
+    &.in-view {
+        .opinions-title,
+        .opinions-subtitle {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        // use nth-child to stagger (fallback) — will be replaced by JS stagger
+        @for $i from 1 through $opinion-count {
+            .opinion-card:nth-child(#{$i}) {
+                // calculate delay in Sass and interpolate result as CSS custom prop
+                --opinion-delay: #{$opinion-delay-base +
+                    $opinion-delay-step *
+                    $i};
+            }
+        }
+
+        // after JS adds .show to each card it will animate in
+        .opinion-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    // responsive tweaks
+    @media (max-width: 768px) {
+        p.lead {
+            @include m.lead-style(
+                $font-size: $lead-mobile-size,
+                $color: $lead-color
+            );
+        }
+
+        .opinion-card {
+            .opinion-text {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    @media (min-width: 960px) and (max-width: 1399px) {
+        // Override margin-top of this element of few resolutions
+        .row > [class*="col-"]:nth-child(4) {
+            margin-top: 0rem !important;
+        }
+    }
+}
+
+//
+// ------------- FAQ section -------------
+//
+.faq-section {
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: var(--text-color, $text-color);
+    overflow: visible;
+
+    // smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+
+    // subtle overlay gradient + parallax illusion
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba($malinowy, 0.3),
+            rgba($malinowy-dark, 0.4)
+        );
+        pointer-events: none;
+        z-index: 0;
+        mix-blend-mode: multiply;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    p.lead {
+        @include m.lead-style(
+            $font-size: $lead-font-size,
+            $color: rgba($hero-text-color, 0.92)
+        );
+    }
+
+    .faq-title,
+    .faq-subtitle {
+        opacity: 0;
+        transform: translateY(var(--faq-translate-text, $faq-translate-text));
+        transition: opacity $faq-duration ease-in-out $faq-delay-base,
+            transform $faq-duration ease-in-out $faq-delay-base;
+
+        will-change: opacity, transform;
+    }
+
+    .faq-panel {
+        position: relative;
+        z-index: 2;
+        background: var(--pudrowy, $pudrowy);
+        border-radius: 1rem;
+        backdrop-filter: blur($faq-blur);
+        -webkit-backdrop-filter: blur($faq-blur);
+        border: 1px solid $faq-panel-border;
+        box-shadow: 0 12px 40px rgba(2, 6, 23, 0.08);
+
+        .faq-item {
+            opacity: 0;
+            transform: translateY($faq-translate);
+            transition: opacity $faq-duration $faq-ease
+                    var(--faq-delay, #{$faq-delay-base}),
+                transform $faq-duration $faq-ease
+                    var(--faq-delay, #{$faq-delay-base});
+
+            .faq-question {
+                background: transparent;
+                border: none;
+                text-align: left;
+                @include m.padding-inline-block(1rem, 0.85rem);
+                border-radius: 1rem;
+                cursor: pointer;
+                gap: 1rem;
+                transition: background 0.3s ease;
+
+                &:hover,
+                &:focus {
+                    background: var(--pudrowy-light, $pudrowy-light);
+                    outline: none;
+                }
+
+                .faq-q-icon {
+                    font-size: 1.5rem;
+                    @include g.text-color-gradient($malinowy, $malinowy-dark);
+                }
+
+                .faq-q-text {
+                    font-size: 1rem;
+                }
+
+                .faq-chevron {
+                    transition: transform 0.3s ease-in-out;
+                    color: rgba(0, 0, 0, 0.7);
+                }
+            }
+
+            .faq-answer {
+                box-sizing: border-box;
+                margin-top: 0.5rem;
+                padding: 0 2.4rem 0 3.2rem;
+                color: var(--text-color, $text-color);
+                line-height: 1.6;
+                height: 0;
+                overflow: hidden;
+                transition: height 0.3s ease-in-out; // only height, inner has its own transitions
+                will-change: height;
+                opacity: 1;
+
+                .faq-answer-inner {
+                    // this is the real animation: transform + opacity - GPU-accelerated, does not cause reflow
+                    transform-origin: top;
+                    transform: translateY(-6px);
+                    opacity: 0;
+                    transition: transform 0.3s ease-in-out,
+                        opacity 0.3s ease-in-out;
+                    will-change: transform, opacity;
+                    padding-top: 0;
+                }
+            }
+
+            // revealed state when JS toggles aria-expanded or adds .open
+            .faq-question[aria-expanded="true"] ~ .faq-answer .faq-answer-inner,
+            &.open .faq-answer .faq-answer-inner {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .faq-question[aria-expanded="true"] .faq-chevron,
+            &.open .faq-chevron {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    // reveal animations when section becomes visible (IntersectionObserver)
+    &.in-view {
+        .faq-title,
+        .faq-subtitle {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @for $i from 1 through $faq-count {
+            .faq-item:nth-child(#{$i}) {
+                --faq-delay: #{$faq-delay-base + $faq-delay-step * $i};
+            }
+        }
+
+        .faq-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .faq-panel .faq-item .faq-q-text {
+            font-size: 1rem;
+        }
+
+        .faq-panel .faq-item .faq-answer {
+            padding: 0 1rem 0 1.5rem;
+            font-size: 1rem;
+        }
+
+        .faq-panel .faq-item .faq-question {
+            @include m.padding-inline-block(0.65rem, 0.5rem);
+
+            .faq-q-icon {
+                font-size: 1.25rem;
+            }
+        }
+
+        p.lead {
+            @include m.lead-style(
+                $font-size: $lead-mobile-size,
+                $color: rgba($hero-text-color, 0.92)
+            );
+        }
+    }
+}
