@@ -74,6 +74,10 @@
     --about-author-img-height: #{$about-author-img-height};
     --about-author-img-height-small: #{$about-author-img-height-small};
 
+    --about-side-gap-max: #{$about-side-gap-max};
+    --about-side-gap-preferred: #{$about-side-gap-preferred};
+    --about-side-gap-min: #{$about-side-gap-min};
+
     /* Animations - opinions section */
     --opinion-duration: #{$opinion-duration};
     --opinion-ease: #{$opinion-ease};
@@ -216,6 +220,13 @@ h6 {
     .little-lower {
         transform: translateY(20px);
     }
+}
+
+//
+// ------------- Min height -------------
+//
+.min-vh-80 {
+    @include m.min-vh-custom(80);
 }
 
 //

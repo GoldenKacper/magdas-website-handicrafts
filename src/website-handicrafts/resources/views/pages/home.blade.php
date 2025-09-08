@@ -1,22 +1,22 @@
 @extends('layouts.app')
 
-@section('title', __('messages.home_title'))
-@section('metaDescription', __('messages.home_description'))
-@section('metaKeywords', __('messages.home_keywords'))
+@section('title', __('messages.title_meta'))
+@section('metaDescription', __('messages.description_meta'))
+@section('metaKeywords', __('messages.keywords_meta'))
 @section('metaRobots', 'index, follow')
 
-@section('ogTitle', __('messages.home_og_title'))
-@section('ogDescription', __('messages.home_og_description'))
+@section('ogTitle', __('messages.og_title_meta'))
+@section('ogDescription', __('messages.og_description_meta'))
 @section('ogImage', Vite::asset('resources/images/magdas_website_home_og_26_08_2025_demo.webp'))
 @section('ogType', 'website')
 
 @section('twitterCard', 'summary_large_image')
-@section('twitterSite', __('messages.home_twitter_site'))
-@section('twitterCreator', __('messages.home_twitter_creator'))
-@section('twitterTitle', __('messages.home_twitter_title'))
-@section('twitterDescription', __('messages.home_twitter_description'))
+@section('twitterSite', __('messages.twitter_site_meta'))
+@section('twitterCreator', __('messages.twitter_creator_meta'))
+@section('twitterTitle', __('messages.twitter_title_meta'))
+@section('twitterDescription', __('messages.twitter_description_meta'))
 @section('twitterImage', Vite::asset('resources/images/magdas_website_home_og_26_08_2025_demo.webp'))
-@section('twitterImageAlt', __('messages.home_twitter_image_alt'))
+@section('twitterImageAlt', __('messages.twitter_image_alt_meta'))
 
 @section('bodyDataPage', $page ?? 'home')
 

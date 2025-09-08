@@ -18,6 +18,7 @@ Route::get('/lang/{locale}', [App\Http\Controllers\LocaleController::class, 'swi
 // Change locale prefix - website routes
 Route::prefix('{locale}')->where(['locale' => 'en|pl'])->middleware(['locale'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
 });
 
 // Redirect root / -> /{locale}/

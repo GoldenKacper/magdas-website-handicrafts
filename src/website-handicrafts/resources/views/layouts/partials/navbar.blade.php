@@ -28,7 +28,8 @@
                         data-text="{{ __('messages.home') }}">{{ __('messages.home') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center gradient-animated-nav" href="#about"
+                    <a class="nav-link text-center gradient-animated-nav {{ request()->routeIs('about') ? 'active-pill' : '' }}"
+                        href="{{ route('about', ['locale' => session('locale', app()->getLocale())]) }}"
                         data-text="{{ __('messages.about') }}">{{ __('messages.about') }}</a>
                 </li>
                 <li class="nav-item">
