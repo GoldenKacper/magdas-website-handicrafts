@@ -37,7 +37,8 @@
         <div class="hero-content container text-center text-pale">
             <h1 class="display-4 fw-bold mb-3">{{ __('messages.hero_title') }}</h1>
             <p class="lead mb-4">{{ __('messages.hero_subtitle') }}</p>
-            <a href="#gallery" class="btn btn-lg btn-gradient--transparent text-size-3/2">
+            <a href="{{ route('gallery', ['locale' => session('locale', app()->getLocale())]) }}"
+                class="btn btn-lg btn-gradient--transparent text-size-3/2">
                 {{ __('messages.hero_cta') }}
             </a>
         </div>
@@ -53,7 +54,8 @@
             {{-- TODO: Add translations (loading from database) --}}
             <div class="row g-3 g-lg-8 justify-content-center mx-lg-9">
                 <div class="col-12 col-sm-6 col-xl-4">
-                    <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — bransoletki">
+                    <a href="{{ route('gallery', ['locale' => session('locale', app()->getLocale())]) }}#gallery-bracelets"
+                        class="offer-card p-3 p-lg-0" aria-label="Oferta — bransoletki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_bracelet_31_08_2025_demo.png') }}"
                                 alt="Bransoletki rękodzieło" loading="lazy">
@@ -63,7 +65,8 @@
                 </div>
 
                 <div class="col-12 col-sm-6 col-xl-4">
-                    <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — naszyjniki">
+                    <a href="{{ route('gallery', ['locale' => session('locale', app()->getLocale())]) }}#gallery-necklaces"
+                        class="offer-card p-3 p-lg-0" aria-label="Oferta — naszyjniki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_necklace_31_08_2025_demo.png') }}"
                                 alt="Naszyjniki rękodzieło" loading="lazy">
@@ -73,7 +76,8 @@
                 </div>
 
                 <div class="col-12 col-sm-6 col-xl-4">
-                    <a href="#" class="offer-card p-3 p-lg-0" aria-label="Oferta — kolczyki">
+                    <a href="{{ route('gallery', ['locale' => session('locale', app()->getLocale())]) }}#gallery-earrings"
+                        class="offer-card p-3 p-lg-0" aria-label="Oferta — kolczyki">
                         <span class="offer-media">
                             <img src="{{ Vite::asset('resources/images/magdas_website_offer_earrings_31_08_2025_demo.png') }}"
                                 alt="Kolczyki rękodzieło" loading="lazy">
@@ -109,7 +113,8 @@
                         {{ __('messages.about_text') }}
                     </p>
 
-                    <a href="#gallery" class="btn btn-lg btn-gradient--transparent text-size-3/2 text-shadow">
+                    <a href="{{ route('about', ['locale' => session('locale', app()->getLocale())]) }}"
+                        class="btn btn-lg btn-gradient--transparent text-size-3/2 text-shadow">
                         {{ __('messages.about_read_more') }}
                     </a>
                 </div>

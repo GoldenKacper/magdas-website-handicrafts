@@ -1,0 +1,139 @@
+@use "./gradient-mixins" as g;
+
+/**
+ * input-icon-base
+ *
+ * Styles a form input or textarea with an icon inside a flex container.
+ * Params:
+ *  - $bg: background color of the input container
+ *  - $bg-hover: background color on hover
+ *  - $border: border color of the input container
+ *  - $radius: border-radius of the input container
+ *  - $gradient-start: start color for focus gradient
+ *  - $gradient-end: end color for focus gradient
+ *  - $danger: color to use for invalid state
+ *  - $success: color to use for valid state
+ *  - $text-color: main text color inside the input
+ *  - $input-padding-vertical: vertical padding inside the input container
+ *  - $input-padding-horizontal: horizontal padding inside the input container
+ *  - $input-gap: gap between icon and input field
+ *  - $input-icon-size: font-size of the icon
+ *  - $input-icon-box-size: width/height of the icon container box
+ *  - $input-box-shadow: box-shadow for the input container
+ *  - $z-index: z-index for layering (default 3)
+ */
+@mixin input-icon-base(
+    $bg: $pudrowy,
+    $bg-hover: $pudrowy-light,
+    $border: $faq-panel-border,
+    $radius: $input-border-radius,
+    $gradient-start: $malinowy,
+    $gradient-end: $malinowy-dark,
+    $danger: $danger,
+    $success: $success,
+    $text-color: $text-color,
+    $input-padding-vertical: 0.6rem,
+    $input-padding-horizontal: 0.9rem,
+    $input-gap: 0.75rem,
+    $input-icon-size: 1.5rem,
+    $input-icon-box-size: 2rem,
+    $input-box-shadow: 0 12px 40px rgba(2, 6, 23, 0.08),
+    $z-index: 3
+) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: $input-gap;
+    width: 100%;
+    padding: $input-padding-vertical $input-padding-horizontal;
+    border-radius: $radius;
+    background: $bg;
+    border: 1px solid $border;
+    box-shadow: $input-box-shadow;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out,
+        transform 0.3s ease-in-out, background 0.3s ease-in-out;
+    color: $text-color;
+    z-index: $z-index;
+
+    &__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: $input-icon-box-size;
+        height: $input-icon-box-size;
+        font-size: $input-icon-size;
+        color: rgba($text-color, 0.7);
+        flex: 0 0 auto;
+        pointer-events: none;
+
+        // states
+        &.is-valid {
+            color: $success;
+        }
+
+        &.is-invalid {
+            color: $danger;
+        }
+    }
+
+    &__control {
+        flex: 1 1 auto;
+        border: 0;
+        background: transparent;
+        outline: none;
+        margin: 0;
+        color: $text-color;
+        font-weight: 500;
+        font-size: 1rem;
+        line-height: 1.6;
+        box-shadow: none;
+
+        &::placeholder {
+            color: rgba($text-color, 0.7);
+            font-weight: 700;
+        }
+    }
+
+    &:hover {
+        background: $bg-hover;
+        outline: none;
+    }
+    &:focus-within {
+        border-color: $gradient-end;
+        box-shadow: 0 6px 18px rgba($gradient-start, 0.06),
+            0 0 0 6px rgba($gradient-start, 0.06);
+
+        &__icon {
+            @include g.text-color-gradient($gradient-start, $gradient-end);
+        }
+    }
+
+    &.is-invalid {
+        border-color: $danger;
+        box-shadow: 0 6px 18px rgba($danger, 0.06);
+        &__icon {
+            color: $danger;
+        }
+    }
+
+    &.has-value {
+        &__icon {
+            opacity: 0.6;
+            transform: scale(0.98);
+        }
+    }
+
+    // mobile reduced padding
+    @media (max-width: 576px) {
+        gap: calc(#{$input-gap} * 0.8);
+        padding: calc(#{$input-padding-vertical} * 0.6)
+            calc(#{$input-padding-horizontal} * 0.6);
+        &__icon {
+            font-size: calc((#{$input-icon-size} / 6) * 5);
+        }
+
+        &__control {
+            padding-left: 0;
+        }
+    }
+}

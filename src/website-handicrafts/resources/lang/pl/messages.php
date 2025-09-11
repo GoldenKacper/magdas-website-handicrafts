@@ -42,6 +42,24 @@ return [
     'about_twitter_title_meta' => 'Malin — o mnie, Magda',
     'about_twitter_description_meta' => 'Cześć — nazywam się Magda. Tworzę ręcznie robioną biżuterię: małe bransoletki i naszyjniki robione z pasją. Każdy egzemplarz powstaje z dbałością o szczegóły, z wysokiej jakości materiałów — idealny na prezent lub osobisty dodatek.',
 
+    // Meta Gallery
+    'gallery_title_meta' => 'Malin - Galeria',
+    'gallery_description_meta' => 'Odkryj unikalną biżuterię ręcznie robioną z miłością przez Magdę. Zobacz naszą galerię bransoletek, naszyjników i kolczyków.',
+    'gallery_keywords_meta' => 'galeria, zdjęcia, biżuteria, rękodzieło, bransoletki, naszyjniki, kolczyki',
+    'gallery_og_title_meta' => 'Malin — Galeria ręcznie robionej biżuterii',
+    'gallery_og_description_meta' => 'Zobacz kolekcję unikalnych, ręcznie robionych bransoletek i naszyjników — idealne na prezent i do codziennego noszenia.',
+    'gallery_twitter_title_meta' => 'Malin — Galeria ręcznie robionej biżuterii',
+    'gallery_twitter_description_meta' => 'Odkryj unikalną biżuterię ręcznie robioną z miłością przez Magdę. Zobacz naszą galerię bransoletek, naszyjników i kolczyków.',
+
+    // Meta Contact
+    'contact_title_meta' => 'Malin - Kontakt',
+    'contact_description_meta' => 'Skontaktuj się z Magdą — autorką ręcznie robionej biżuterii. Masz pytanie o zamówienie, personalizację lub chcesz omówić projekt na miarę? Napisz lub zadzwoń — chętnie pomogę i doradzę.',
+    'contact_keywords_meta' => 'kontakt, biżuteria, rękodzieło, zamówienia, personalizacja, Magda, sklep, ręcznie robione',
+    'contact_og_title_meta' => 'Malin — Kontakt z Magdą',
+    'contact_og_description_meta' => 'Masz pytanie o produkt, chcesz złożyć zamówienie lub zamówić personalizację? Skontaktuj się ze mną — odpowiem szybko i pomogę dopracować projekt.',
+    'contact_twitter_title_meta' => 'Malin — Kontakt',
+    'contact_twitter_description_meta' => 'Skontaktuj się z Magdą — ręcznie robiona biżuteria. Zapytaj o zamówienie, personalizację lub dostępność.',
+
     // Hero
     'hero_title' => 'Witamy w Rękodziele Magdy',
     'hero_subtitle' => 'Unikalna biżuteria ręcznie robiona z pasją i precyzją.',
@@ -67,6 +85,9 @@ return [
     'faq_subtitle' => 'Masz pytania? Sprawdź odpowiedzi na najczęstsze z nich.',
     'faq_section_alt' => 'Tło sekcji FAQ',
 
+    // Gallery
+    'gallery_section_alt' => 'Tło sekcji galerii',
+
     // Footer
     'footer_about_title' => 'O mnie',
     'footer_social_title' => 'Media społecznościowe',
@@ -81,8 +102,6 @@ return [
     'footer_opinions_and_gallery' => 'Zajrzyj też do naszych opinii i galerii — znajdziesz tam realne realizacje.',
 
     'footer_contact_form' => 'Formularz kontaktowy',
-    'footer_mail' => 'magda.handicrafts@gmail.com',
-    'footer_phone_number' => '+48 123 456 789',
 
     'footer_copyright' => 'Kacper Jagodziński. Wszelkie prawa zastrzeżone.',
     'footer_privacy_policy' => 'Polityka prywatności',
@@ -97,5 +116,43 @@ return [
     'contact_send' => 'Wyślij',
     'contact_success' => 'Dziękuję za wiadomość! Odezwiemy się wkrótce.',
     'contact_error' => 'Wystąpił błąd podczas wysyłania wiadomości. Spróbuj ponownie później.',
+
+    // Contact Form
+    'contact_form_title' => 'Napisz do mnie',
+    'contact_form_subtitle' => 'Masz pytanie? Wypełnij formularz — odpiszę jak najszybciej.',
+    'contact_form_first_name' => 'Imię',
+    'contact_form_last_name' => 'Nazwisko',
+    'contact_form_email' => 'E-mail',
+    'contact_form_message' => 'Wiadomość',
+    'contact_form_message_placeholder' => 'Opisz tutaj swoją wiadomość...',
+    'contact_form_reset' => 'Wyczść',
+    'contact_form_reset_title' => 'Wyczyść. Naciśnij jeśli chcesz wyczyścić dane z formularza kontaktowego.',
+    'contact_form_send' => 'Wyślij',
+    'contact_form_send_title' => 'Wyślij. Naciśnij jeśli jesteś zdecydowany wysłać mi wiadomość z treścią zawartą w formularzu.',
+
+    // Validation messages (contact form)
+    'validation_required' => ':field jest wymagane.',
+    'validation_min' => ':field musi mieć co najmniej :min znaków.',
+    'validation_max' => ':field może mieć maksymalnie :max znaków.',
+    'validation_email_invalid' => 'Proszę podać poprawny adres e-mail.',
+    'validation_all_valid' => 'Wszystkie pola poprawne.',
+
+    // Gallery
+    'gallery_title_show' => 'Zobacz szczegóły produktu. Pokazuje szczegóły wybranego produktu wraz z większą liczbą zdjęć.',
+    'gallery_title_previous' => 'Poprzednie. Przewiń do poprzedniego zdjęcia w galerii.',
+    'gallery_title_next' => 'Następne. Przewiń do następnego zdjęcia w galerii.',
+
+    // Gallery modal
+    'gallery_modal_close' => 'Zamknij',
+    'gallery_modal_category' => 'Kategoria',
+    'gallery_modal_description' => 'Opis',
+    'gallery_modal_price' => 'Cena',
+    'gallery_modal_stock' => 'Dostępność',
+    'gallery_modal_miniatures' => 'Miniatury',
+    'gallery_modal_miniatures_button' => 'Pokaż zdjęcie :idx',
+    'gallery_modal_loading' => 'Ładowanie...',
+    'gallery_modal_error' => 'Błąd',
+    'gallery_modal_error_message' => 'Nie udało się pobrać danych. Spróbuj ponownie.',
+
 
 ];

@@ -115,4 +115,17 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Global "Phone" Number
+    |--------------------------------------------------------------------------
+    |
+    | You may wish for all contact forms to use the same phone number.
+    |
+    */
+
+    'phone' => [
+        'number' => env('PHONE_NUMBER', '+48 123 456 789'),
+    ],
+
 ];

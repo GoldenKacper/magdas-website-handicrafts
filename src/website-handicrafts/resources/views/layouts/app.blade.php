@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-locale="{{ app()->getLocale() }}">
 
 <head>
     @include('layouts.partials.preloader-assets')
@@ -14,6 +14,9 @@
         {{-- Main content container --}}
         <main>
             <div class="container-fluid ultra-wide px-0">
+                {{-- Placeholder for modal --}}
+                <div id="modal-root"></div>
+
                 {{-- flash messages --}}
                 @if (session('success'))
                     <div class="alert alert-success" role="alert">
