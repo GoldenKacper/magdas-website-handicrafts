@@ -5,11 +5,13 @@
             <div class="footer-scroll-animation order-animation-0 col-12 col-md-6 col-lg-4">
                 <h4 class="footer-title fw-bold h5 mb-3">{{ __('messages.footer_about_title') }}</h4>
                 <p class="footer-text mb-2">
-                    {{ __('messages.footer_about_text_1') }} <a href="#"
+                    {{ __('messages.footer_about_text_1') }} <a
+                        href="{{ route('about', ['locale' => session('locale', app()->getLocale())]) }}"
                         class="footer-link gradient-animated-footer"
                         data-text="{{ __('messages.footer_about_link_1') }}">{{ __('messages.footer_about_link_1') }}</a>.
                 </p>
-                <p class="footer-text mb-0">{{ __('messages.footer_about_text_2a') }} <a href="#faq"
+                <p class="footer-text mb-0">{{ __('messages.footer_about_text_2a') }} <a
+                        href="{{ route('contact', ['locale' => session('locale', app()->getLocale())]) }}#faq"
                         class="footer-link gradient-animated-footer"
                         data-text="{{ __('messages.footer_about_link_2') }}">{{ __('messages.footer_about_link_2') }}</a>
                     {{ __('messages.footer_about_text_2b') }}.
@@ -63,7 +65,8 @@
                     <li class="mb-2">
                         <div class="d-inline-flex align-items-center">
                             <i class="fa-regular fa-envelope me-3" aria-hidden="true"></i>
-                            <a href="#" class="footer-link gradient-animated-footer"
+                            <a href="{{ route('contact', ['locale' => session('locale', app()->getLocale())]) }}#contact-form"
+                                class="footer-link gradient-animated-footer"
                                 data-text="{{ __('messages.footer_contact_form') }}">
                                 {{ __('messages.footer_contact_form') }}
                             </a>
@@ -73,9 +76,10 @@
                     <li class="mb-2">
                         <div class="d-inline-flex align-items-center">
                             <i class="fa-regular fa-envelope-open me-3" aria-hidden="true"></i>
-                            <a href="mailto:magda.handicrafts@gmail.com" class="footer-link gradient-animated-footer"
-                                data-text="{{ __('messages.footer_mail') }}">
-                                {{ __('messages.footer_mail') }}
+                            <a href="mailto:{{ config('mail.from.address') }}"
+                                class="footer-link gradient-animated-footer"
+                                data-text="{{ config('mail.from.address') }}">
+                                {{ config('mail.from.address') }}
                             </a>
                         </div>
 
@@ -83,9 +87,10 @@
                     <li>
                         <div class="d-inline-flex align-items-center">
                             <i class="fa-solid fa-phone me-3" aria-hidden="true"></i>
-                            <a href="tel:+48123456789" class="footer-link gradient-animated-footer"
-                                data-text="{{ __('messages.footer_phone_number') }}">
-                                {{ __('messages.footer_phone_number') }}
+                            <a href="tel:{{ config('mail.phone.number') }}"
+                                class="footer-link gradient-animated-footer"
+                                data-text="{{ config('mail.phone.number') }}">
+                                {{ config('mail.phone.number') }}
                             </a>
                         </div>
 

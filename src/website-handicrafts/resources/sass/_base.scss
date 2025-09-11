@@ -100,6 +100,61 @@
     --faq-panel-bg: #{$faq-panel-bg};
     --faq-panel-border: #{$faq-panel-border};
     --faq-blur: #{$faq-blur};
+
+    /* Form elements */
+    --input-padding-vertical: #{$input-padding-vertical};
+    --input-padding-horizontal: #{$input-padding-horizontal};
+    --input-gap: #{$input-gap};
+    --input-border-radius: #{$input-border-radius};
+    --input-icon-size: #{$input-icon-size};
+    --input-icon-box-size: #{$input-icon-box-size};
+    --input-box-shadow: #{$input-box-shadow};
+
+    /* Gallery section */
+    --gallery-peek: #{$gallery-peek}; // percent of viewport to "peek
+    --gallery-gap: #{$gallery-gap};
+    --gallery-transition: #{$gallery-transition};
+
+    --gal-radius: #{$gal-radius};
+    --gal-border-inset: #{$gal-border-inset};
+    --gal-border-size: #{$gal-border-size};
+
+    --gal-caption-pad-y: #{$gal-caption-pad-y};
+    --gal-caption-pad-x: #{$gal-caption-pad-x};
+
+    --gal-btn-pad-y: #{$gal-btn-pad-y};
+    --gal-btn-pad-x: #{$gal-btn-pad-x};
+    --gal-btn-radius: #{$gal-btn-radius};
+    --gal-btn-font-size: #{$gal-btn-font-size};
+
+    --gal-img-scale-hover: #{$gal-img-scale-hover};
+    --gal-ease: #{$gal-ease};
+
+    /* Gallery Modal & slider */
+    --pg-transition: #{$pg-transition};
+
+    --pg-arrow-size: #{$pg-arrow-size};
+    --pg-arrow-radius: #{$pg-arrow-radius};
+    --pg-arrow-bg: #{$pg-arrow-bg};
+    --pg-arrow-bg-hover: #{$pg-arrow-bg-hover};
+    --pg-arrow-color: #{$pg-arrow-color};
+    --pg-elev-shadow: #{$pg-elev-shadow};
+
+    --pg-thumbs-gap: #{$pg-thumbs-gap};
+    --pg-thumbs-inset-x: #{$pg-thumbs-inset-x};
+    --pg-thumbs-inset-bottom: #{$pg-thumbs-inset-bottom};
+
+    --pg-thumb-size: #{$pg-thumb-size};
+    --pg-thumb-size-sm: #{$pg-thumb-size-sm};
+    --pg-thumb-radius: #{$pg-thumb-radius};
+    --pg-thumb-opacity: #{$pg-thumb-opacity};
+    --pg-thumb-active-lift: #{$pg-thumb-active-lift};
+    --pg-thumb-stroke: #{$pg-thumb-stroke};
+    --pg-thumb-active-stroke: #{$pg-thumb-active-stroke};
+    --pg-thumb-active-shadow: #{$pg-thumb-active-shadow};
+
+    /* Other custom variables */
+    --anchor-offset: #{$anchor-offset};
 }
 
 //

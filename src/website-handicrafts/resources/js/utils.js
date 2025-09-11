@@ -118,3 +118,59 @@ export function onReady(fn) {
         document.addEventListener("DOMContentLoaded", fn);
     }
 }
+
+// safe helper (opcjonalnie) - używa window.__ gdy dostępne
+export function t(key, replacements = {}, defaultValue = null) {
+    // 1) prefer native window.__ if available
+    if (typeof window.__ === "function") {
+        return window.__(key, replacements, defaultValue);
+    }
+
+    // 2) otherwise use window.LaravelTranslations object
+    const dict = window.LaravelTranslations || {};
+    let s =
+        typeof dict[key] !== "undefined"
+            ? dict[key]
+            : typeof defaultValue === "string"
+            ? defaultValue
+            : key;
+
+    // apply replacements like ":count", ":field"
+    Object.keys(replacements || {}).forEach(function (k) {
+        s = ("" + s).split(":" + k).join(replacements[k]);
+    });
+    return s;
+}
+
+// Throttle z leading-edge (odrzuca kolejne wywołania < wait ms)
+export function throttleLeading(fn, wait = 300) {
+    let last = 0;
+    return function (...args) {
+        const now = Date.now();
+        if (now - last < wait) return;
+        last = now;
+        return fn.apply(this, args);
+    };
+}
+
+// Sprząta ewentualne osierocone tła i klasę na body
+export function cleanupBackdrops() {
+    $(".modal-backdrop").remove();
+    document.body.classList.remove("modal-open");
+    document.body.style.removeProperty("padding-right");
+}
+
+// Usuń wszystkie backdrops i zdejmij blokadę ze scrolla
+export function unlockBodyScroll() {
+    // Usuń wszystkie backdrops
+    document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
+    // Zdejmij blokadę ze scrolla
+    const body = document.body;
+    body.classList.remove("modal-open");
+    body.style.removeProperty("overflow");
+    body.style.removeProperty("padding-right");
+    body.removeAttribute("data-bs-padding-right");
+    body.removeAttribute("data-bs-overflow");
+    // Na wszelki wypadek (rzadko potrzebne, ale bezpieczne)
+    document.documentElement.style.removeProperty("overflow");
+}

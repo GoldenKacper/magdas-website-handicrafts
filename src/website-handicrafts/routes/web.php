@@ -19,6 +19,9 @@ Route::get('/lang/{locale}', [App\Http\Controllers\LocaleController::class, 'swi
 Route::prefix('{locale}')->where(['locale' => 'en|pl'])->middleware(['locale'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
+    Route::get('/gallery', [App\Http\Controllers\GalleryController::class, 'index'])->name('gallery');
+    Route::get('/gallery/{id}', [App\Http\Controllers\GalleryController::class, 'show'])->name('gallery.show');
+    Route::get('/contact', [App\Http\Controllers\ContactController::class, 'index'])->name('contact');
 });
 
 // Redirect root / -> /{locale}/

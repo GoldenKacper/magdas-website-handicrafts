@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class AboutController extends Controller
 {
     /**
-     * Show the application dashboard.
+     * Show the application About me Page.
      */
     public function index()
     {

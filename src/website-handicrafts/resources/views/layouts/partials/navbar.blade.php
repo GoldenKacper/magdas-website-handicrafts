@@ -33,11 +33,13 @@
                         data-text="{{ __('messages.about') }}">{{ __('messages.about') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center gradient-animated-nav" href="#gallery"
+                    <a class="nav-link text-center gradient-animated-nav {{ request()->routeIs('gallery') ? 'active-pill' : '' }}"
+                        href="{{ route('gallery', ['locale' => session('locale', app()->getLocale())]) }}"
                         data-text="{{ __('messages.gallery') }}">{{ __('messages.gallery') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-center gradient-animated-nav" href="#contact"
+                    <a class="nav-link text-center gradient-animated-nav {{ request()->routeIs('contact') ? 'active-pill' : '' }}"
+                        href="{{ route('contact', ['locale' => session('locale', app()->getLocale())]) }}"
                         data-text="{{ __('messages.contact') }}">{{ __('messages.contact') }}</a>
                 </li>
             </ul>

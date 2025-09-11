@@ -1,0 +1,328 @@
+// Use mixins using Sass modules
+@use "../primary-mixins" as m;
+@use "../gradient-mixins" as g;
+@use "../animation-mixins" as a;
+@use "../form-mixins" as f;
+
+@use "../variables" as *;
+
+//
+// ------------- FAQ section -------------
+//
+.faq-section {
+    position: relative;
+    min-height: 95vh;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: var(--text-color, $text-color);
+    overflow: visible;
+
+    // smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+
+    scroll-margin-top: 0;
+
+    // &:target {
+    //     scroll-margin-top: var(--anchor-offset, $anchor-offset);
+    // }
+
+    // subtle overlay gradient + parallax illusion
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba($malinowy, 0.3),
+            rgba($malinowy-dark, 0.4)
+        );
+        pointer-events: none;
+        z-index: 0;
+        mix-blend-mode: multiply;
+    }
+
+    .container,
+    .container-fluid {
+        position: relative;
+        z-index: 2;
+        transform: translateY(-5%);
+    }
+
+    p.lead {
+        @include m.lead-style(
+            $font-size: $lead-font-size,
+            $color: rgba($hero-text-color, 0.92)
+        );
+    }
+
+    .faq-title,
+    .faq-subtitle {
+        opacity: 1;
+    }
+
+    .faq-panel {
+        position: relative;
+        z-index: 2;
+        background: var(--pudrowy, $pudrowy);
+        border-radius: 1rem;
+        backdrop-filter: blur($faq-blur);
+        -webkit-backdrop-filter: blur($faq-blur);
+        border: 1px solid $faq-panel-border;
+        box-shadow: 0 12px 40px rgba(2, 6, 23, 0.08);
+
+        .faq-item {
+            opacity: 1;
+
+            .faq-question {
+                background: transparent;
+                border: none;
+                text-align: left;
+                @include m.padding-inline-block(1rem, 0.85rem);
+                border-radius: 1rem;
+                cursor: pointer;
+                gap: 1rem;
+                transition: background 0.3s ease;
+
+                &:hover,
+                &:focus {
+                    background: var(--pudrowy-light, $pudrowy-light);
+                    outline: none;
+                }
+
+                .faq-q-icon {
+                    font-size: 1.5rem;
+                    @include g.text-color-gradient($malinowy, $malinowy-dark);
+                }
+
+                .faq-q-text {
+                    font-size: 1rem;
+                    color: var(--text-color, $text-color);
+                }
+
+                .faq-chevron {
+                    transition: transform 0.3s ease-in-out;
+                    color: rgba(0, 0, 0, 0.7);
+                }
+            }
+
+            .faq-answer {
+                box-sizing: border-box;
+                margin-top: 0.5rem;
+                padding: 0 2.4rem 0 3.2rem;
+                color: var(--text-color, $text-color);
+                line-height: 1.6;
+                height: 0;
+                overflow: hidden;
+                transition: height 0.3s ease-in-out; // only height, inner has its own transitions
+                will-change: height;
+                opacity: 1;
+
+                .faq-answer-inner {
+                    // this is the real animation: transform + opacity - GPU-accelerated, does not cause reflow
+                    transform-origin: top;
+                    transform: translateY(-6px);
+                    opacity: 0;
+                    transition: transform 0.3s ease-in-out,
+                        opacity 0.3s ease-in-out;
+                    will-change: transform, opacity;
+                    padding-top: 0;
+                }
+            }
+
+            // revealed state when JS toggles aria-expanded or adds .open
+            .faq-question[aria-expanded="true"] ~ .faq-answer .faq-answer-inner,
+            &.open .faq-answer .faq-answer-inner {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .faq-question[aria-expanded="true"] .faq-chevron,
+            &.open .faq-chevron {
+                transform: rotate(-180deg);
+            }
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .container,
+        .container-fluid {
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .faq-panel .faq-item .faq-q-text {
+            font-size: 1rem;
+        }
+
+        .faq-panel .faq-item .faq-answer {
+            padding: 0 1rem 0 1.5rem;
+            font-size: 1rem;
+        }
+
+        .faq-panel .faq-item .faq-question {
+            @include m.padding-inline-block(0.65rem, 0.5rem);
+
+            .faq-q-icon {
+                font-size: 1.25rem;
+            }
+        }
+
+        p.lead {
+            @include m.lead-style(
+                $font-size: $lead-mobile-size,
+                $color: rgba($hero-text-color, 0.92)
+            );
+        }
+    }
+}
+
+//
+// ------------- Contact form -------------
+//
+// Styles for the contact panel (transparent panel, styled inputs)
+.contact-panel-wrapper {
+    // keep wrapper transparent so underlying hero/bg shows through
+    position: relative;
+    z-index: 1; // above overlay
+    color: var(--text-color, $text-color);
+
+    .contact-panel-header {
+        // title/subtitle sits nicely
+        .contact-panel-title,
+        .contact-panel-subtitle {
+            opacity: 1;
+        }
+    }
+
+    // The actual form area — visually transparent, inputs are visible
+    .contact-panel {
+        background: transparent;
+        // optional subtle backdrop blur so inputs read better on busy images
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        border-radius: 0.6rem;
+        z-index: 2;
+
+        scroll-margin-top: 0;
+
+        &:target {
+            scroll-margin-top: calc(3 * var(--anchor-offset, $anchor-offset));
+        }
+
+        // small helpers for labels if you decide to show
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: rgba($text-color, 0.84);
+        }
+
+        .input-icon {
+            @include f.input-icon-base(
+                $bg: $pudrowy,
+                $bg-hover: $pudrowy-light,
+                $border: $faq-panel-border,
+                $radius: $input-border-radius,
+                $gradient-start: $malinowy,
+                $gradient-end: $malinowy-dark,
+                $danger: $danger,
+                $success: $success,
+                $text-color: $text-color,
+                $input-padding-vertical: $input-padding-vertical,
+                $input-padding-horizontal: $input-padding-horizontal,
+                $input-gap: $input-gap,
+                $input-icon-size: $input-icon-size,
+                $input-icon-box-size: $input-icon-box-size,
+                $input-box-shadow: $input-box-shadow,
+                $z-index: 3
+            );
+        }
+
+        .input-icon--textarea {
+            @include f.input-icon-base(
+                $bg: $pudrowy,
+                $bg-hover: $pudrowy-light,
+                $border: $faq-panel-border,
+                $radius: $input-border-radius,
+                $gradient-start: $malinowy,
+                $gradient-end: $malinowy-dark,
+                $danger: $danger,
+                $success: $success,
+                $text-color: $text-color,
+                $input-padding-vertical: $input-padding-vertical,
+                $input-padding-horizontal: $input-padding-horizontal,
+                $input-gap: $input-gap,
+                $input-icon-size: $input-icon-size,
+                $input-icon-box-size: $input-icon-box-size,
+                $input-box-shadow: $input-box-shadow,
+                $z-index: 3
+            );
+            align-items: flex-start;
+            padding-top: 0.6rem;
+            padding-bottom: 0.6rem;
+            max-height: 50vh; // prevent overly tall textareas on small viewports
+
+            &__control {
+                min-height: 9rem;
+                resize: vertical;
+                padding-top: 0.15rem;
+            }
+        }
+
+        .feedback {
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+            font-size: 0.875rem;
+            line-height: 1.2;
+            color: var(--pale, $pale);
+            font-weight: 700;
+        }
+
+        .btn {
+            color: var(--text-color, $text-color);
+            font-size: 1.5rem;
+            padding: 0.25rem 1rem;
+
+            &:hover,
+            &:focus,
+            &:active {
+                color: var(--pale, $pale);
+            }
+
+            .btn-text {
+                display: inline-block;
+                visibility: visible;
+                color: inherit;
+                font-size: 1rem;
+                font-weight: 500;
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        .contact-panel {
+            .d-flex.gap-2 {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+
+            .feedback {
+                font-size: 0.75rem;
+            }
+
+            .btn {
+                flex: 1 1 auto;
+                max-width: 25%;
+                font-size: 1.25rem;
+
+                .btn-text {
+                    display: none;
+                    visibility: hidden;
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}
