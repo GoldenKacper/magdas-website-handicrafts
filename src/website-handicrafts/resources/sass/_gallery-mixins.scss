@@ -1,0 +1,408 @@
+@use "./gradient-mixins" as g;
+
+/**
+ * gallery-viewport
+ *
+ * Horizontal viewport with subtle side "peeking".
+ * Params:
+ *  - $horizontal-inset (length): side padding to reveal peeking (e.g., 1rem)
+ */
+@mixin gallery-viewport($horizontal-inset: $gallery-peek) {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-left: $horizontal-inset;
+    padding-right: $horizontal-inset;
+    outline: none;
+}
+
+/**
+ * gallery-track
+ *
+ * Flex track for gallery items with gap and transform acceleration.
+ * Params:
+ *  - $item-gap (length): space between slides
+ */
+@mixin gallery-track($item-gap: $gallery-gap) {
+    display: flex;
+    align-items: stretch;
+    gap: $item-gap;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+/**
+ * gallery-item-width
+ *
+ * Fixed tile width computed from the number of visible tiles and the gap.
+ * Params: none
+ */
+@mixin gallery-item-width {
+    flex: 0 0
+        calc(
+            (100% - (var(--tiles-visible) - 1) * var(--gap)) /
+                var(--tiles-visible)
+        );
+}
+
+/**
+ * gallery-tile
+ *
+ * Tile container with a gradient frame (like in the "Offer" section).
+ * Params:
+ *  - $corner-radius (length): tile border radius
+ *  - $frame-inset (length): internal inset for the gradient frame
+ *  - $frame-width (length): normal border thickness (0 = no border)
+ *  - $gradient-start (color), $gradient-end (color): gradient colors on hover
+ *  - $frame-color (color): border color in the normal state
+ *  - $on-gradient-text-color (color): text color when gradient is active
+ */
+@mixin gallery-tile(
+    $corner-radius: $gal-radius,
+    $frame-inset: $gal-border-inset,
+    $frame-width: $gal-border-size,
+    $gradient-start: $malinowy,
+    $gradient-end: $malinowy-dark,
+    $frame-color: $primary,
+    $on-gradient-text-color: $pale
+) {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: $corner-radius;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+
+    @include g.gradient-panel(
+        $inset: $frame-inset,
+        $border-size: $frame-width,
+        $border-color: $frame-color,
+        $gradient-start: $gradient-start,
+        $gradient-end: $gradient-end,
+        $mask-bg: transparent,
+        $text-on-gradient: $on-gradient-text-color,
+        $transition-speed: 0.3s
+    );
+}
+
+/**
+ * gallery-overlay-grid
+ *
+ * Overlay grid for captions and actions.
+ * Params:
+ *  - $overlay-color (color): text/icon color on the overlay
+ *  - $transition-speed (duration): opacity transition duration
+ */
+@mixin gallery-overlay-grid(
+    $overlay-color: $pale,
+    $transition-speed: $gallery-transition
+) {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    align-items: center;
+    justify-items: center;
+    color: $overlay-color;
+    opacity: 1; // intentionally always visible (as in your version)
+    transition: opacity $transition-speed;
+    pointer-events: none;
+}
+
+/**
+ * gallery-btn
+ *
+ * Icon button that sits on the overlay; side: left | right.
+ * Params:
+ *  - $side ("left" | "right"): which edge to place the button on
+ *  - $btn-pad-y (length): vertical padding
+ *  - $btn-pad-x (length): horizontal padding
+ *  - $btn-radius (length): border radius
+ *  - $btn-font-size (length): icon/font size
+ *  - $transition-speed (duration): transition duration
+ *  - $icon-color (color): icon/text color
+ */
+@mixin gallery-btn(
+    $side,
+    $btn-pad-y: $gal-btn-pad-y,
+    $btn-pad-x: $gal-btn-pad-x,
+    $btn-radius: $gal-btn-radius,
+    $btn-font-size: $gal-btn-font-size,
+    $transition-speed: $gallery-transition,
+    $icon-color: $pale
+) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(0);
+    border: 0;
+    background: transparent;
+    padding: $btn-pad-y $btn-pad-x;
+    border-radius: $btn-radius;
+    color: $icon-color;
+    line-height: 1;
+    font-size: $btn-font-size;
+    opacity: 0;
+    pointer-events: auto;
+    transition: opacity $transition-speed, transform $transition-speed,
+        background $transition-speed, box-shadow $transition-speed;
+
+    &:active,
+    &.active {
+        background: rgba(0, 0, 0, 0.28);
+        box-shadow: 0 8px 28px rgba(2, 6, 23, 0.18);
+    }
+
+    @if $side == left {
+        left: 0.85rem;
+        transform: translate(-6px, -50%);
+    } @else if $side == right {
+        right: 0.85rem;
+        transform: translate(6px, -50%);
+    }
+}
+
+/**
+ * ar-fallback
+ *
+ * aspect-ratio fallback for older browsers.
+ * Params:
+ *  - $ratio (list): (width, height) pair, e.g., (16, 9)
+ */
+@mixin ar-fallback(
+    $ratio: (
+        1,
+        1,
+    )
+) {
+    @supports not (aspect-ratio: 1/1) {
+        height: 0;
+        padding-top: calc(100% * (#{nth($ratio, 2)} / #{nth($ratio, 1)}));
+    }
+}
+
+/**
+ * set-tiles-visible
+ *
+ * Utility that sets the CSS custom property for visible tiles.
+ * Params:
+ *  - $count (number): number of tiles visible at once
+ */
+@mixin set-tiles-visible($count) {
+    .gallery-strip {
+        --tiles-visible: #{$count};
+    }
+}
+
+// ------------------------------
+
+/**
+ * pg-viewport
+ *
+ * Simple relative container with overflow clipped (used by photo gallery).
+ * Params: none
+ */
+@mixin pg-viewport {
+    position: relative;
+    overflow: hidden;
+}
+
+/**
+ * pg-track
+ *
+ * Horizontal slide track with transform transition.
+ * Params:
+ *  - $transition-speed (duration): transform transition duration
+ */
+@mixin pg-track($transition-speed: $pg-transition) {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    transition: transform $transition-speed;
+}
+
+/**
+ * pg-item
+ *
+ * Full-width slide item with absolutely positioned <img>.
+ * Params: none
+ */
+@mixin pg-item {
+    flex: 0 0 100%;
+    position: relative;
+    user-select: none;
+
+    img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        pointer-events: none;
+    }
+}
+
+/**
+ * pg-arrow
+ *
+ * Circular previous/next arrow button.
+ * Params:
+ *  - $side ("left" | "right"): which edge to anchor the button
+ *  - $arrow-size (length): width/height of the button
+ *  - $arrow-radius (length): button border radius
+ *  - $arrow-bg (color): default background
+ *  - $arrow-bg-hover (color): hover/focus background
+ *  - $arrow-color (color): icon color
+ *  - $elevation-shadow (shadow): box-shadow for elevation
+ *  - $transition-speed (duration): transition duration
+ */
+@mixin pg-arrow(
+    $side,
+    $arrow-size: $pg-arrow-size,
+    $arrow-radius: $pg-arrow-radius,
+    $arrow-bg: $pg-arrow-bg,
+    $arrow-bg-hover: rgba(0, 0, 0, 0.42),
+    $arrow-color: $pale,
+    $elevation-shadow: $pg-elev-shadow,
+    $transition-speed: $pg-transition
+) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: $arrow-bg;
+    color: $arrow-color;
+    width: $arrow-size;
+    height: $arrow-size;
+    border-radius: $arrow-radius;
+    display: grid;
+    place-items: center;
+    box-shadow: $elevation-shadow;
+    z-index: 7;
+    transition: background $transition-speed, opacity $transition-speed;
+
+    @if $side == left {
+        left: 0.6rem;
+    }
+    @if $side == right {
+        right: 0.6rem;
+        left: auto;
+    }
+
+    &:hover,
+    &:focus {
+        background: $arrow-bg-hover;
+    }
+}
+
+/**
+ * hide-scrollbar
+ *
+ * Utility to visually hide scrollbars across browsers.
+ * Params: none
+ */
+@mixin hide-scrollbar {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+        display: none;
+    } /* WebKit */
+}
+
+/**
+ * pg-thumbs-container
+ *
+ * Row container for thumbnail buttons.
+ * Params:
+ *  - $thumbs-inset-bottom (length): distance from bottom edge
+ *  - $thumbs-inset-x (length): horizontal inset (left/right)
+ *  - $thumbs-gap (length): spacing between thumbnails
+ */
+@mixin pg-thumbs-container(
+    $thumbs-inset-bottom: $pg-thumbs-inset-bottom,
+    $thumbs-inset-x: $pg-thumbs-inset-x,
+    $thumbs-gap: $pg-thumbs-gap
+) {
+    position: absolute;
+    bottom: $thumbs-inset-bottom;
+    left: $thumbs-inset-x;
+    right: $thumbs-inset-x;
+    display: flex;
+    gap: $thumbs-gap;
+    justify-content: center;
+    align-items: end;
+    z-index: 6;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.8rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    @include hide-scrollbar;
+}
+
+/**
+ * pg-thumb
+ *
+ * Thumbnail button with active/hover states and focus outline.
+ * Params:
+ *  - $thumb-size (length): width/height of a thumbnail
+ *  - $thumb-radius (length): corner radius
+ *  - $thumb-opacity (number): base opacity (0..1)
+ *  - $transition-speed (duration): transition duration
+ *  - $thumb-stroke (color): base inner stroke color
+ *  - $thumb-active-stroke (color): inner stroke when active
+ *  - $thumb-active-lift (length): upward translate when active
+ *  - $thumb-active-shadow (shadow): drop shadow when active
+ *  - $focus-accent-color (color): focus-visible outline accent
+ */
+@mixin pg-thumb(
+    $thumb-size: $pg-thumb-size,
+    $thumb-radius: $pg-thumb-radius,
+    $thumb-opacity: $pg-thumb-opacity,
+    $transition-speed: $pg-transition,
+    $thumb-stroke: $pg-thumb-stroke,
+    $thumb-active-stroke: $pg-thumb-active-stroke,
+    $thumb-active-lift: $pg-thumb-active-lift,
+    $thumb-active-shadow: $pg-thumb-active-shadow,
+    $focus-accent-color: $malinowy
+) {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    width: $thumb-size;
+    height: $thumb-size;
+    border-radius: $thumb-radius;
+    overflow: hidden;
+    opacity: $thumb-opacity;
+    transition: opacity $transition-speed, box-shadow $transition-speed,
+        transform $transition-speed;
+    box-shadow: inset 0 0 0 2px $thumb-stroke;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    &:hover,
+    &:focus {
+        opacity: 1;
+    }
+
+    &.active {
+        opacity: 1;
+        box-shadow: inset 0 0 0 2px $thumb-active-stroke, $thumb-active-shadow;
+        transform: translateY(-$thumb-active-lift);
+    }
+
+    &:focus-visible {
+        outline: 3px solid rgba($focus-accent-color, 0.45);
+        outline-offset: 2px;
+    }
+}

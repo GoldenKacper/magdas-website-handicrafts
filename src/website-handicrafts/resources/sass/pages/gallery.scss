@@ -1,0 +1,342 @@
+// Use mixins using Sass modules
+@use "sass:map";
+@use "../primary-mixins" as m;
+@use "../gradient-mixins" as g;
+@use "../animation-mixins" as a;
+@use "../gallery-mixins" as gal;
+
+@use "../variables" as *;
+
+//
+// ------------- Gallery section -------------
+//
+.gallery-section {
+    position: relative;
+    min-height: 95vh;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: var(--text-color, $text-color);
+
+    // smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+
+    // overlay (background dimming)
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba($malinowy, 0.2),
+            rgba($malinowy-dark, 0.3)
+        );
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    // keep container above overlay and hold paddings
+    .container,
+    .container-fluid {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+    }
+
+    .gallery-row {
+        scroll-margin-top: 0;
+
+        &:target {
+            scroll-margin-top: var(--anchor-offset, $anchor-offset);
+        }
+
+        .gallery-row-title {
+            color: var(--pale, $pale);
+            text-align: center;
+        }
+
+        .gallery-viewport {
+            @include gal.gallery-viewport($gallery-peek);
+        }
+
+        // Strip & track
+        .gallery-strip {
+            --tiles-visible: 6; // default (override media queries below)
+            --gap: #{$gallery-gap};
+            --peek: #{$gallery-peek};
+            position: relative;
+            width: 100%;
+            padding-inline: 0; // viewport handles peeking
+        }
+
+        .gallery-track {
+            @include gal.gallery-track(var(--gap));
+        }
+
+        // Kafelki
+        .gallery-item {
+            @include gal.gallery-item-width();
+        }
+
+        .gallery-item.is-off {
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .tile {
+            @include gal.gallery-tile(
+                $corner-radius: $gal-radius,
+                $frame-inset: $gal-border-inset,
+                $frame-width: $gal-border-size,
+                $gradient-start: $malinowy,
+                $gradient-end: $malinowy-dark,
+                $frame-color: $primary,
+                $on-gradient-text-color: $pale
+            );
+
+            .tile-media {
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+
+                img {
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius: inherit;
+                    transform: scale(1);
+                    transition: transform $gallery-transition;
+                }
+            }
+
+            .tile-overlay {
+                @include gal.gallery-overlay-grid(
+                    $overlay-color: $pale,
+                    $transition-speed: $gallery-transition
+                );
+            }
+
+            .tile-caption {
+                grid-row: 2;
+                z-index: 3;
+                padding: $gal-caption-pad-y $gal-caption-pad-x;
+                border-radius: 50rem;
+                @include m.text-shadow();
+                pointer-events: auto;
+                transition: background $gallery-transition,
+                    box-shadow $gallery-transition;
+            }
+
+            .tile-actions {
+                position: absolute;
+                inset: 0;
+                z-index: 3;
+                pointer-events: none; // only buttons receive events
+            }
+
+            .tile-open {
+                @include gal.gallery-btn(
+                    left,
+                    $btn-pad-y: $gal-btn-pad-y,
+                    $btn-pad-x: $gal-btn-pad-x,
+                    $btn-radius: $gal-btn-radius,
+                    $btn-font-size: $gal-btn-font-size,
+                    $transition-speed: $gallery-transition,
+                    $icon-color: $pale
+                );
+            }
+            .tile-go {
+                @include gal.gallery-btn(
+                    right,
+                    $btn-pad-y: $gal-btn-pad-y,
+                    $btn-pad-x: $gal-btn-pad-x,
+                    $btn-radius: $gal-btn-radius,
+                    $btn-font-size: $gal-btn-font-size,
+                    $transition-speed: $gallery-transition,
+                    $icon-color: $pale
+                );
+            }
+
+            // Hover/active/focus
+            &:hover,
+            &:focus,
+            &:active,
+            &.active {
+                .tile-media img {
+                    transform: scale($gal-img-scale-hover);
+                }
+                .tile-overlay {
+                    opacity: 1;
+                    z-index: 4;
+                }
+                .tile-btn {
+                    opacity: 1;
+                    transform: translate(0, -50%);
+                    z-index: 5;
+                }
+                .tile-caption {
+                    z-index: 4;
+                }
+                .tile-actions {
+                    z-index: 4;
+                }
+            }
+
+            // ONLY when the tile itself is active (click outside buttons)
+            &:active:not(:has(.tile-btn:active)) .tile-caption,
+            &.active:not(:has(.tile-btn.active)) .tile-caption {
+                background: rgba(0, 0, 0, 0.28);
+                box-shadow: 0 8px 28px rgba(2, 6, 23, 0.18);
+            }
+
+            // focus-visible for keyboard
+            &:focus-visible {
+                box-shadow: 0 0 0 4px rgba($malinowy, 0.35);
+            }
+
+            // Fallback without aspect-ratio
+            @include gal.ar-fallback((1, 1));
+        }
+
+        // Typografia/font sizes for mobile
+        @media (max-width: 992px) {
+            .tile .tile-caption {
+                font-size: 1rem;
+                padding: 0.25rem 0.6rem;
+            }
+            .tile .tile-btn {
+                font-size: 1rem;
+                padding: 0.45rem 0.6rem;
+            }
+        }
+
+        // --- Responsiveness: number of visible tiles ---
+        // Ultra wide
+        @media (min-width: 2000px) {
+            @include gal.set-tiles-visible(7);
+        }
+        // XXL
+        @media (min-width: 1400px) and (max-width: 1999.98px) {
+            @include gal.set-tiles-visible(5);
+        }
+        // XL
+        @media (min-width: 1200px) and (max-width: 1399.98px) {
+            @include gal.set-tiles-visible(4);
+        }
+        // LG
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            @include gal.set-tiles-visible(3);
+        }
+        // MD
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            @include gal.set-tiles-visible(2);
+        }
+        // SM
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            @include gal.set-tiles-visible(2);
+        }
+        // XS
+        @media (max-width: 575.98px) {
+            @include gal.set-tiles-visible(1);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .gallery-row .gallery-row-title {
+            margin-top: 1.5rem;
+        }
+    }
+}
+
+//
+// ------------- Gallery modal -------------
+//
+.modal .ratio img {
+    object-fit: cover;
+}
+
+.modal .modal-footer .btn-gradient {
+    color: var(--text-color, $text-color);
+
+    &:hover,
+    &:focus {
+        color: var(--pale, $pale);
+    }
+}
+
+//
+// ------------- Gallery modal - Slider -------------
+//
+.pg {
+    .pg-viewport {
+        @include gal.pg-viewport;
+
+        .pg-track {
+            @include gal.pg-track($transition-speed: $pg-transition);
+        }
+        .pg-item {
+            @include gal.pg-item;
+        }
+
+        // Arrows – left and right
+        .pg-prev {
+            @include gal.pg-arrow(
+                left,
+                $arrow-size: $pg-arrow-size,
+                $arrow-radius: $pg-arrow-radius,
+                $arrow-bg: $pg-arrow-bg,
+                $arrow-bg-hover: $pg-arrow-bg-hover,
+                $arrow-color: $pg-arrow-color,
+                $elevation-shadow: $pg-elev-shadow,
+                $transition-speed: $pg-transition
+            );
+        }
+        .pg-next {
+            @include gal.pg-arrow(
+                right,
+                $arrow-size: $pg-arrow-size,
+                $arrow-radius: $pg-arrow-radius,
+                $arrow-bg: $pg-arrow-bg,
+                $arrow-bg-hover: $pg-arrow-bg-hover,
+                $arrow-color: $pg-arrow-color,
+                $elevation-shadow: $pg-elev-shadow,
+                $transition-speed: $pg-transition
+            );
+        }
+
+        // Thumbnails as overlay at the bottom
+        .pg-thumbs.on-image {
+            @include gal.pg-thumbs-container(
+                $thumbs-inset-bottom: $pg-thumbs-inset-bottom,
+                $thumbs-inset-x: $pg-thumbs-inset-x,
+                $thumbs-gap: $pg-thumbs-gap
+            );
+        }
+        .pg-thumbs .pg-thumb {
+            @include gal.pg-thumb(
+                $thumb-size: $pg-thumb-size,
+                $thumb-radius: $pg-thumb-radius,
+                $thumb-opacity: $pg-thumb-opacity,
+                $transition-speed: $pg-transition,
+                $thumb-stroke: $pg-thumb-stroke,
+                $thumb-active-stroke: $pg-thumb-active-stroke,
+                $thumb-active-lift: $pg-thumb-active-lift,
+                $thumb-active-shadow: $pg-thumb-active-shadow,
+                $focus-accent-color: $malinowy
+            );
+        }
+    }
+}
+
+// mobile: smaller thumbnails, lower panel
+@media (max-width: 576px) {
+    .pg .pg-viewport .pg-thumbs .pg-thumb {
+        width: $pg-thumb-size-sm;
+        height: $pg-thumb-size-sm;
+    }
+}

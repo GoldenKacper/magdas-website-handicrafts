@@ -1,7 +1,7 @@
 // Use mixins using Sass modules
 @use "../primary-mixins" as m;
-@use "../gradients" as g;
-@use "../animations" as a;
+@use "../gradient-mixins" as g;
+@use "../animation-mixins" as a;
 
 @use "../variables" as *;
 
@@ -565,6 +565,7 @@
 
                 .faq-q-text {
                     font-size: 1rem;
+                    color: var(--text-color, $text-color);
                 }
 
                 .faq-chevron {

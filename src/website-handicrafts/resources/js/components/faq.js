@@ -1,4 +1,3 @@
-// resources/js/appScripts/home/faq.js
 import $ from "jquery";
 import { rafThrottle } from "../utils.js";
 window.$ = window.jQuery = $;

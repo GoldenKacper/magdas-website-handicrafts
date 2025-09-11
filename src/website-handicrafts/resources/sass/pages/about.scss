@@ -1,7 +1,7 @@
 // Use mixins using Sass modules
 @use "../primary-mixins" as m;
-@use "../gradients" as g;
-@use "../animations" as a;
+@use "../gradient-mixins" as g;
+@use "../animation-mixins" as a;
 
 @use "../variables" as *;
 
@@ -10,13 +10,17 @@
 //
 .about-section {
     position: relative;
-    min-height: 95vh; // preferujemy min-height — pozwala sekcji rozrastać się jeśli treści będzie więcej
+    min-height: 95vh;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    color: $text-color;
+    color: var(--text-color, $text-color);
 
-    // overlay (tło przyciemnienie)
+    // smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+
+    // overlay (background dimming)
     &::before {
         content: "";
         position: absolute;
@@ -28,6 +32,14 @@
         );
         pointer-events: none;
         z-index: 1;
+    }
+
+    // make container be above overlay and hold paddings
+    .container,
+    .container-fluid {
+        position: relative;
+        z-index: 2;
+        height: 100%;
     }
 
     .about-figure {
@@ -69,20 +81,9 @@
         }
     }
 
-    // make container be above overlay and hold paddings
-    .container,
-    .container-fluid {
-        position: relative;
-        z-index: 2;
-        height: 100%;
-        // padding moved to container in HTML (py-4 py-lg-5) — jeżeli chcesz możesz zadeklarować fallback:
-        // padding-top: 1rem; padding-bottom: 1rem;
-    }
-
     .about-title {
         color: var(--pale, $pale);
         text-align: center;
-        // padding-right: 10rem;
         padding-right: clamp(
             var(--about-side-gap-min, #{$about-side-gap-min}),
             var(--about-side-gap-preferred, #{$about-side-gap-preferred}),
@@ -94,10 +95,9 @@
         color: var(--pale, $pale);
         line-height: 1.6;
         font-weight: 500;
-        // margin-bottom: 5rem;
     }
 
-    /* left aligned: stick to left edge of the column, leave gap on the right */
+    // left aligned: stick to left edge of the column, leave gap on the right
     .about-text--left {
         margin-left: 0;
         margin-right: auto;
@@ -109,7 +109,7 @@
         );
     }
 
-    /* right aligned: stick to right edge of the column, leave gap on the left */
+    // right aligned: stick to right edge of the column, leave gap on the left
     .about-text--right {
         margin-right: 0;
         margin-left: auto;

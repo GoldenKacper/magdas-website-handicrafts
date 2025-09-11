@@ -3,8 +3,10 @@
 
 // Use mixins using Sass modules
 @use "primary-mixins" as m;
-@use "gradients" as g;
-@use "animations" as a;
+@use "gradient-mixins" as g;
+@use "animation-mixins" as a;
+@use "form-mixins" as f;
+@use "gallery-mixins" as gal;
 
 // Fonts | locally hosted fonts
 // @import url("https://fonts.bunny.net/css?family=quicksand:300,400,500,600,700|Nunito|raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");

@@ -209,6 +209,61 @@ $faq-panel-bg: rgba(255, 255, 255, 0.62); // frosted light
 $faq-panel-border: rgba(255, 255, 255, 0.18);
 $faq-blur: 8px;
 
+/* Form elements */
+$input-padding-vertical: 0.6rem !default;
+$input-padding-horizontal: 0.9rem !default;
+$input-gap: 0.75rem !default;
+$input-border-radius: 1rem !default;
+$input-icon-size: 1.5rem !default;
+$input-icon-box-size: 2rem !default;
+$input-box-shadow: 0 12px 40px rgba(2, 6, 23, 0.08) !default;
+
+/* Gallery section */
+$gallery-peek: 14% !default; // percent of viewport to "peek" on both sides
+$gallery-gap: 1rem !default;
+$gallery-transition: 0.42s ease-in-out !default;
+
+$gal-radius: 1rem !default;
+$gal-border-inset: 8px !default;
+$gal-border-size: 3px !default;
+
+$gal-caption-pad-y: 0.35rem !default;
+$gal-caption-pad-x: 0.8rem !default;
+
+$gal-btn-pad-y: 0.55rem !default;
+$gal-btn-pad-x: 0.7rem !default;
+$gal-btn-radius: 0.8rem !default;
+$gal-btn-font-size: 1.05rem !default;
+
+$gal-img-scale-hover: 1.06 !default;
+$gal-ease: ease-in-out !default;
+
+/* Gallery Modal & slider */
+$pg-transition: 0.3s ease-in-out !default;
+
+$pg-arrow-size: 44px !default;
+$pg-arrow-radius: 0.9rem !default;
+$pg-arrow-bg: rgba(0, 0, 0, 0.28) !default;
+$pg-arrow-bg-hover: rgba(0, 0, 0, 0.4) !default;
+$pg-arrow-color: var(--pale, #{$pale}) !default;
+$pg-elev-shadow: 0 8px 28px rgba(2, 6, 23, 0.18) !default;
+
+$pg-thumbs-gap: 0.5rem !default;
+$pg-thumbs-inset-x: 0.5rem !default;
+$pg-thumbs-inset-bottom: 0.5rem !default;
+
+$pg-thumb-size: 58px !default;
+$pg-thumb-size-sm: 48px !default;
+$pg-thumb-radius: 0.6rem !default;
+$pg-thumb-opacity: 0.8 !default;
+$pg-thumb-active-lift: 3px !default;
+$pg-thumb-stroke: rgba($malinowy, 0.75) !default;
+$pg-thumb-active-stroke: $pale !default;
+$pg-thumb-active-shadow: 0 8px 22px rgba(2, 6, 23, 0.18) !default;
+
+/* Other custom variables */
+$anchor-offset: 10vh; // offset for anchor links (height of fixed navbar)
+
 /**
  * define heart positions once (easy to edit)
  * The following comment is used to prevent my code formatter from formatting this fragment because it adds a comma,
