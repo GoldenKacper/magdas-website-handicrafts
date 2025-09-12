@@ -1,10 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-pale sticky-top justify-content-center">
     <div class="container-fluid mx-4">
         {{-- Logo --}}
-        <a class="navbar-brand d-flex align-items-center me-4 py-0"
-            href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}">
-            <img src="{{ Vite::asset('resources/images/magdas_website_logo_25_08_2025_demo_v2.png') }}"
-                alt="{{ __('messages.logo_img_alt') }}" class="img-fluid-logo">
+        <a class="navbar-brand d-flex align-items-center me-4 py-0 logo"
+            href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}"
+            aria-label="{{ __('messages.logo_img_alt') }}">
+            <span class="logo__wrap">
+                {{-- Malin --}}
+                <img class="logo__wordmark"
+                    src="{{ Vite::asset('resources/images/magdas_website_logo_25_09_2025_part_1.webp') }}"
+                    alt="{{ __('messages.logo_img_alt') }}" />
+
+                {{-- Raspberry --}}
+                <img class="logo__berry"
+                    src="{{ Vite::asset('resources/images/magdas_website_logo_25_09_2025_part_2.webp') }}"
+                    alt="{{ __('messages.logo_img_alt') }}" />
+
+                {{-- tagline --}}
+                <img class="logo__tagline"
+                    src="{{ Vite::asset('resources/images/magdas_website_logo_25_09_2025_part_3.webp') }}"
+                    alt="{{ __('messages.logo_img_alt') }}" />
+            </span>
         </a>
 
         {{-- Toggle for mobile --}}

@@ -1,9 +1,9 @@
 // Use mixins using Sass modules
 @use "sass:map";
-@use "../primary-mixins" as m;
-@use "../gradient-mixins" as g;
-@use "../animation-mixins" as a;
-@use "../gallery-mixins" as gal;
+@use "../mixins/primary-mixins" as m;
+@use "../mixins/gradient-mixins" as g;
+@use "../mixins/animation-mixins" as a;
+@use "../mixins/gallery-mixins" as gal;
 
 @use "../variables" as *;
 

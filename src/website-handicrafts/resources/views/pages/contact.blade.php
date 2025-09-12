@@ -75,132 +75,28 @@
                     <div class="faq-panel p-3 p-lg-5 shadow-soft">
                         <div class="faq-grid row gy-3">
 
-                            {{-- FAQ item (kopiuj/edytuj) --}}
-                            <div class="col-12">
-                                <div class="faq-item" data-faq-index="1">
-                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
-                                        aria-expanded="false" aria-controls="faq-panel-1" id="faq-btn-1">
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-circle-question faq-q-icon" aria-hidden="true"></i>
-                                            <span class="faq-q-text fw-bold">Jak mogę złożyć zamówienie?</span>
-                                        </span>
+                            {{-- FAQ item --}}
+                            @foreach ($faqs as $faq)
+                                <div class="col-12">
+                                    <div class="faq-item" data-faq-index="{{ $faq->id }}">
+                                        <button class="faq-question d-flex align-items-center justify-content-between w-100"
+                                            aria-expanded="false" aria-controls="faq-panel-{{ $faq->id }}"
+                                            id="faq-btn-{{ $faq->id }}">
+                                            <span class="d-flex align-items-center gap-2">
+                                                {!! $faq?->icon !!}
+                                                <span class="faq-q-text fw-bold">{{ $faq?->question }}</span>
+                                            </span>
 
-                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
-                                    </button>
+                                            <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
+                                        </button>
 
-                                    <div id="faq-panel-1" class="faq-answer" role="region" aria-labelledby="faq-btn-1"
-                                        hidden>
-                                        <p>Możesz zamówić przez formularz kontaktowy lub bezpośrednio w sklepie — wybierz
-                                            produkt, dodaj do koszyka i przejdź do płatności. W razie problemów napisz do
-                                            nas.</p>
+                                        <div id="faq-panel-{{ $faq->id }}" class="faq-answer" role="region"
+                                            aria-labelledby="faq-btn-{{ $faq->id }}" hidden>
+                                            <p>{{ $faq?->answer }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            {{-- Dodaj kolejne elementy FAQ --}}
-                            <div class="col-12">
-                                <div class="faq-item" data-faq-index="2">
-                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
-                                        aria-expanded="false" aria-controls="faq-panel-2" id="faq-btn-2">
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-shipping-fast faq-q-icon" aria-hidden="true"></i>
-                                            <span class="faq-q-text fw-bold">Ile trwa wysyłka?</span>
-                                        </span>
-                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
-                                    </button>
-
-                                    <div id="faq-panel-2" class="faq-answer" role="region" aria-labelledby="faq-btn-2"
-                                        hidden>
-                                        <p>Na ogół wysyłka trwa 2–5 dni roboczych. Dokładny termin zależy od opcji wysyłki i
-                                            lokalizacji klienta.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- przykłady: 3,4 --}}
-                            <div class="col-12">
-                                <div class="faq-item" data-faq-index="3">
-                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
-                                        aria-expanded="false" aria-controls="faq-panel-3" id="faq-btn-3">
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-rotate-right faq-q-icon" aria-hidden="true"></i>
-                                            <span class="faq-q-text fw-bold">Czy mogę zwrócić produkt?</span>
-                                        </span>
-                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
-                                    </button>
-                                    <div id="faq-panel-3" class="faq-answer" role="region" aria-labelledby="faq-btn-3"
-                                        hidden>
-                                        <p>Tak — przyjmujemy zwroty w ciągu 14 dni od otrzymania, jeśli produkt jest w
-                                            stanie nienaruszonym.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="faq-item" data-faq-index="4">
-                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
-                                        aria-expanded="false" aria-controls="faq-panel-4" id="faq-btn-4">
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-hand-holding-heart faq-q-icon" aria-hidden="true"></i>
-                                            <span class="faq-q-text fw-bold">Czy oferujesz personalizacje?</span>
-                                        </span>
-                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
-                                    </button>
-                                    <div id="faq-panel-4" class="faq-answer" role="region" aria-labelledby="faq-btn-4"
-                                        hidden>
-                                        <p>Tak — oferuję grawer, dobór kolorów i pudełek — skontaktuj się ze mną, żeby
-                                            omówić szczegóły.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- przykłady: 5,6 --}}
-                            <!-- FAQ item: Warranty -->
-                            <div class="col-12">
-                                <div class="faq-item" data-faq-index="5">
-                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
-                                        aria-expanded="false" aria-controls="faq-panel-5" id="faq-btn-5">
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-award faq-q-icon" aria-hidden="true"></i>
-                                            <span class="faq-q-text fw-bold">Czy produkty mają gwarancję?</span>
-                                        </span>
-
-                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
-                                    </button>
-
-                                    <div id="faq-panel-5" class="faq-answer" role="region" aria-labelledby="faq-btn-5"
-                                        hidden>
-                                        <p>Tak — wszystkie nasze wyroby objęte są 12-miesięczną gwarancją na wady
-                                            produkcyjne. Jeśli coś
-                                            się zdarzy, skontaktuj się z nami — omówimy naprawę lub wymianę.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- FAQ item: Sizing -->
-                            <div class="col-12">
-                                <div class="faq-item" data-faq-index="6">
-                                    <button class="faq-question d-flex align-items-center justify-content-between w-100"
-                                        aria-expanded="false" aria-controls="faq-panel-6" id="faq-btn-6">
-                                        <span class="d-flex align-items-center gap-2">
-                                            <i class="fa-solid fa-ruler faq-q-icon" aria-hidden="true"></i>
-                                            <span class="faq-q-text fw-bold">Jak dobrać właściwy rozmiar
-                                                bransoletki?</span>
-                                        </span>
-
-                                        <i class="fa-solid fa-chevron-down faq-chevron" aria-hidden="true"></i>
-                                    </button>
-
-                                    <div id="faq-panel-6" class="faq-answer" role="region" aria-labelledby="faq-btn-6"
-                                        hidden>
-                                        <p>Aby dobrać rozmiar: zmierz obwód nadgarstka miękką taśmą krawiecką lub nitką, a
-                                            następnie dodaj
-                                            ~1,5–2 cm luzu dla komfortu. W razie wątpliwości podaj nam pomiar — pomożemy
-                                            dobrać idealny rozmiar.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
 
                         </div>
                     </div>
@@ -218,8 +114,15 @@
                         </p>
                     </div>
 
+                    {{-- Flash success --}}
+                    @if (session('status'))
+                        <div class="alert alert-success mb-4 rounded-4">{{ session('status') }}</div>
+                    @endif
+
                     {{-- Contact form panel --}}
-                    <form id="contact-form" class="contact-panel p-0" action="#" method="POST" novalidate>
+                    <form id="contact-form" class="contact-panel p-0"
+                        action="{{ route('contact.send', ['locale' => session('locale', app()->getLocale())]) }}"
+                        method="POST">
                         @csrf
 
                         <div class="row g-3">
@@ -237,7 +140,12 @@
                                         class="form-control input-icon__control"
                                         placeholder="{{ __('messages.contact_form_first_name') }}" required />
                                 </div>
-                                <div class="feedback visually-hidden" id="contact_first_name_feedback"></div>
+                                <div class="feedback @error('first_name') text-danger @else visually-hidden @enderror"
+                                    id="contact_first_name_feedback">
+                                    @error('first_name')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
 
                             {{-- Last name --}}
@@ -254,7 +162,12 @@
                                         class="form-control input-icon__control"
                                         placeholder="{{ __('messages.contact_form_last_name') }}" />
                                 </div>
-                                <div class="feedback visually-hidden" id="contact_last_name_feedback"></div>
+                                <div class="feedback @error('last_name') text-danger @else visually-hidden @enderror"
+                                    id="contact_last_name_feedback">
+                                    @error('last_name')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
 
                             {{-- Email --}}
@@ -271,7 +184,12 @@
                                         class="form-control input-icon__control"
                                         placeholder="{{ __('messages.contact_form_email') }}" required />
                                 </div>
-                                <div class="feedback visually-hidden" id="contact_email_feedback"></div>
+                                <div class="feedback @error('email') text-danger @else visually-hidden @enderror"
+                                    id="contact_email_feedback">
+                                    @error('email')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
 
                             {{-- Message (textarea) --}}
@@ -287,7 +205,12 @@
                                     <textarea id="contact_message" name="message" class="form-control input-icon__control"
                                         placeholder="{{ __('messages.contact_form_message_placeholder') }}" rows="5" required></textarea>
                                 </div>
-                                <div class="feedback visually-hidden" id="contact_message_feedback"></div>
+                                <div class="feedback @error('message') text-danger @else visually-hidden @enderror"
+                                    id="contact_message_feedback">
+                                    @error('message')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
 
                             {{-- Buttons --}}

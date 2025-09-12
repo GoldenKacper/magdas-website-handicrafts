@@ -44,31 +44,6 @@
 @endpush
 
 @section('content')
-    {{-- GALLERY STRIP (Bracelets) --}}
-    @php
-        $demo = [
-            [
-                'label' => 'Bransoletki',
-                'slug' => 'bracelets',
-                'img' => Vite::asset('resources/images/magdas_website_offer_bracelet_31_08_2025_demo.png'),
-            ],
-            [
-                'label' => 'Naszyjniki',
-                'slug' => 'necklaces',
-                'img' => Vite::asset('resources/images/magdas_website_offer_necklace_31_08_2025_demo.png'),
-            ],
-            [
-                'label' => 'Kolczyki',
-                'slug' => 'earrings',
-                'img' => Vite::asset('resources/images/magdas_website_offer_earrings_31_08_2025_demo.png'),
-            ],
-        ];
-        $items = [];
-        for ($i = 0; $i < 8; $i++) {
-            $items[] = $demo[$i % 3];
-        }
-    @endphp
-
 
     {{-- Gallery Section --}}
     <section id="gallery" class="gallery-section py-4 py-lg-5"
@@ -78,138 +53,66 @@
 
         <div class="container-fluid">
 
-            {{-- ROW: Bracelets --}}
-            <div class="gallery-row mb-5" id="gallery-bracelets" data-gallery="bracelets">
-                <h2 class="gallery-row-title display-6 fw-bold mb-4 mb-lg-4-5 text-shadow"><i class="fa-solid fa-camera"></i>
-                    Bransoletki <i class="fa-solid fa-camera"></i></h2>
+            {{-- ROWS --}}
+            {{-- Gallery (dynamic) --}}
+            @foreach ($categories as $cat)
+                @php
+                    $title = $cat?->name ?? ($cat->slug ?? 'Kategoria');
+                @endphp
 
-                <div class="gallery-viewport" tabindex="0" aria-roledescription="carousel"
-                    aria-label="Bransoletki carousel">
+                @if ($cat->products->isEmpty())
+                    @continue
+                @endif
 
-                    <div class="gallery-strip" data-auto="5000" data-visible-lg="5" role="group"
-                        aria-label="Przewijana lista — bransoletki" data-gallery-track>
+                <div class="gallery-row mb-5" id="{{ $cat->slug }}" data-gallery="{{ $cat->slug }}">
+                    <h2 class="gallery-row-title display-6 fw-bold mb-4 mb-lg-4-5 text-shadow">
+                        <i class="fa-solid fa-camera"></i> {{ $title }} <i class="fa-solid fa-camera"></i>
+                    </h2>
 
-                        <ul class="gallery-track list-unstyled m-0 p-0" data-track>
-                            @foreach ($items as $i => $it)
-                                <li class="gallery-item" data-idx="{{ $i }}">
-                                    <a class="tile" data-id="{{ $i }}" data-type="{{ $it['slug'] }}"
-                                        aria-label="{{ $it['label'] }}">
-                                        <span class="tile-media">
-                                            <img src="{{ $it['img'] }}" alt="{{ $it['label'] }}" loading="lazy">
-                                        </span>
+                    <div class="gallery-viewport" tabindex="0" aria-roledescription="carousel"
+                        aria-label="{{ $title }} carousel">
+                        <div class="gallery-strip" data-auto="5000" data-visible-lg="5" role="group"
+                            aria-label="{{ __('messages.gallery_scrollable_list_meta') }} — {{ $title }}"
+                            data-gallery-track>
 
-                                        <span class="tile-overlay">
-                                            <span class="tile-caption fw-bold"
-                                                title="{{ __('messages.gallery_title_show') }}">{{ $it['label'] }}</span>
-
-                                            <span class="tile-actions">
-                                                <button class="tile-btn tile-open" type="button"
-                                                    aria-label="{{ __('messages.gallery_title_previous') }}"
-                                                    title="{{ __('messages.gallery_title_previous') }}">
-                                                    <i class="fa-solid fa-arrow-left"></i>
-                                                </button>
-                                                <button class="tile-btn tile-go" type="button"
-                                                    aria-label="{{ __('messages.gallery_title_next') }}"
-                                                    title="{{ __('messages.gallery_title_next') }}">
-                                                    <i class="fa-solid fa-arrow-right"></i>
-                                                </button>
+                            <ul class="gallery-track list-unstyled m-0 p-0" data-track>
+                                @foreach ($cat->products as $p)
+                                    <li class="gallery-item" data-idx="{{ $p->id }}">
+                                        <a class="tile" data-id="{{ $p->id }}" data-type="{{ $p->slug }}"
+                                            aria-label="{{ $p?->name }}">
+                                            <span class="tile-media">
+                                                <img src="{{ $p?->product_image_url }}"
+                                                    alt="{{ $p?->product_image_alt ?? $p?->name }}" loading="lazy">
                                             </span>
-                                        </span>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
 
-                </div>
-            </div>
+                                            <span class="tile-overlay">
+                                                <span class="tile-caption fw-bold"
+                                                    title="{{ __('messages.gallery_title_show') }}">
+                                                    {{ $p?->short_name ?? $p?->name }}
+                                                </span>
 
-            {{-- ROW: necklaces --}}
-            <div class="gallery-row mb-5" id="gallery-necklaces" data-gallery="necklaces">
-                <h2 class="gallery-row-title display-6 fw-bold mb-4 mb-lg-4-5 text-shadow"><i
-                        class="fa-solid fa-camera"></i>
-                    Naszyjniki <i class="fa-solid fa-camera"></i></h2>
-
-                <div class="gallery-viewport" tabindex="0" aria-roledescription="carousel"
-                    aria-label="Naszyjniki carousel">
-
-                    <div class="gallery-strip" data-auto="5000" data-visible-lg="5" role="group"
-                        aria-label="Przewijana lista — naszyjniki" data-gallery-track>
-
-                        <ul class="gallery-track list-unstyled m-0 p-0" data-track>
-                            @foreach ($items as $i => $it)
-                                <li class="gallery-item" data-idx="{{ $i }}">
-                                    <a class="tile" data-id="{{ $i }}" data-type="{{ $it['slug'] }}"
-                                        aria-label="{{ $it['label'] }}">
-                                        <span class="tile-media">
-                                            <img src="{{ $it['img'] }}" alt="{{ $it['label'] }}" loading="lazy">
-                                        </span>
-
-                                        <span class="tile-overlay">
-                                            <span class="tile-caption fw-bold">{{ $it['label'] }}</span>
-
-                                            <span class="tile-actions">
-                                                <button class="tile-btn tile-open" type="button"
-                                                    aria-label="Otwórz podgląd">
-                                                    <i class="fa-solid fa-arrow-left"></i>
-                                                </button>
-                                                <button class="tile-btn tile-go" type="button"
-                                                    aria-label="Zobacz szczegóły">
-                                                    <i class="fa-solid fa-arrow-right"></i>
-                                                </button>
+                                                <span class="tile-actions">
+                                                    <button class="tile-btn tile-open" type="button"
+                                                        aria-label="{{ __('messages.gallery_title_previous') }}"
+                                                        title="{{ __('messages.gallery_title_previous') }}">
+                                                        <i class="fa-solid fa-arrow-left"></i>
+                                                    </button>
+                                                    <button class="tile-btn tile-go" type="button"
+                                                        aria-label="{{ __('messages.gallery_title_next') }}"
+                                                        title="{{ __('messages.gallery_title_next') }}">
+                                                        <i class="fa-solid fa-arrow-right"></i>
+                                                    </button>
+                                                </span>
                                             </span>
-                                        </span>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+
+                        </div>
                     </div>
-
                 </div>
-            </div>
-
-            {{-- ROW: earrings --}}
-            <div class="gallery-row mb-5" id="gallery-earrings" data-gallery="earrings">
-                <h2 class="gallery-row-title display-6 fw-bold mb-4 mb-lg-4-5 text-shadow"><i
-                        class="fa-solid fa-camera"></i>
-                    Kolczyki <i class="fa-solid fa-camera"></i></h2>
-
-                <div class="gallery-viewport" tabindex="0" aria-roledescription="carousel" aria-label="Kolczyki carousel">
-
-                    <div class="gallery-strip" data-auto="5000" data-visible-lg="5" role="group"
-                        aria-label="Przewijana lista — kolczyki" data-gallery-track>
-
-                        <ul class="gallery-track list-unstyled m-0 p-0" data-track>
-                            @foreach ($items as $i => $it)
-                                <li class="gallery-item" data-idx="{{ $i }}">
-                                    <a class="tile" data-id="{{ $i }}" data-type="{{ $it['slug'] }}"
-                                        aria-label="{{ $it['label'] }}">
-                                        <span class="tile-media">
-                                            <img src="{{ $it['img'] }}" alt="{{ $it['label'] }}" loading="lazy">
-                                        </span>
-
-                                        <span class="tile-overlay">
-                                            <span class="tile-caption fw-bold">{{ $it['label'] }}</span>
-
-                                            <span class="tile-actions">
-                                                <button class="tile-btn tile-open" type="button"
-                                                    aria-label="Otwórz podgląd">
-                                                    <i class="fa-solid fa-arrow-left"></i>
-                                                </button>
-                                                <button class="tile-btn tile-go" type="button"
-                                                    aria-label="Zobacz szczegóły">
-                                                    <i class="fa-solid fa-arrow-right"></i>
-                                                </button>
-                                            </span>
-                                        </span>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
+            @endforeach
 
         </div>
 

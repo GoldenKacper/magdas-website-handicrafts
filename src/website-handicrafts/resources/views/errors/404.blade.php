@@ -7,7 +7,8 @@
         <h1 class="display-1 fw-bold">404</h1>
         <h2 class="mb-3">{{ __('messages.page_not_found') }}</h2>
         <p class="mb-4">{{ __('messages.page_not_found_description') }}</p>
-        <a href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}" class="btn btn-primary btn-lg">
+        <a href="{{ route('home', ['locale' => session('locale', app()->getLocale())]) }}"
+            class="btn btn-lg btn-gradient--error-page text-size-3/2">
             {{ __('messages.back_to_home') }}
         </a>
     </div>

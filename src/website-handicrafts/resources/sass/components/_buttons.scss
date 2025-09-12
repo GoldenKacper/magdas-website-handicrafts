@@ -72,3 +72,11 @@
         $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
     );
 }
+
+.btn-gradient--error-page {
+    &:active {
+        color: var(--pale, $pale) !important;
+    }
+
+    @extend .btn-gradient;
+}

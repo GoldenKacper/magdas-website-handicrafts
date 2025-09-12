@@ -4,7 +4,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="galleryProductModalLabel">{{ $product['name'] }}</h5>
+                <h5 class="modal-title" id="galleryProductModalLabel">{{ $product->name }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="{{ __('messages.gallery_modal_close') }}"></button>
             </div>
@@ -18,9 +18,10 @@
                                 aria-roledescription="carousel" aria-live="polite">
 
                                 <ul class="pg-track list-unstyled m-0 p-0">
-                                    @foreach ($product['images'] as $src)
+                                    @foreach ($product->imagesForFrontend as $image)
                                         <li class="pg-item">
-                                            <img src="{{ $src }}" alt="{{ $product['name'] }}" loading="lazy"
+                                            <img src="{{ $image->image_url }}"
+                                                alt="{{ $image->image_alt ?? $product->name }}" loading="lazy"
                                                 draggable="false">
                                         </li>
                                     @endforeach
@@ -41,11 +42,11 @@
                                 {{-- Thumbnails --}}
                                 <div class="pg-thumbs on-image"
                                     aria-label="{{ __('messages.gallery_modal_miniatures') }}">
-                                    @foreach ($product['images'] as $src)
+                                    @foreach ($product->imagesForFrontend as $image)
                                         <button class="pg-thumb @if ($loop->first) active @endif"
                                             type="button" data-idx="{{ $loop->index }}"
                                             aria-label="{{ __('messages.gallery_modal_miniatures_button', ['idx' => $loop->iteration]) }}">
-                                            <img src="{{ $src }}"
+                                            <img src="{{ $image->image_url }}"
                                                 alt="{{ __('messages.gallery_modal_miniatures_button', ['idx' => $loop->iteration]) }}"
                                                 loading="lazy" draggable="false">
                                         </button>
@@ -61,22 +62,27 @@
                             <div>
                                 <div class="small text-uppercase text-muted mb-1">
                                     {{ __('messages.gallery_modal_category') }}</div>
-                                <div class="fw-semibold">{{ $product['category'] }}</div>
+                                <div class="fw-semibold">{{ $product->category_name }}</div>
                             </div>
                             <div>
                                 <div class="small text-uppercase text-muted mb-1">
                                     {{ __('messages.gallery_modal_description') }}</div>
-                                <p class="mb-0">{{ $product['description'] }}</p>
+                                <p class="mb-0">{{ $product->description }}</p>
                             </div>
                             <div>
                                 <div class="small text-uppercase text-muted mb-1">
                                     {{ __('messages.gallery_modal_stock') }}</div>
-                                <p class="mb-0">{{ $product['stock'] }}</p>
+                                <p class="mb-0">{{ $product->availability_label }} @if ($product->availability_code === 'available_pl' or $product->availability_code === 'available_en')
+                                        : <strong>{{ $product->stock_quantity }}</strong>
+                                    @endif
+                                </p>
                             </div>
                             <div>
                                 <div class="small text-uppercase text-muted mb-1">
                                     {{ __('messages.gallery_modal_price') }}</div>
-                                <div class="display-6 fw-bold text-primary">{{ $product['price'] }}</div>
+                                <div class="display-6 fw-bold text-primary">
+                                    {{ $product?->price ?? $product->default_price }}
+                                    {{ $product?->currency ?? $product->default_currency }}</div>
                             </div>
                         </div>
                     </div>

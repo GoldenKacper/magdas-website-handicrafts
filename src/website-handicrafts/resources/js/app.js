@@ -17,6 +17,10 @@ if (token) {
 // static Images
 import "../images/magdas_website_logo_25_08_2025_demo.png"; // Website logo - version 1
 import "../images/magdas_website_logo_25_08_2025_demo_v2.png"; // Website logo - version 2
+import "../images/magdas_website_logo_25_09_2025.webp"; // Website logo - version 3
+import "../images/magdas_website_logo_25_09_2025_part_1.webp"; // Website logo - version 3 - part 1 Malin
+import "../images/magdas_website_logo_25_09_2025_part_2.webp"; // Website logo - version 3 - part 2 Raspberry
+import "../images/magdas_website_logo_25_09_2025_part_3.webp"; // Website logo - version 3 - part 3 Tagline
 import "../images/magdas_website_home_og_26_08_2025_demo.webp"; // Website logo - open graph / twitter (meta)
 import "../images/magdas_website_home_bg_27_08_2025_demo.png"; // Home Hero background image
 import "../images/magdas_website_offer_bracelet_31_08_2025_demo.png"; // Offer 1
