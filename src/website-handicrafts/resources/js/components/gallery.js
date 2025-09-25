@@ -40,6 +40,8 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
         let index = 0; // current left index (in the entire sequence with buffers)
         let animating = false;
         let timer = null;
+        let isHover = false;
+        let isFocusWithin = false;
 
         // ---- Helper: geometry / CSS ----
         function readTilesVisible() {
@@ -88,6 +90,13 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
                     : "none"
             );
             $track.css("transform", `translateX(${tx}px)`);
+        }
+
+        function resetAutoplayIfAllowed() {
+            // restart licznika tylko jeśli NIE ma hovera / focusu w obrębie rzędu
+            if (isHover || isFocusWithin) return;
+            stopAutoplay();
+            startAutoplay();
         }
 
         // ---- Visibility: set range [start, end) visible, rest .is-off ----
@@ -207,16 +216,39 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
         // ---- Events ----
         $track.on("transitionend webkitTransitionEnd", onAfterTransition);
 
+        // if (settings.pauseOnHover) {
+        //     $row.on("mouseenter focusin", stopAutoplay);
+        //     $row.on("mouseleave focusout", startAutoplay);
+        // }
+
         if (settings.pauseOnHover) {
-            $row.on("mouseenter focusin", stopAutoplay);
-            $row.on("mouseleave focusout", startAutoplay);
+            $row.on("mouseenter", () => {
+                isHover = true;
+                stopAutoplay();
+            });
+            $row.on("mouseleave", () => {
+                isHover = false;
+                if (!isFocusWithin) startAutoplay();
+            });
+
+            $row.on("focusin", () => {
+                isFocusWithin = true;
+                stopAutoplay();
+            });
+            $row.on("focusout", (e) => {
+                // wznawiaj tylko jeśli focus naprawdę wyszedł poza cały .gallery-row
+                if (!$row[0].contains(e.relatedTarget)) {
+                    isFocusWithin = false;
+                    if (!isHover) startAutoplay();
+                }
+            });
         }
 
         // Click arrows: left (.tile-open), right (.tile-go)
         const nextThrottled = throttleLeading(() => {
             stopAutoplay();
             next();
-            startAutoplay();
+            resetAutoplayIfAllowed();
         }, 300);
 
         $row.off("click", ".tile-go, .gallery-next").on(
@@ -232,7 +264,7 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
         const prevThrottled = throttleLeading(() => {
             stopAutoplay();
             prev();
-            startAutoplay();
+            resetAutoplayIfAllowed();
         }, 300);
 
         $row.off("click", ".tile-open, .gallery-prev").on(
@@ -251,12 +283,12 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
                 e.preventDefault();
                 stopAutoplay();
                 next();
-                startAutoplay();
+                resetAutoplayIfAllowed();
             } else if (e.key === "ArrowLeft") {
                 e.preventDefault();
                 stopAutoplay();
                 prev();
-                startAutoplay();
+                resetAutoplayIfAllowed();
             }
         });
 
@@ -297,7 +329,7 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
                 if (!moved) {
                     // treat as tap - do nothing
                 }
-                startAutoplay();
+                resetAutoplayIfAllowed();
             }
 
             // passive:false to can call preventDefault on horizontal movement
@@ -341,13 +373,13 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
         // ---- Modal with product details ----
         const http = window.axios || axios; // use global instance from app.js if available
 
-        function openGalleryModal(productId) {
-            if (!productId) return;
+        function openGalleryModal(productSlug) {
+            if (!productSlug) return;
 
             const locale = document.documentElement.dataset.locale || "pl";
-            const url = `/${locale}/gallery/${encodeURIComponent(productId)}`;
+            const url = `/${locale}/gallery/${encodeURIComponent(productSlug)}`;
 
-            // console.log("openGalleryModal", productId, url);
+            // console.log("openGalleryModal", productSlug, url);
 
             // Translated message texts
             const modalCloseText = t("gallery_modal_close", {}, "Zamknij");
@@ -445,7 +477,7 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
 
         // Click on tile (but NOT on arrow buttons)
         const openModalThrottled = throttleLeading(
-            (id) => openGalleryModal(id),
+            (slug) => openGalleryModal(slug),
             300
         );
 
@@ -453,12 +485,11 @@ export default function initGallery(selector = ".gallery-row", opts = {}) {
             if ($(e.target).closest(".tile-btn").length) return; // do not capture arrow buttons
             e.preventDefault();
 
-            const id =
-                $(this).data("id") ||
-                $(this).closest(".gallery-item").data("id") ||
-                $(this).closest(".gallery-item").data("idx");
+            const slug =
+                $(this).data("type") ||
+                $(this).closest(".gallery-item").data("type");
 
-            openModalThrottled(id);
+            openModalThrottled(slug);
         });
     });
 }

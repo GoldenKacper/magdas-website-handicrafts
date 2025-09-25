@@ -71,9 +71,7 @@ return [
 
     // About me
     'about_section_alt' => 'Tło sekcji o mnie',
-    'author_image_alt' => 'Zdjęcie autorki Magdy',
     'about_title' => 'O mnie',
-    'about_text' => 'Cześć — nazywam się Magda. Tworzę ręcznie robioną biżuterię: małe bransoletki i naszyjniki robione z pasją. Każdy egzemplarz powstaje z dbałością o szczegóły, z wysokiej jakości materiałów — idealny na prezent lub osobisty dodatek. Zapraszam do zapoznania się z moją galerią i skontaktowania się w sprawie zamówień.',
     'about_read_more' => 'Czytaj więcej',
 
     // Opinions
@@ -129,6 +127,8 @@ return [
     'contact_form_reset_title' => 'Wyczyść. Naciśnij jeśli chcesz wyczyścić dane z formularza kontaktowego.',
     'contact_form_send' => 'Wyślij',
     'contact_form_send_title' => 'Wyślij. Naciśnij jeśli jesteś zdecydowany wysłać mi wiadomość z treścią zawartą w formularzu.',
+    'contact_form_acknowledgement' => 'Dziękujemy! Twoja wiadomość została wysłana. Odezwiemy się wkrótce.',
+    'contact_form_error' => 'Wystąpił błąd podczas wysyłania wiadomości. Spróbuj ponownie później.',
 
     // Validation messages (contact form)
     'validation_required' => ':field jest wymagane.',
@@ -137,10 +137,21 @@ return [
     'validation_email_invalid' => 'Proszę podać poprawny adres e-mail.',
     'validation_all_valid' => 'Wszystkie pola poprawne.',
 
+    // Contact Form Mails
+    'contact_form_mail_subject' => 'Nowe zgłoszenie z formularza kontaktowego',
+    'contact_confirm_subject' => 'Dziękujemy za kontakt — potwierdzenie',
+    'contact_confirm_title' => 'Dziękujemy za wiadomość, :name!',
+    'contact_confirm_intro' => 'Otrzymaliśmy Twoje zgłoszenie i wkrótce odpowiemy na podany adres e-mail.',
+    'contact_confirm_copy_heading' => 'Kopia Twojej wiadomości:',
+    'contact_confirm_note' => 'Jeśli to nie Ty wysłałeś(aś) tę wiadomość, zignoruj tę korespondencję.',
+    'contact_confirm_cta' => 'Przejdź na stronę',
+    'contact_confirm_footer' => 'Ta wiadomość została wygenerowana automatycznie.',
+
     // Gallery
     'gallery_title_show' => 'Zobacz szczegóły produktu. Pokazuje szczegóły wybranego produktu wraz z większą liczbą zdjęć.',
     'gallery_title_previous' => 'Poprzednie. Przewiń do poprzedniego zdjęcia w galerii.',
     'gallery_title_next' => 'Następne. Przewiń do następnego zdjęcia w galerii.',
+    'gallery_scrollable_list_meta' => 'Przewijana lista',
 
     // Gallery modal
     'gallery_modal_close' => 'Zamknij',

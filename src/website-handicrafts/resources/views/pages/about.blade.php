@@ -35,38 +35,33 @@
                         <h2 class="about-title display-6 fw-bold mb-3 mb-lg-4 text-shadow"><i class="fa-regular fa-heart"></i>
                             {{ __('messages.about_title') }} <i class="fa-regular fa-heart"></i></h2>
 
+                        {{-- First element (index 0) --}}
                         <p class="about-text about-text--left lead text-shadow">
-                            Cześć — nazywam się Magda. Tworzę ręcznie robioną biżuterię: małe bransoletki i naszyjniki
-                            robione z pasją. Każdy egzemplarz powstaje z dbałością o szczegóły, z wysokiej jakości
-                            materiałów — idealny na prezent lub osobisty dodatek. Zapraszam do zapoznania się z moją galerią
-                            i skontaktowania się w sprawie zamówień.
+                            {{ $aboutMe->translationWithFallback->first()?->content ?? '' }}
                         </p>
                     </div>
 
-                    <div>
-                        <p class="about-text about-text--right lead text-shadow">
-                            Cześć — nazywam się Magda. Tworzę ręcznie robioną biżuterię: małe bransoletki i naszyjniki
-                            robione z pasją. Każdy egzemplarz powstaje z dbałością o szczegóły, z wysokiej jakości
-                            materiałów — idealny na prezent lub osobisty dodatek. Zapraszam do zapoznania się z moją galerią
-                            i skontaktowania się w sprawie zamówień.
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="about-text about-text--left lead text-shadow">
-                            Cześć — nazywam się Magda. Tworzę ręcznie robioną biżuterię: małe bransoletki i naszyjniki
-                            robione z pasją. Każdy egzemplarz powstaje z dbałością o szczegóły, z wysokiej jakości
-                            materiałów — idealny na prezent lub osobisty dodatek. Zapraszam do zapoznania się z moją galerią
-                            i skontaktowania się w sprawie zamówień.
-                        </p>
-                    </div>
+                    {{-- Subsequent elements from index 1 --}}
+                    @for ($i = 1; $i < $aboutMe->translationWithFallback->count(); $i++)
+                        @php
+                            $translation = $aboutMe->translationWithFallback->get($i);
+                            // even -> right, odd -> left (because the first in the loop = right)
+                            $class = $i % 2 === 1 ? 'about-text--right' : 'about-text--left';
+                        @endphp
+                        <div>
+                            <p class="about-text {{ $class }} lead text-shadow">
+                                {{ $translation?->content ?? '' }}
+                            </p>
+                        </div>
+                    @endfor
                 </div>
             </div>
         </div>
 
         <figure class="about-figure">
-            <img src="{{ Vite::asset('resources/images/magdas_website_home_about_me_author_01_09_2025_demo.png') }}"
-                alt="{{ __('messages.author_image_alt') }}" class="about-author-img img-fluid">
+            <img src="{{ $aboutMe?->about_author_image_url ?? Vite::asset('resources/images/magdas_website_home_about_me_author_01_09_2025_demo.png') }}"
+                alt="{{ $aboutMe->translationWithFallback->first()?->about_author_image_alt }}"
+                class="about-author-img img-fluid">
         </figure>
 
     </section>

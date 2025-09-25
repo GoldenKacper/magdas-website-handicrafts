@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutMe;
 use Illuminate\Http\Request;
 
 class AboutController extends Controller
@@ -11,8 +12,10 @@ class AboutController extends Controller
      */
     public function index()
     {
+        $aboutMe = AboutMe::withLocalized()->first();
+
         $page = 'about';
         // render about view
-        return view('pages.about', compact('page'));
+        return view('pages.about', compact('page', 'aboutMe'));
     }
 }

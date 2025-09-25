@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Vite;
 
 class GalleryController extends Controller
@@ -12,66 +15,67 @@ class GalleryController extends Controller
      */
     public function index()
     {
+        // Download all categories with names (fallback) + products with translations and photos
+        $categories = Category::query()
+            ->with([
+                'translationWithFallback',
+                'products' => function ($q) {
+                    // Product has $with, but we explicitly add it
+                    // to be sure about the relationship:
+                    $q->forFrontend(); // = translationWithFallback.availability, category.translationWithFallback, imagesForFrontend.translationWithFallback
+                },
+            ])
+            ->get();
+
+        $MIN = 8;
+
+        $categories = $categories->map(function ($cat) use ($MIN) {
+            $products = $cat->products->values();
+
+            // if we have less than $MIN, we duplicate the existing ones (round-robin)
+            $count = $products->count();
+            if ($count > 0 && $count < $MIN) {
+                // simple padding: we add references to the same models
+                // (for the view this is OK; we don't save anything)
+                for ($i = 0; $products->count() < $MIN; $i++) {
+                    // NOTE: we don't use replicate(), because you will lose loaded relationships (photos/translations).
+                    $clone = clone  $products[$i % $count]; // clone keeps relationships and appends
+                    // optionally: assign a "virtual" identifier only for attributes in the view
+                    $clone->setAttribute('virtual_uid', $clone->id . '-dup-' . $products->count());
+                    $products->push($clone);
+                }
+            }
+
+            // overwrite the already filtered/completed products relation
+            $cat->setRelation('products', $products);
+
+            return $cat;
+        });
+
         $page = 'gallery';
         // render gallery view
-        return view('pages.gallery', compact('page'));
+        return view('pages.gallery', compact('page', 'categories'));
     }
 
     /**
      * Show details for a specific gallery item (render view).
      *
-     * @param int|string $id
+     * @param string $locale
+     * @param string $slug
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function show(int|string $id, Request $request)
+    public function show(string $locale, string $slug, Request $request)
     {
-        // Demo assets
-        $imgBracelet = Vite::asset('resources/images/magdas_website_offer_bracelet_31_08_2025_demo.png');
-        $imgNecklace = Vite::asset('resources/images/magdas_website_offer_necklace_31_08_2025_demo.png');
-        $imgEarrings = Vite::asset('resources/images/magdas_website_offer_earrings_31_08_2025_demo.png');
+        Validator::make(
+            ['slug' => $slug],
+            ['slug' => 'required|string|exists:products,slug']
+        )->validate();
 
-        // A simple "catalog" by modulo 3
-        $catalog = [
-            0 => [
-                'category' => 'Bransoletki',
-                'name'     => 'Bransoletka „Różowa perła”',
-                'images'   => [$imgBracelet, $imgNecklace, $imgEarrings],
-                'price'    => '79,00 zł',
-                'stock'    => 'Dostępny',
-                'desc'     => 'Delikatna, ręcznie robiona bransoletka w odcieniach malinowych. Idealna na prezent.',
-            ],
-            1 => [
-                'category' => 'Naszyjniki',
-                'name'     => 'Naszyjnik „Subtelny urok”',
-                'images'   => [$imgNecklace, $imgBracelet, $imgEarrings],
-                'price'    => '119,00 zł',
-                'stock'    => 'Niedostępny',
-                'desc'     => 'Minimalistyczny naszyjnik z subtelnym połyskiem. Pasuje do codziennych stylizacji.',
-            ],
-            2 => [
-                'category' => 'Kolczyki',
-                'name'     => 'Kolczyki „Kropla rosy”',
-                'images'   => [$imgEarrings, $imgBracelet, $imgNecklace],
-                'price'    => '69,00 zł',
-                'stock'    => 'Czasowo niedostępny',
-                'desc'     => 'Lekkie i wygodne, ręcznie wykonane kolczyki. Dodają dziewczęcego wdzięku.',
-            ],
-        ];
-
-        $id = (int)$id;
-        $key = $id % 3;
-        $base = $catalog[$key];
-
-        $product = [
-            'id'       => $id,
-            'name'     => $base['name'] . ' #' . $id,
-            'category' => $base['category'],
-            'description' => $base['desc'],
-            'price'    => $base['price'],
-            'stock'    => $base['stock'],
-            'images'   => $base['images'], // first image is the main one
-        ];
+        $product = Product::query()
+            ->where('slug', $slug)
+            ->forFrontend() // = translationWithFallback.availability, category.translationWithFallback, images.translationWithFallback
+            ->firstOrFail();
 
         // Render the modal as HTML
         $html = view('modals.gallery_product_modal', compact('product'))->render();

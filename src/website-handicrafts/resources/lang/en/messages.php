@@ -71,9 +71,7 @@ return [
 
     // About me
     'about_section_alt' => 'About section background',
-    'author_image_alt' => "Author's portrait photo",
     'about_title' => 'About me',
-    'about_text' => "Hi — I'm Magda. I handcraft small bracelets and necklaces with care and attention to detail. Each piece is made from quality materials and is perfect as a gift or a personal accessory. Browse my gallery and feel free to contact me for commissions.",
     'about_read_more' => 'Read more',
 
     // Opinions
@@ -129,6 +127,8 @@ return [
     'contact_form_reset_title' => 'Reset. Press if you want to clear the data from the contact form.',
     'contact_form_send' => 'Send',
     'contact_form_send_title' => 'Send. Press if you are determined to send me a message with the content included in the form.',
+    'contact_form_acknowledgement' => 'Thank you! Your message has been sent. We will get back to you shortly.',
+    'contact_form_error' => 'An error occurred while sending the message. Please try again later.',
 
     // Validation messages (contact form)
     'validation_required' => ':field is required.',
@@ -137,10 +137,21 @@ return [
     'validation_email_invalid' => 'Please enter a valid email address.',
     'validation_all_valid' => 'All fields valid.',
 
+    // Contact Form Mails
+    'contact_form_mail_subject' => 'New contact form submission',
+    'contact_confirm_subject' => 'Thank you for reaching out — confirmation',
+    'contact_confirm_title' => 'Thank you for your message, :name!',
+    'contact_confirm_intro' => 'We have received your inquiry and will reply to the provided email address shortly.',
+    'contact_confirm_copy_heading' => 'A copy of your message:',
+    'contact_confirm_note' => 'If you did not send this message, please ignore this email.',
+    'contact_confirm_cta' => 'Go to the website',
+    'contact_confirm_footer' => 'This message was generated automatically.',
+
     // Gallery
     'gallery_title_show' => 'See product details. Shows details of the selected product along with more photos.',
     'gallery_title_previous' => 'Previous. Scroll to the previous photo in the gallery.',
     'gallery_title_next' => 'Next. Scroll to the next photo in the gallery.',
+    'gallery_scrollable_list_meta' => 'Scrollable list',
 
     // Gallery modal
     'gallery_modal_close' => 'Close',
