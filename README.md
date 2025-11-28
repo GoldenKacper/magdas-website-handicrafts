@@ -366,6 +366,174 @@ Gotowy kod należy ręcznie wgrać na serwer produkcyjny, tam podmienić mienne 
 
 Gotowy kod należy wrzucić na main (np. za pomocą Pull request), następnie należy za pomocą git zaktualizować kod na produkcji git pull, użyć kilku komend żeby zbudować public itp. Za pierwszym razem trzeba zklonować repo i ustawić parę rzeczy.
 
+#### Opis:
+
+#### 1. Git - Jak prowadzić repozytorium
+
+Minimalny, sensowny workflow
+
+Na ten projekt spokojnie wystarczy:
+
+- `main` = produkcja
+
+  To, co jest na main, powinno dać się bezpiecznie wdrożyć na serwer.
+
+- `develop` (opcjonalnie)
+
+  Gałąź do większych prac, testów lokalnie / na stagingu, ale nie jest konieczna jeśli pracujesz sam.
+
+- gałęzie feature’ów, np.:
+
+```bash
+git checkout -b feature/admin-panel
+# pracujesz, commitujesz
+git commit -m "Add admin panel base layout"
+git push origin feature/admin-panel
+```
+
+Po skończeniu:
+
+```bash
+# merge do main
+git checkout main
+git pull origin main
+git merge feature/admin-panel
+git push origin main
+```
+
+**Zasada: żadnych zmian na produkcji, których nie ma w repo.**
+
+Jeśli musisz coś poprawić na serwerze „_na szybko_” – zrób to też u siebie i wrzuć do Git.
+
+#### 2. `.env` i konfiguracja
+
+- `.env` ZAWSZE w `.gitignore` – ani produkcyjne, ani lokalne nie idą do GitHuba.
+
+- W repo trzymaj `.env.example` – z kluczami, ale bez sekretów:
+
+  ```env
+  APP_NAME=Malin
+  APP_ENV=local
+  APP_URL=http://website-handicrafts.test
+
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE=malin_local
+  DB_USERNAME=root
+  DB_PASSWORD=
+  ```
+
+  Na serwerze Hostido masz osobny `.env`, np.:
+
+  ```env
+  APP_ENV=production
+  APP_DEBUG=false
+  APP_URL=https://twojadomena.pl
+
+  DB_DATABASE=malin_prod
+  DB_USERNAME=malin_user
+  DB_PASSWORD=super_tajne_haslo
+  ```
+
+  Zmiana `.env` na hostingu to prawidłowe podejście.
+
+  Nie próbuj tego ściągać do siebie do Git.
+
+- W hostido domeny mają folder `public_html`
+
+  Zawartość `public` z projektu należy przekopiować do `public_html`
+
+  ```bash
+  cp -r ścieżka/do/laravel/public/* public_html/
+  ```
+
+  Laravel znajdzie manifest tu: `/ścieżka/do/laravel/public/build/manifest.json`.
+
+  Webserwer będzie serwował assety z: `/public_html/build/...`.
+
+  i wszystko się zepnie.
+
+  **Sprawdź, czy `index.php` i `.htaccess` są tam gdzie trzeba**, w razie potrzeby przekopiuj.
+
+- Odpowiednio dostosuj ścieżki w pliku `index.php` pod to gdzie się znajduje (na hostido należy przekopiować zawartośc `public` do `public_html` tym samym trzeba dostosować ścieżki).
+
+  ```php
+  // Determine if the application is in maintenance mode...
+  if (file_exists($maintenance = __DIR__.'/../ścieżka/do/laravel/storage/framework/maintenance.php')) {
+      require $maintenance;
+  }
+
+  // Register the Composer autoloader...
+  require __DIR__.'/../ścieżka/do/laravel/vendor/autoload.php';
+
+  // Bootstrap Laravel and handle the request...
+  /** @var Application $app */
+  $app = require_once __DIR__.'/../ścieżka/do/laravel/bootstrap/app.php';
+  ```
+
+- Upewnij się że foldery i pliki projektowe mają odpowiednie uprawnienia, np.:
+
+  ```bash
+  chmod -R 775 storage bootstrap/cache
+  chmod -R 777 storage bootstrap/cache
+  ```
+
+- W razie problemów warto sprawdzić `laravel.log`.
+
+  ```bash
+  cd /ścieżka/do/laravel
+
+  # 1. Tyle żeby zobaczyć błąd:
+  tail -n 120 storage/logs/laravel.log
+  ```
+
+#### 3. Jak łączyć GitHub → produkcja na hostido (wariant z SSH i `git` na serwerze)
+
+1. Jednorazowo na serwerze (setup)
+
+```bash
+cd /ścieżka/do/projektu
+git clone git@github.com:USER/REPO.git .
+
+cd /ścieżka/do/laravel  # ścieżka do folderu w którym jest composer.json (domyślnie w głownym folderze laravel)
+composer install --no-dev --optimize-autoloader
+
+npm ci
+npm run build
+
+cp .env.production .env  # lub wgraj .env ręcznie
+
+php artisan key:generate
+php artisan migrate --force
+php artisan storage:link
+php artisan config:cache
+php artisan route:cache
+```
+
+2. Przy każdej nowej wersji (po mergu do `main`):
+
+```bash
+cd /ścieżka/do/laravel    # ścieżka do folderu w którym jest composer.json (domyślnie w głownym folderze laravel)
+
+php artisan down          # maintenance mode
+git pull origin main      # pobierz nowy kod
+
+composer install --no-dev --optimize-autoloader
+npm ci && npm run build   # albo tylko kopiujesz już zbuildowane assets
+
+php artisan migrate --force
+php artisan storage:link  # jeśli nie ma folderu storage w public
+php artisan config:cache
+php artisan route:cache
+
+cp -r ścieżka/do/laravel/public/* public_html/  # należy przekopiować public do public_html
+
+php artisan up
+```
+
+Wtedy **Git na serwerze jest tylko do** `git pull`, nic nie commitujesz po stronie hostingu.
+
 ### 3. CI & CD (automatyczny)
 
 Przy robieniu Pull Request na main sprawdzane są testy, kod mergowany na main i automatycznie wdrażany na serwer (za pomocą github actions).
