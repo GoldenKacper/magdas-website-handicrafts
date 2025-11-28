@@ -349,3 +349,23 @@ Create a file at `resources/sass/\_overrides.scss` with the following content:
 - Prevents spam from deprecated Bootstrap SCSS functions
 
 - No impact on your compiled CSS -->
+
+## Development & Deployment
+
+`Mapa myśli jak opisać ten rozdział`
+
+Każdy z tych sposobów wykorzystałem w tym projekcie, zaczynałem od najprostrzego a potem zwiększałem poziom zaawansowania.
+
+_Sposoby jak wdrożyć rozwiązanie na produkcję:_
+
+### 1. Ręczny bez nieczego
+
+Gotowy kod należy ręcznie wgrać na serwer produkcyjny, tam podmienić mienne środowiskowe i wykonać inne potrzebne rzeczy.
+
+### 2. Z wykorzystaniem Git (półautomatyczny)
+
+Gotowy kod należy wrzucić na main (np. za pomocą Pull request), następnie należy za pomocą git zaktualizować kod na produkcji git pull, użyć kilku komend żeby zbudować public itp. Za pierwszym razem trzeba zklonować repo i ustawić parę rzeczy.
+
+### 3. CI & CD (automatyczny)
+
+Przy robieniu Pull Request na main sprawdzane są testy, kod mergowany na main i automatycznie wdrażany na serwer (za pomocą github actions).

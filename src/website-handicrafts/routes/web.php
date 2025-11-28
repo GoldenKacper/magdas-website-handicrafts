@@ -5,9 +5,11 @@ use Illuminate\Support\Facades\Auth;
 
 // Admin routes
 Route::prefix('admin')->group(function () {
-    Auth::routes([
-        'register' => config('app.allow_registration', false),
-    ]);
+    if (method_exists(Auth::class, 'routes')) {
+        Auth::routes([
+            'register' => config('app.allow_registration', false),
+        ]);
+    }
 
     Route::get('/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.home');
 });
