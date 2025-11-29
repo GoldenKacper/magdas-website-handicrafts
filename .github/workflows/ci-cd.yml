@@ -71,14 +71,14 @@ jobs:
         run: |
           cp .env.example .env || true
 
-          # ustaw bezpieczny APP_URL (aby uniknąć Invalid URI)
+          # set safe APP_URL (to avoid Invalid URI)
           if grep -q "^APP_URL=" .env; then
             sed -i "s|^APP_URL=.*|APP_URL=http://localhost:8000|" .env
           else
             echo "APP_URL=http://localhost:8000" >> .env
           fi
 
-          # ustaw DB na mysql uruchomiony jako service
+          # set DB to mysql run as a service
           sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=mysql|" .env || true
           sed -i "s|^DB_HOST=.*|DB_HOST=127.0.0.1|" .env || true
           sed -i "s|^DB_PORT=.*|DB_PORT=3306|" .env || true
@@ -86,12 +86,12 @@ jobs:
           sed -i "s|^DB_USERNAME=.*|DB_USERNAME=test_user|" .env || true
           sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=test_pass|" .env || true
 
-          # ustaw pewne testowe tryby
+          # set some test modes
           sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=array|" .env || true
           sed -i "s|^CACHE_STORE=.*|CACHE_STORE=array|" .env || true
           sed -i "s|^QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|" .env || true
 
-          # Wyczyść cache konfiguracji aby Laravel odczytał nowe .env
+          # Clear config cache so Laravel reads new .env
           php artisan config:clear || true
 
           php artisan key:generate
@@ -116,7 +116,7 @@ jobs:
       - name: Run PHPUnit
         working-directory: ${{ env.LARAVEL_DIR }}
         env:
-          # dodatkowe zabezpieczenie: jeżeli phpunit.xml ma ustawienia, nadpisz je
+          # additional safety: if phpunit.xml has settings, override them
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
@@ -143,7 +143,7 @@ jobs:
           port: ${{ secrets.HOSTIDO_PORT }}
           script: |
             set -e
-            # ścieżka, którą podałeś: ~/domains/handmademalin.pl/app
+            # path you provided: ~/domains/handmademalin.pl/app
             PROJECT_ROOT="${{ secrets.HOSTIDO_PROJECT_PATH }}"
             LARAVEL_SUBPATH="src/website-handicrafts"
             LARAVEL_DIR="$PROJECT_ROOT/$LARAVEL_SUBPATH"
@@ -154,38 +154,39 @@ jobs:
 
             cd "$PROJECT_ROOT"
 
-            # Upewnij się, że remote jest na SSH (git@github.com:...)
+            # Make sure remote is on SSH (git@github.com:...)
+            # git remote set-url origin git@github.com:yourusername/yourrepository.git
             git fetch --all
             git reset --hard origin/main
 
-            # Instalacja composer w wewnętrznym katalogu laravela
+            # Instalation of composer in the internal laravel directory
             cd "$LARAVEL_DIR"
             composer install --no-interaction --no-dev --optimize-autoloader
 
-            # Jeśli chcesz budować frontend na serwerze (jeżeli node jest zainstalowany)
+            # If node is installed, build frontend
             if command -v npm >/dev/null 2>&1; then
               npm ci
               npm run build
             else
-              echo "npm nie znaleziony na serwerze — pomijam build frontu"
+              echo "npm not found on server — skipping frontend build"
             fi
 
-            # Migracje i cache (wykonujemy w katalogu laravel)
+            # migrations and caches (run in laravel directory)
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
             php artisan storage:link || true
 
-            # Kopiujemy zawartość public do public_html (Hostido standard)
-            # Zakładam, że public_html jest obok app (typowe dla Hostido: ~/domains/handmademalin.pl/public_html)
+            # Copy public to public_html (Hostido standard)
+            # Assuming public_html is next to app (typical for Hostido: ~/domains/handmademalin.pl/public_html)
             if [ -d "$PUBLIC_HTML_DIR" ]; then
-              echo "Kopiuję public do $PUBLIC_HTML_DIR"
+              echo "Copying public to $PUBLIC_HTML_DIR"
               cp -r "$LARAVEL_DIR/public/"* "$PUBLIC_HTML_DIR/"
             else
-              echo "Nie znaleziono $PUBLIC_HTML_DIR — sprawdź ścieżkę public_html"
+              echo "Not found $PUBLIC_HTML_DIR — check public_html path"
             fi
 
-            # Uprawnienia
+            # Permissions
             chmod -R 775 "$LARAVEL_DIR/storage" "$LARAVEL_DIR/bootstrap/cache" || true
             chown -R www-data:www-data "$LARAVEL_DIR/storage" "$LARAVEL_DIR/bootstrap/cache" || true
 
