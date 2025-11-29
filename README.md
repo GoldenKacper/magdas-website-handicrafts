@@ -649,3 +649,23 @@ Wtedy **Git na serwerze jest tylko do** `git pull`, nic nie commitujesz po stron
 ### 3. CI & CD (automatyczny)
 
 Przy robieniu Pull Request na main sprawdzane są testy, kod mergowany na main i automatycznie wdrażany na serwer (za pomocą github actions).
+
+#### 1. Wykonaj Testy
+
+W tym projekcie do testowania używam `PHPUnit`, należy przejśc do folderu, w którym znajduje się `phpunit.xml` (w razie potrzeby należy go utworzyć/wygenerować):
+
+```bash
+vendor/bin/phpunit --init
+```
+
+Uruchomienie wszystkich testów:
+
+```bash
+php artisan test
+```
+
+Uruchomienie tylko pojedyńczego testu (przykład):
+
+```bash
+php artisan test --filter test_product_belongs_to_category
+```
