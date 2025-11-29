@@ -30,7 +30,7 @@ class ExampleTest extends TestCase
     {
         $response = $this->followingRedirects()->get('/');
         $response->assertStatus(200);
-        $response->assertSee('Witamy w Rękodziele Magdy'); // optionally check content
+        $response->assertSee(__('messages.hero_title')); // optionally check content
     }
 
     public function test_pl_homepage_returns_ok(): void
