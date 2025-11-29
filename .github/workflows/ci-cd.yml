@@ -29,9 +29,9 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Composer dependencies
+      - name: Install Composer dependencies (include dev for tests)
         working-directory: ${{ env.LARAVEL_DIR }}
-        run: composer install --no-progress --no-suggest --prefer-dist --no-dev --optimize-autoloader
+        run: composer install --no-interaction --prefer-dist
 
       - name: Install NPM dependencies
         working-directory: ${{ env.LARAVEL_DIR }}
@@ -43,26 +43,51 @@ jobs:
         working-directory: ./
         run: cp .env.example .env
 
-      - name: Prepare laravel .env for tests (fix APP_URL)
+      - name: Prepare laravel .env for tests (static)
         working-directory: ${{ env.LARAVEL_DIR }}
         run: |
+          # skopiuj przykład .env (jeśli plik już istnieje - nadpisz)
           cp .env.example .env || true
-          # zabezpieczamy APP_URL - ustawiamy bezpieczny URI
+
+          # ustaw bezpieczny APP_URL (aby uniknąć Invalid URI)
           if grep -q "^APP_URL=" .env; then
             sed -i "s|^APP_URL=.*|APP_URL=http://localhost:8000|" .env
           else
             echo "APP_URL=http://localhost:8000" >> .env
           fi
+
+          # wymuś sqlite in-memory dla testów (nie potrzebujesz MySQL na runnerze)
+          if grep -q "^DB_CONNECTION=" .env; then
+            sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=sqlite|" .env
+          else
+            echo "DB_CONNECTION=sqlite" >> .env
+          fi
+          if grep -q "^DB_DATABASE=" .env; then
+            sed -i "s|^DB_DATABASE=.*|DB_DATABASE=:memory:|" .env
+          else
+            echo "DB_DATABASE=:memory:" >> .env
+          fi
+
+          # opcjonalne: uproszczenie sterowników cache/session/queue do trybu testowego
+          sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=array|" .env || true
+          sed -i "s|^CACHE_STORE=.*|CACHE_STORE=array|" .env || true
+          sed -i "s|^QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|" .env || true
+
+          # pokaż fragment .env (bez haseł) — tylko do debugowania, usuń jeśli nie chcesz logów
+          echo "---- generated .env (head) ----"
+          head -n 40 .env | sed -e 's/\(DB_PASSWORD=\).*/\1[REDACTED]/' -e 's/\(APP_KEY=\).*/\1[REDACTED]/'
+          echo "---- end ----"
+
+          # wygeneruj klucz aplikacji
           php artisan key:generate
 
-      - name: Run migrations (in memory)
+      - name: Run migrations for tests (sqlite in-memory)
         working-directory: ${{ env.LARAVEL_DIR }}
         run: php artisan migrate --env=testing --force
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Run PHPUnit
         working-directory: ${{ env.LARAVEL_DIR }}
-        id: phpunit
         run: vendor/bin/phpunit --colors=always --testdox
       # deploy job will run only if push to main and tests ok
 
