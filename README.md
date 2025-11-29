@@ -664,6 +664,12 @@ Uruchomienie wszystkich testów:
 php artisan test
 ```
 
+albo
+
+```bash
+vendor/bin/phpunit --colors=always --testdox
+```
+
 Uruchomienie tylko pojedyńczego testu (przykład):
 
 ```bash
