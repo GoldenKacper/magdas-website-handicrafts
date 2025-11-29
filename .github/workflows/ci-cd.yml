@@ -11,8 +11,31 @@ env:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    outputs:
-      tests-passed: ${{ steps.phpunit.outcome == 'success' }}
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: rootpass
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_pass
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      LARAVEL_DIR: src/website-handicrafts
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: test_db
+      DB_USERNAME: test_user
+      DB_PASSWORD: test_pass
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,32 +44,25 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.4
-          extensions: mbstring, pdo_mysql, zip, bcmath
+          extensions: mbstring, pdo_mysql, pdo_sqlite, zip
           ini-values: post_max_size=256M, upload_max_filesize=256M
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install Composer dependencies (include dev for tests)
+      - name: Install Composer dependencies (including dev)
         working-directory: ${{ env.LARAVEL_DIR }}
         run: composer install --no-interaction --prefer-dist
-
-      - name: Install NPM dependencies
-        working-directory: ${{ env.LARAVEL_DIR }}
-        run: |
-          npm ci
-          npm run build
 
       - name: Prepare project root .env for tests
         working-directory: ./
         run: cp .env.example .env
 
-      - name: Prepare laravel .env for tests (static)
+      - name: Prepare .env for tests (use MySQL service)
         working-directory: ${{ env.LARAVEL_DIR }}
         run: |
-          # skopiuj przykład .env (jeśli plik już istnieje - nadpisz)
           cp .env.example .env || true
 
           # ustaw bezpieczny APP_URL (aby uniknąć Invalid URI)
@@ -56,35 +72,37 @@ jobs:
             echo "APP_URL=http://localhost:8000" >> .env
           fi
 
-          # wymuś sqlite in-memory dla testów (nie potrzebujesz MySQL na runnerze)
-          if grep -q "^DB_CONNECTION=" .env; then
-            sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=sqlite|" .env
-          else
-            echo "DB_CONNECTION=sqlite" >> .env
-          fi
-          if grep -q "^DB_DATABASE=" .env; then
-            sed -i "s|^DB_DATABASE=.*|DB_DATABASE=:memory:|" .env
-          else
-            echo "DB_DATABASE=:memory:" >> .env
-          fi
+          # ustaw DB na mysql uruchomiony jako service
+          sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=mysql|" .env || true
+          sed -i "s|^DB_HOST=.*|DB_HOST=127.0.0.1|" .env || true
+          sed -i "s|^DB_PORT=.*|DB_PORT=3306|" .env || true
+          sed -i "s|^DB_DATABASE=.*|DB_DATABASE=test_db|" .env || true
+          sed -i "s|^DB_USERNAME=.*|DB_USERNAME=test_user|" .env || true
+          sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=test_pass|" .env || true
 
-          # opcjonalne: uproszczenie sterowników cache/session/queue do trybu testowego
+          # ustaw pewne testowe tryby
           sed -i "s|^SESSION_DRIVER=.*|SESSION_DRIVER=array|" .env || true
           sed -i "s|^CACHE_STORE=.*|CACHE_STORE=array|" .env || true
           sed -i "s|^QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|" .env || true
 
-          # pokaż fragment .env (bez haseł) — tylko do debugowania, usuń jeśli nie chcesz logów
-          echo "---- generated .env (head) ----"
-          head -n 40 .env | sed -e 's/\(DB_PASSWORD=\).*/\1[REDACTED]/' -e 's/\(APP_KEY=\).*/\1[REDACTED]/'
-          echo "---- end ----"
-
-          # wygeneruj klucz aplikacji
           php artisan key:generate
 
-      - name: Run migrations for tests (sqlite in-memory)
+      - name: Wait for MySQL to be ready
         working-directory: ${{ env.LARAVEL_DIR }}
-        run: php artisan migrate --env=testing --force
-        continue-on-error: false
+        run: |
+          echo "Waiting for MySQL..."
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -P 3306 -u test_user -ptest_pass --silent; then
+              echo "MySQL is up"
+              break
+            fi
+            echo "MySQL not ready yet, sleeping..."
+            sleep 2
+          done
+
+      - name: Run migrations
+        working-directory: ${{ env.LARAVEL_DIR }}
+        run: php artisan migrate --force
 
       - name: Run PHPUnit
         working-directory: ${{ env.LARAVEL_DIR }}
