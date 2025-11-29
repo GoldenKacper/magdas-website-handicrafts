@@ -35,7 +35,7 @@ $bootstrapAppPath = __DIR__ . '/../bootstrap/app.php';
  */
 if (!file_exists($vendorAutoloadPath)) {
     // parent of public_html, e.g. /home/host108162/domains/handmademalin.pl
-    $parent = realpath(__DIR__ . '/..' . '/..') ?: dirname(__DIR__, 2);
+    $parent = realpath(__DIR__ . '/..') ?: dirname(__DIR__);
 
     // fallback base: /home/.../domains/.../app/src/website-handicrafts
     $fallbackBase = $parent . DIRECTORY_SEPARATOR . $fallbackProjectSubpath;
