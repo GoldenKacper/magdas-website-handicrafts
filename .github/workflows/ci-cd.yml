@@ -85,6 +85,9 @@ jobs:
           sed -i "s|^CACHE_STORE=.*|CACHE_STORE=array|" .env || true
           sed -i "s|^QUEUE_CONNECTION=.*|QUEUE_CONNECTION=sync|" .env || true
 
+          # Wyczyść cache konfiguracji aby Laravel odczytał nowe .env
+          php artisan config:clear || true
+
           php artisan key:generate
 
       - name: Wait for MySQL to be ready
@@ -106,6 +109,14 @@ jobs:
 
       - name: Run PHPUnit
         working-directory: ${{ env.LARAVEL_DIR }}
+        env:
+          # dodatkowe zabezpieczenie: jeżeli phpunit.xml ma ustawienia, nadpisz je
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: test_db
+          DB_USERNAME: test_user
+          DB_PASSWORD: test_pass
         run: vendor/bin/phpunit --colors=always --testdox
       # deploy job will run only if push to main and tests ok
 
