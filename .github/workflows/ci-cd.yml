@@ -43,9 +43,17 @@ jobs:
         working-directory: ./
         run: cp .env.example .env
 
-      - name: Prepare laravel .env for tests
+      - name: Prepare laravel .env for tests (fix APP_URL)
         working-directory: ${{ env.LARAVEL_DIR }}
-        run: cp .env.example .env && php artisan key:generate
+        run: |
+          cp .env.example .env || true
+          # zabezpieczamy APP_URL - ustawiamy bezpieczny URI
+          if grep -q "^APP_URL=" .env; then
+            sed -i "s|^APP_URL=.*|APP_URL=http://localhost:8000|" .env
+          else
+            echo "APP_URL=http://localhost:8000" >> .env
+          fi
+          php artisan key:generate
 
       - name: Run migrations (in memory)
         working-directory: ${{ env.LARAVEL_DIR }}
