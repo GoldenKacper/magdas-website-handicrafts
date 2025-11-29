@@ -56,6 +56,12 @@ jobs:
         working-directory: ${{ env.LARAVEL_DIR }}
         run: composer install --no-interaction --prefer-dist
 
+      - name: Build frontend (Vite)
+        working-directory: ${{ env.LARAVEL_DIR }}
+        run: |
+          npm ci
+          npm run build
+
       - name: Prepare project root .env for tests
         working-directory: ./
         run: cp .env.example .env
