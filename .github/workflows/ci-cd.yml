@@ -143,9 +143,11 @@ jobs:
           port: ${{ secrets.HOSTIDO_PORT }}
           script: |
             set -e
-            # ścieżka, którą podałeś: /domains/handmademalin.pl/app
+            # ścieżka, którą podałeś: ~/domains/handmademalin.pl/app
             PROJECT_ROOT="${{ secrets.HOSTIDO_PROJECT_PATH }}"
-            LARAVEL_DIR="$PROJECT_ROOT/src/website-handicrafts"
+            LARAVEL_SUBPATH="src/website-handicrafts"
+            LARAVEL_DIR="$PROJECT_ROOT/$LARAVEL_SUBPATH"
+            PUBLIC_HTML_DIR="${{ secrets.HOSTIDO_PUBLIC_HTML }}"
 
             echo "Project root: $PROJECT_ROOT"
             echo "Laravel dir: $LARAVEL_DIR"
@@ -175,8 +177,7 @@ jobs:
             php artisan storage:link || true
 
             # Kopiujemy zawartość public do public_html (Hostido standard)
-            # Zakładam, że public_html jest obok app (typowe dla Hostido: /domains/handmademalin.pl/public_html)
-            PUBLIC_HTML_DIR="/domains/handmademalin.pl/public_html"
+            # Zakładam, że public_html jest obok app (typowe dla Hostido: ~/domains/handmademalin.pl/public_html)
             if [ -d "$PUBLIC_HTML_DIR" ]; then
               echo "Kopiuję public do $PUBLIC_HTML_DIR"
               cp -r "$LARAVEL_DIR/public/"* "$PUBLIC_HTML_DIR/"
