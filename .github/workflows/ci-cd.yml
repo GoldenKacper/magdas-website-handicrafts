@@ -39,7 +39,11 @@ jobs:
           npm ci
           npm run build
 
-      - name: Prepare .env for tests
+      - name: Prepare project root .env for tests
+        working-directory: ./
+        run: cp .env.example .env
+
+      - name: Prepare laravel .env for tests
         working-directory: ${{ env.LARAVEL_DIR }}
         run: cp .env.example .env && php artisan key:generate
 
