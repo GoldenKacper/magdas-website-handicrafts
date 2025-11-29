@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  LARAVEL_DIR: src/website-handicrafts
+
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -17,7 +20,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.4
           extensions: mbstring, pdo_mysql, zip, bcmath
           ini-values: post_max_size=256M, upload_max_filesize=256M
 
@@ -27,21 +30,26 @@ jobs:
           node-version: 18
 
       - name: Install Composer dependencies
+        working-directory: ${{ env.LARAVEL_DIR }}
         run: composer install --no-progress --no-suggest --prefer-dist --no-dev --optimize-autoloader
 
-      - name: Install NPM dependencies (optional)
+      - name: Install NPM dependencies
+        working-directory: ${{ env.LARAVEL_DIR }}
         run: |
           npm ci
           npm run build
-        working-directory: .
 
       - name: Prepare .env for tests
+        working-directory: ${{ env.LARAVEL_DIR }}
         run: cp .env.example .env && php artisan key:generate
+
       - name: Run migrations (in memory)
+        working-directory: ${{ env.LARAVEL_DIR }}
         run: php artisan migrate --env=testing --force
         continue-on-error: true
 
       - name: Run PHPUnit
+        working-directory: ${{ env.LARAVEL_DIR }}
         id: phpunit
         run: vendor/bin/phpunit --colors=always --testdox
       # deploy job will run only if push to main and tests ok
@@ -51,26 +59,61 @@ jobs:
     if: success()
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy via SSH (run git pull on Hostido)
+      - name: Checkout code (for deploy)
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH to Hostido (git pull & build)
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.HOSTIDO_HOST }}
           username: ${{ secrets.HOSTIDO_USER }}
           key: ${{ secrets.HOSTIDO_SSH_PRIVATE_KEY }}
-          port: ${{ secrets.HOSTIDO_PORT || 22 }}
+          port: ${{ secrets.HOSTIDO_PORT }}
           script: |
             set -e
-            cd ${{ secrets.HOSTIDO_PROJECT_PATH }}
+            # ścieżka, którą podałeś: /domains/handmademalin.pl/app
+            PROJECT_ROOT="${{ secrets.HOSTIDO_PROJECT_PATH }}"
+            LARAVEL_DIR="$PROJECT_ROOT/src/website-handicrafts"
+
+            echo "Project root: $PROJECT_ROOT"
+            echo "Laravel dir: $LARAVEL_DIR"
+
+            cd "$PROJECT_ROOT"
+
+            # Upewnij się, że remote jest na SSH (git@github.com:...)
             git fetch --all
             git reset --hard origin/main
-            composer install --no-dev --optimize-autoloader --no-interaction
-            npm ci || true
-            npm run build || true
+
+            # Instalacja composer w wewnętrznym katalogu laravela
+            cd "$LARAVEL_DIR"
+            composer install --no-interaction --no-dev --optimize-autoloader
+
+            # Jeśli chcesz budować frontend na serwerze (jeżeli node jest zainstalowany)
+            if command -v npm >/dev/null 2>&1; then
+              npm ci
+              npm run build
+            else
+              echo "npm nie znaleziony na serwerze — pomijam build frontu"
+            fi
+
+            # Migracje i cache (wykonujemy w katalogu laravel)
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
             php artisan storage:link || true
-            cp -r public/* public_html/
-            chown -R www-data:www-data storage bootstrap/cache || true
-            chmod -R 775 storage bootstrap/cache || true
+
+            # Kopiujemy zawartość public do public_html (Hostido standard)
+            # Zakładam, że public_html jest obok app (typowe dla Hostido: /domains/handmademalin.pl/public_html)
+            PUBLIC_HTML_DIR="/domains/handmademalin.pl/public_html"
+            if [ -d "$PUBLIC_HTML_DIR" ]; then
+              echo "Kopiuję public do $PUBLIC_HTML_DIR"
+              cp -r "$LARAVEL_DIR/public/"* "$PUBLIC_HTML_DIR/"
+            else
+              echo "Nie znaleziono $PUBLIC_HTML_DIR — sprawdź ścieżkę public_html"
+            fi
+
+            # Uprawnienia
+            chmod -R 775 "$LARAVEL_DIR/storage" "$LARAVEL_DIR/bootstrap/cache" || true
+            chown -R www-data:www-data "$LARAVEL_DIR/storage" "$LARAVEL_DIR/bootstrap/cache" || true
+
             echo "Deployed successfully!"
