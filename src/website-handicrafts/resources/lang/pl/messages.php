@@ -61,7 +61,7 @@ return [
     'contact_twitter_description_meta' => 'Skontaktuj się z Magdą — ręcznie robiona biżuteria. Zapytaj o zamówienie, personalizację lub dostępność.',
 
     // Hero
-    'hero_title' => 'Witamy w Rękodziele Magdy',
+    'hero_title' => 'Witamy w Rękodziełach Magdy',
     'hero_subtitle' => 'Unikalna biżuteria ręcznie robiona z pasją i precyzją.',
     'hero_cta' => 'Zobacz moją galerię',
     'hero_image_alt' => 'Ręcznie robiona biżuteria na tle naturalnych materiałów',
