@@ -27,6 +27,7 @@ class AboutMeTranslation extends Model
 
     protected $casts = [
         'visible' => 'bool',
+        'main_page' => 'bool',
     ];
 
     public function aboutMe(): BelongsTo

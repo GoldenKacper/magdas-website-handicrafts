@@ -1,0 +1,13 @@
+.panel-thumb-row {
+    .panel-thumb {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 6px;
+        flex: 0 0 80px;
+    }
+    .panel-thumb-text {
+        flex: 1 1 auto;
+        word-break: break-word;
+    }
+}

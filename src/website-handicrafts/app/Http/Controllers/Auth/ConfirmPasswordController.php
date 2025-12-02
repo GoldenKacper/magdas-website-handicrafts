@@ -21,13 +21,6 @@ class ConfirmPasswordController extends Controller
     use ConfirmsPasswords;
 
     /**
-     * Where to redirect users when the intended url fails.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -35,5 +28,13 @@ class ConfirmPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    protected function redirectTo()
+    {
+        $request = request();
+        $locale = $this->resolveLocale($request);
+
+        return route('admin.home', ['locale' => $locale]);
     }
 }

@@ -131,7 +131,7 @@
         (function() {
             const PRELOADER_ID = 'preloader';
             const HIDE_CLASS = 'preloader-hidden';
-            const MAX_TIMEOUT = 8000;
+            const MAX_TIMEOUT = 120000;
 
             function hidePreloader() {
                 const el = document.getElementById(PRELOADER_ID);

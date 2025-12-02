@@ -37,10 +37,7 @@ class LocaleController extends Controller
     // Redirect root / -> /{locale}/
     public function redirectRoot(Request $request)
     {
-        $locale = session('locale', app()->getLocale() ?: config('app.locale'));
-        if (! in_array($locale, $this->allowed)) {
-            $locale = config('app.locale');
-        }
+        $locale = $this->resolveLocale($request);
         return redirect("/{$locale}/");
     }
 }

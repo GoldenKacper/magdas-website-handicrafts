@@ -1,0 +1,53 @@
+// Use mixins using Sass modules
+@use "../../mixins/primary-mixins" as m;
+@use "../../mixins/gradient-mixins" as g;
+@use "../../mixins/animation-mixins" as a;
+@use "../../mixins/form-mixins" as f;
+
+@use "../../variables" as *;
+
+.auth-section {
+    position: relative;
+    display: flex;
+    min-height: 95vh;
+
+    align-items: center;
+    justify-content: center;
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: var(--text-color, $text-color);
+    overflow: hidden;
+
+    // smooth background fix on mobile
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+
+    scroll-margin-top: 0;
+
+    // subtle overlay gradient + parallax illusion
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba($malinowy, 0.3),
+            rgba($malinowy-dark, 0.4)
+        );
+        pointer-events: none;
+        z-index: 0;
+        mix-blend-mode: multiply;
+    }
+
+    .card {
+        transform: translateY(-10vh);
+        z-index: 1;
+        border-radius: 1rem;
+    }
+}
+
+body {
+    overflow: hidden;
+}

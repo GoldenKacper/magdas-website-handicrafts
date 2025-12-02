@@ -44,6 +44,10 @@ services:
         php artisan config:cache;
         php artisan migrate --force;
 
+        # Set permissions after compilation
+        chown -R www-data:www-data storage bootstrap/cache &&
+        chmod -R 775 storage bootstrap/cache &&
+
         # Start PHP-FPM
         php-fpm
       "

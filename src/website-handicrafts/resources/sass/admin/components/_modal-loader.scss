@@ -1,0 +1,21 @@
+.modal-loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+
+    opacity: 0;
+    transition: opacity 0.25s ease;
+
+    &.show {
+        opacity: 1;
+    }
+
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+}

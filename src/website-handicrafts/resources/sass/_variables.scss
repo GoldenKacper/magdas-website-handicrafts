@@ -22,8 +22,14 @@ $body-color: $text-color;
 $bg-pale: $pale;
 $body-bg: $bg-pale;
 
-$font-family-sans-serif: "Quicksand", system-ui, -apple-system, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial;
+$font-family-sans-serif:
+    "Quicksand",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial;
 
 $font-size-base: 1.1rem;
 $line-height-base: 1.6;
@@ -53,6 +59,7 @@ $theme-colors: (
     "danger": $danger,
     "light": #ffffff,
     "dark": #222222,
+    "malinowy": $malinowy,
 );
 
 /* Spacing scale */

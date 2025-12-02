@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
@@ -21,13 +22,6 @@ class VerificationController extends Controller
     use VerifiesEmails;
 
     /**
-     * Where to redirect users after verification.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -37,5 +31,28 @@ class VerificationController extends Controller
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
+
+    protected function redirectTo()
+    {
+        $request = request();
+        $locale = $this->resolveLocale($request);
+
+        return route('admin.home', ['locale' => $locale]);
+    }
+
+    /**
+     * Show the page with information about the need to verify email.
+     * Route: admin/{locale}/email/verify  (verification.notice)
+     */
+    public function show(Request $request, $locale)
+    {
+        // If the user has already verified their email, there's no point in showing the info – go to the dashboard
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->route('admin.home', ['locale' => $locale]);
+        }
+
+        // Our custom view in the admin folder
+        return view('admin.auth.verify');
     }
 }

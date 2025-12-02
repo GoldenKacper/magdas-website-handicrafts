@@ -20,6 +20,8 @@
         "@fortawesome/fontawesome-free": "^7.0.0",
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.7",
+        "datatables.net": "^2.3.5",
+        "datatables.net-bs5": "^2.3.5",
         "jquery": "^3.7.1"
     }
 }

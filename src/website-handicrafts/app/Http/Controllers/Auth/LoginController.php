@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\View;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -21,13 +23,6 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -36,6 +31,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    /**
+     * Custom redirect po zalogowaniu z obsługą locale.
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $locale = $this->resolveLocale($request);
+
+        return redirect()->route('admin.home', ['locale' => $locale]);
     }
 
     protected function showLoginForm()
