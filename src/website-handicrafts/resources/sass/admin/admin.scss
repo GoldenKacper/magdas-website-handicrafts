@@ -1,0 +1,36 @@
+// Import some Sass modules
+@use "sass:map";
+
+// Use mixins using Sass modules
+@use "../mixins/primary-mixins" as m;
+@use "../mixins/gradient-mixins" as g;
+@use "../mixins/animation-mixins" as a;
+@use "../mixins/form-mixins" as f;
+@use "../mixins/gallery-mixins" as gal;
+
+// Fonts | locally hosted fonts
+// @import url("https://fonts.bunny.net/css?family=quicksand:300,400,500,600,700|Nunito|raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@font-face {
+    font-family: "Quicksand";
+    src: url("../../fonts/quicksand/Quicksand-VariableFont_wght.ttf")
+        format("truetype");
+    font-weight: 100 900; // weight range because it's a variable font
+    font-style: normal;
+    font-display: swap; // good for performance
+}
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+// Variables
+@import "../variables";
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// Import partials (components overrides bootstrap styles)
+@import "../base";
+@import "components/buttons";
+@import "components/navbar";
+@import "components/sidebar";
+@import "components/panel-cards";
+@import "components/flash-message";
+@import "components/modal-loader";

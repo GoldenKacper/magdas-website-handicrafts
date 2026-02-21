@@ -22,13 +22,19 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
+     * Dynamiczny redirect po zresetowaniu hasła.
      */
-    protected $redirectTo = '/admin/home';
+    protected function redirectTo()
+    {
+        $request = request();
+        $locale = $this->resolveLocale($request);
 
-    protected function showResetForm(Request $request, $token = null)
+        // zwracamy path lub URL – oba działają
+        return route('admin.home', ['locale' => $locale]);
+        // albo: return "/admin/{$locale}/home";
+    }
+
+    protected function showResetForm(Request $request, $locale = 'pl', $token = null)
     {
         return view('admin.auth.passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]

@@ -1,0 +1,400 @@
+//
+// ------------- Navbar Logo-------------
+//
+.img-fluid-logo {
+    height: clamp(
+        var(--logo-min, $logo-min),
+        var(--logo-preferred, $logo-preferred),
+        var(--logo-max, $logo-max)
+    );
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.logo {
+    flex: 0 0 auto;
+    .logo__wrap {
+        position: relative;
+        display: inline-block;
+        height: clamp(
+            var(--logo-min, $logo-min),
+            var(--logo-preferred, $logo-preferred),
+            var(--logo-max, $logo-max)
+        );
+        border-radius: 0.75rem;
+        transform: translateY(0.5rem);
+        transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    img {
+        height: 80%;
+        width: auto;
+        display: block;
+        object-fit: contain;
+    }
+
+    /* Position layers: wordmark as base, berry as overlay, tagline underneath */
+    .logo__wordmark {
+        position: absolute;
+        z-index: 1;
+    }
+
+    .logo__berry {
+        position: absolute;
+        z-index: 2;
+        transform-origin: 50% 100%;
+    }
+
+    .logo__tagline {
+        position: absolute;
+        z-index: 0;
+
+        /* Use a mask so we can animate "hide → reveal" on hover */
+        -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0 0);
+        mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0 0);
+
+        /* make it visible by default */
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+    }
+
+    /* Hover: raspberry bounces */
+    &:hover .logo__berry {
+        animation: berry-bounce 0.9s ease-in-out both;
+    }
+    /* Hover: tagline performs "hide → reveal" in one animation */
+    &:hover .logo__tagline {
+        animation: tagline-hide-reveal 0.9s ease-in-out both;
+    }
+
+    /* Active: subtle shadow and slight 'pressing' */
+    &:active .logo__wrap {
+        box-shadow: 0 6px 18px rgba(16, 16, 24, 0.16);
+        transform: translateY(2px) scale(0.97);
+    }
+
+    /* when navbar .scrolled you want to emphasize hover more */
+    .navbar.scrolled & .logo__wrap {
+        transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out,
+            background-color 0.3s ease-in-out;
+    }
+}
+
+/* Keyframes */
+@keyframes berry-bounce {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-18%) rotate(3deg);
+    }
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+    70% {
+        transform: translateY(-9%) rotate(-2deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+/* Tagline: briefly hide, then reveal from left to right */
+@keyframes tagline-hide-reveal {
+    0% {
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+    } /* visible */
+    30% {
+        -webkit-mask-size: 0% 100%;
+        mask-size: 0% 100%;
+    } /* hide */
+    100% {
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+    } /* reveal */
+}
+
+// @media (prefers-reduced-motion: reduce) {
+//     .logo * {
+//         animation: none !important;
+//         transition: none !important;
+//     }
+// }
+
+//
+// ------------- Navbar -------------
+//
+// subtle shadow for navbar to separate it from content
+.navbar {
+    box-shadow: 0 6px 20px rgba(16, 16, 24, 0.06); // neutral, subtle
+
+    // sticky navbar with smooth transition
+    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+    &.scrolled {
+        // after scroll you might want a stronger shadow
+        box-shadow: 0 10px 30px rgba(16, 16, 24, 0.12);
+        backdrop-filter: blur(4px); // subtle background blur
+    }
+
+    height: clamp(3.125rem, 3rem + 1vw, 4.375rem); // 70px;
+}
+
+/* Ensure brand doesn't grow/shrink */
+.navbar-brand {
+    flex: 0 0 auto;
+    padding-right: 1rem;
+}
+
+/* Main nav: takes remaining space and aligns items nicely */
+.navbar-nav.custom-nav {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; // or space-between if you prefer
+    gap: 1.5rem; // space between links
+}
+
+/* Social icons group */
+.navbar-social {
+    display: flex;
+    flex-direction: column; // default: column (desktop)
+    gap: 0.4rem;
+    align-items: center;
+
+    .nav-item {
+        display: inline-flex;
+    }
+
+    .nav-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem; // light padding around icons
+        font-size: 1.05rem; // icon size
+        line-height: 1;
+        color: inherit; // do not override color
+    }
+
+    // when nav is collapsed (mobile) and the collapse container is open,
+    // center the icons horizontally inside the collapse area
+    .navbar-collapse & {
+        justify-content: center;
+    }
+}
+
+/* Mobile tweaks: smaller logo and tighter gap */
+// Bootstrap 'lg' breakpoint = 992px
+@media (max-width: 991px) {
+    .img-fluid-logo {
+        height: clamp(
+            var(--logo-min-small, $logo-min-small),
+            var(--logo-preferred-small, $logo-preferred-small),
+            var(--logo-max-small, $logo-max-small)
+        );
+    }
+
+    .navbar-nav.custom-nav {
+        gap: 0.75rem;
+    }
+
+    .navbar-social {
+        flex-direction: row;
+        gap: 1rem;
+    }
+}
+
+//
+// ------------- Navbar Links -------------
+//
+
+// nav-link: base settings for layers
+.navbar .nav-link {
+    position: relative; // needed for pseudo-elements to overlay
+    display: inline-block; // so pseudo-elements perfectly overlay the text
+    color: var(--text-color, $text-color);
+    transition: color 0.3s ease-in-out;
+    z-index: 1; // "base" text above background
+
+    font-weight: var(--nav-link-font-weight, $nav-link-font-weight);
+    padding: 0.5rem 0;
+    white-space: nowrap; // prevents wrapping
+
+    // transition: all 0.3s ease-in-out; // it is hard to animate my gradient font's color | color, background, text-shadow
+    transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out; // it is hard to animate my gradient font's color | color, background, text-shadow
+
+    &:not(.active-pill):active {
+        color: $malinowy-dark;
+        text-shadow: 0 0 3px rgba($malinowy-dark, 0.3);
+    }
+
+    &:not(.gradient-animated-nav):not(.active-pill):hover {
+        @include g.text-color-gradient($malinowy, $malinowy-dark);
+    }
+}
+
+.navbar .navbar-nav.custom-nav > .nav-item > .nav-link {
+    @include m.padding-inline-block; //  use default padding values (1rem / 0.25rem)
+}
+
+// gradient border (pseudo-element) + inner mask (pseudo-element)
+// element + ::before (gradient, inset: -2px) + ::after (mask inset:0)
+.navbar .navbar-nav.custom-nav > .nav-item > .nav-link.active-pill {
+    @include g.gradient-button(
+        $gradient-start: $primary,
+        $gradient-end: $malinowy-dark,
+        $mask-bg: $bg-pale,
+        $padding: 0.25rem 1rem,
+        $text-color: inherit,
+        $text-color-on: $bg-pale,
+        $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
+        $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
+    );
+}
+
+//
+// ------------- Navbar Toggler -------------
+//
+// Navbar toggler (hamburger -> X)
+.navbar .navbar-toggler {
+    // adjust default bootstrap styles
+    padding: var(--bs-navbar-toggler-padding-y)
+        var(--bs-navbar-toggler-padding-x);
+    font-size: var(--bs-navbar-toggler-font-size);
+    line-height: 1;
+    color: var(--bs-navbar-color);
+    background-color: transparent;
+    transition: var(--bs-navbar-toggler-transition);
+
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    // visible focus for keyboard users
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba($primary, 0.12); // or use $malinowy at your variables
+        border-radius: var(--bs-navbar-toggler-border-radius);
+    }
+
+    // the hamburger lines wrapper
+    .hamburger {
+        display: inline-block;
+        width: 1.8rem; // total width of icon
+        height: 1.8rem; // vertical space used by three lines
+        position: relative;
+        transform: translateZ(0); // promote to own layer
+        pointer-events: none; // click handled by button
+
+        span {
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px; // line thickness
+            border-radius: 2px;
+            background: var(--hamburger-color, $text-color);
+            transition: transform 0.3s ease-in-out, opacity 0.2s ease,
+                top 0.3s ease-in-out, bottom 0.3s ease-in-out;
+            transform-origin: center;
+            // center line
+            &:nth-child(2) {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            // top line
+            &:nth-child(1) {
+                top: 4px;
+            }
+            // bottom line
+            &:nth-child(3) {
+                bottom: 4px;
+            }
+        }
+    }
+
+    // when expanded (Bootstrap toggles aria-expanded="true")
+    &[aria-expanded="true"] {
+        .hamburger {
+            span {
+                // hide middle line smoothly
+                &:nth-child(2) {
+                    opacity: 0;
+                    transform: translateY(-50%) scaleX(0.95);
+                }
+
+                // rotate top to form X
+                &:nth-child(1) {
+                    top: 50%;
+                    transform: translateY(-50%) rotate(45deg);
+                }
+
+                // rotate bottom to form X
+                &:nth-child(3) {
+                    bottom: 50%;
+                    transform: translateY(50%) rotate(-45deg);
+                }
+            }
+        }
+    }
+}
+
+// hide toggler on large screens (>= 992px)
+@media (min-width: 992px) {
+    .navbar .navbar-toggler {
+        display: none !important;
+    }
+}
+
+// Show toggler on medium screens (< 992px)
+@media (max-width: 991.98px) {
+    .navbar .navbar-toggler {
+        display: inline-flex; // or block
+    }
+}
+
+//
+// ------------- Dropdown -------------
+//
+// make sure the caret has a transition
+.dropdown .dropdown-toggle::after {
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out; // element don't have animation so pseudo element should don't have animation too | border-top-color 0.3s ease-in-out,
+}
+
+// on hover/focus change the color of the "top" of the triangle (border-top-color)
+.dropdown .dropdown-toggle:hover::after,
+.dropdown .dropdown-toggle:active::after {
+    border-top-color: var(--malinowy, $malinowy);
+}
+
+// rotate caret when toggle has aria-expanded="true"
+.navbar .dropdown .dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+// fallback: also allow buttons/anchors specifically (just in case markup differs)
+.navbar button.dropdown-toggle[aria-expanded="true"]::after,
+.navbar a.dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+.dropdown .dropdown-item {
+    font-weight: $nav-link-font-weight;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+    &:hover {
+        background-color: $dropdown-link-hover-bg;
+    }
+
+    &:active,
+    &:focus {
+        background-color: $primary;
+    }
+}

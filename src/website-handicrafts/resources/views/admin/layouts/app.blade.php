@@ -1,80 +1,54 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @include('admin.layouts.partials.head')
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+<body data-page="@yield('bodyDataPage')">
+    <div id="app" class="d-flex">
+        {{-- @include('admin.layouts.partials.navbar') --}}
+        @include('admin.layouts.partials.sidebar')
 
-                    </ul>
+        {{-- Main content container --}}
+        <main class="flex-grow-1">
+            <div class="container-fluid ultra-wide px-0">
+                @include('admin.layouts.partials.delete_modal')
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+                {{-- Placeholder for modal --}}
+                <div id="modal-root-edit"></div>
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                <div id="modal-loader" class="modal-loader d-none">
+                    <div class="spinner-border" role="status"></div>
                 </div>
-            </div>
-        </nav>
 
-        <main class="py-4">
-            @yield('content')
+                {{-- flash messages --}}
+                <div class="flash-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+                    @if (session('success'))
+                        <div class="alert alert-success flash-message" role="alert">
+                            <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger flash-message" role="alert">
+                            <i class="fa-solid fa-circle-xmark"></i> {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (session('info'))
+                        <div class="alert alert-info flash-message" role="alert">
+                            <i class="fa-solid fa-circle-exclamation"></i> {{ session('info') }}
+                        </div>
+                    @endif
+                </div>
+
+                @yield('content')
+            </div>
         </main>
     </div>
+
+    @include('admin.layouts.partials.scripts')
 </body>
+
 </html>

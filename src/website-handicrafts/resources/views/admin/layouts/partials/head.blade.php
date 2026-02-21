@@ -1,0 +1,36 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{{-- CSRF token --}}
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+{{-- Title & description (fallbacks) --}}
+<title>@yield('title', config('app.name', 'Laravel'))</title>
+<meta name="author" content="@yield('metaAuthor', config('app.author', 'Unknown'))">
+<meta name="robots" content="@yield('metaRobots', 'noindex, nofollow')">
+
+@php
+    $locale = session('locale', app()->getLocale());
+@endphp
+
+<meta name="app-locale" content="{{ $locale }}">
+
+<!-- Fonts | Locally hosted fonts-->
+{{-- <link rel="dns-prefetch" href="//fonts.bunny.net">
+<link
+    href="https://fonts.bunny.net/css?family=quicksand:300,400,500,600,700|Nunito|raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet" /> --}}
+
+{{-- Favicon --}}
+<link rel="icon" type="image/png" href="{{ asset('icons/favicon-96x96.png') }}" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="{{ asset('icons/favicon.svg') }}" />
+<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}" />
+<link rel="manifest" href="{{ asset('site.webmanifest') }}" />
+<meta name="theme-color" content="#ffffff">
+
+{{-- Place for extra head content (meta tags, additional CSS, third-party SDKs) --}}
+@stack('head')
+
+{{-- Vite-managed assets (CSS + JS entry) --}}
+@vite(['resources/js/admin/admin.js'])

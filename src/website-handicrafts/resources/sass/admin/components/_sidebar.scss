@@ -1,0 +1,104 @@
+//
+// ------------- Sidebar section -------------
+//
+.admin-sidebar {
+    width: 220px;
+    min-width: 220px;
+    max-width: 320px;
+    background: $bg-pale;
+    border-right: 1px solid rgba(16, 16, 24, 0.04);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    z-index: 1020; // over content but under modals
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 20px rgba(16, 16, 24, 0.04);
+
+    .sidebar-top {
+        background: transparent;
+    }
+
+    .sidebar-middle {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .sidebar-bottom {
+        border-top: 1px solid rgba(16, 16, 24, 0.03);
+        background: transparent;
+    }
+
+    .user-dropdown {
+        .username {
+            display: block;
+            line-height: 1;
+        }
+    }
+
+    .nav-link {
+        position: relative;
+        display: inline-block;
+        color: var(--text-color, $text-color);
+        transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+        font-weight: var(--nav-link-font-weight, $nav-link-font-weight);
+        padding: 0.55rem 0.9rem;
+        border-radius: 0.65rem;
+
+        // z-index: 1;
+        white-space: nowrap;
+
+        // Click without active-pill
+        &:not(.active-pill):active {
+            color: $malinowy-dark;
+            text-shadow: 0 0 3px rgba($malinowy-dark, 0.3);
+        }
+
+        // Hover for normal links (without gradient and without active-pill)
+        &:not(.gradient-animated-nav):not(.active-pill):hover {
+            @include g.text-color-gradient($malinowy, $malinowy-dark);
+        }
+    }
+
+    // responsive: mobile we hide aside (handled in blade classes)
+    @media (max-width: 991.98px) {
+        width: auto;
+        min-width: 0;
+        position: relative;
+    }
+}
+
+.admin-sidebar .nav-pills > .nav-item > .nav-link {
+    @include m.padding-inline-block;
+}
+
+.admin-sidebar .nav-pills > .nav-item > .nav-link.active-pill {
+    @include g.gradient-button(
+        $gradient-start: $primary,
+        $gradient-end: $malinowy-dark,
+        $mask-bg: $bg-pale,
+        $padding: 0.45rem 1rem,
+        $text-color: inherit,
+        $text-color-on: $bg-pale,
+        $box-shadow-on: 0 8px 20px rgba($malinowy-dark, 0.6),
+        $text-shadow-on: 0 0 3px rgba(255, 255, 255, 0.7)
+    );
+}
+
+/* Ensure content area doesn't go under sidebar on desktop */
+@media (min-width: 992px) {
+    main.flex-grow-1 {
+        margin-left: 0; // since layout uses flex, nie potrzebujesz offsetu; jeśli używasz position:fixed dla sidebar -> dodaj padding-left: 280px;
+    }
+}
+
+/* Small visual touches — keep them aligned with navbar style */
+.admin-sidebar .logo__wrap {
+    height: clamp(
+        var(--logo-min, 36px),
+        var(--logo-preferred, 40px),
+        var(--logo-max, 56px)
+    );
+    display: inline-block;
+    transition: transform 0.25s ease-in-out;
+}

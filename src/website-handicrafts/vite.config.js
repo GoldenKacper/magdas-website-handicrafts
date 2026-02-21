@@ -5,7 +5,7 @@ export default defineConfig({
     // logLevel: "error", // show error messages, ignore warnings
     plugins: [
         laravel({
-            input: ["resources/js/app.js"],
+            input: ["resources/js/app.js", "resources/js/admin/admin.js"],
             refresh: true,
         }),
     ],
